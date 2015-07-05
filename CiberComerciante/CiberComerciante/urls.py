@@ -19,7 +19,3 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 ]
-<<<<<<< HEAD
-#Comentario prueba1
-=======
->>>>>>> upstream/master
