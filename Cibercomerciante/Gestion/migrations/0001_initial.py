@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 class Migration(migrations.Migration):
-
+    #variable que hace referencia al AUTH_USER_MODEL
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -149,7 +149,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('first_name', models.CharField(max_length=250)),
                 ('tipo_usuario', models.ForeignKey(to='Gestion.TipoUsuario')),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),#Llamado de las dependencias
             ],
         ),
         migrations.AddField(

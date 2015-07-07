@@ -114,3 +114,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #AUTH_USER_MODEL = 'Gestion.Usuario'
+# variable AUTH_USER_MODEL a la que se le debe asignar la app y el modelo con la notacion 'app.modelo'
