@@ -16,7 +16,7 @@ class CategoriaSector(models.Model):
 class TipoUsuario(models.Model):
 	nombre_tipo_usuario = models.CharField(max_length=250)
 class Usuario(models.Model):
-	user = models.OneToOneField(User)
+	user = models.CharField(max_length=250)
 	tipo_usuario = models.ForeignKey(TipoUsuario)
 class Empresa(models.Model):
 	nombre_empresa = models.CharField(max_length=250)
