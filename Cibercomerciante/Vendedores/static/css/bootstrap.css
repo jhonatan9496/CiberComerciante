@@ -7,8 +7,33 @@
  *
  * Designed and built with all the love in the world by @mdo and @fat.
  */
+
 .buscar_usuarios{
   float: right;
+  margin-right: 25px;
+}
+
+.login{
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 1px;
+}
+
+.login2{
+  margin-right: 15px;
+  margin-top: 20px;
+  margin-bottom: 1px;
+}
+
+.login3{
+  margin-right: 15px;
+  margin-top: 1px;
+  margin-bottom: 10px;
+}
+
+.pull-left1 {
+  float: left;
+  margin-left: 5px;
 }
 
 .clearfix {
@@ -616,6 +641,7 @@ a:focus {
 [class*="span"].pull-right,
 .row-fluid [class*="span"].pull-right {
   float: right;
+  margin-right: 15px;
 }
 
 .container {
