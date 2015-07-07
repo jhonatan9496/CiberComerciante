@@ -6,10 +6,19 @@ from django.contrib.auth.models import User
 class TipoIVA(models.Model):
 	nombre_tipo_iva = models.CharField(max_length=250)
 	porcentaje = models.FloatField()
+	def __unicode__(self):
+		return self.nombre_tipo_iva
+
 class Lugar(models.Model):
 	nombre_lugar = models.CharField(max_length=250)
+	def __unicode__(self):
+		return self.nombre_lugar
+
 class Sector(models.Model):
 	nombre_sector = models.CharField(max_length=250)
+	def __unicode__(self):
+		return self.nombre_sector
+
 class CategoriaSector(models.Model):
 	nombre_cat_sector = models.CharField(max_length=250)
 	sector = models.ForeignKey(Sector)
