@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
+
 # Create your models here.
-
-
 class TipoIVA(models.Model):
 	nombre_tipo_iva = models.CharField(max_length=250)
 	porcentaje = models.FloatField()
@@ -32,15 +31,9 @@ class TipoUsuario(models.Model):
 
 class Usuario(models.Model):
 	user = models.OneToOneField(User)
-	#xxx = models.CharField(max_length=250)
 	tipo_usuario = models.ForeignKey(TipoUsuario)
-	#username = models.CharField(max_length=250)
-	#USERNAME_FIELD = 'username'
-	#REQUIRED_FIELDS = ['username']
-	#las lineas comentariadas arriba hacen referencia a las variables que pide el AUTH_USER_MODEL
-
-	#def __unicode__(self):
-	#	return "%%s" % (self.user.first_name)
+	def __unicode__(self):
+		return "%s %s" % (self.user.first_name, self.user.last_name)
 
 class Empresa(models.Model):
 	nombre_empresa = models.CharField(max_length=250)
@@ -128,10 +121,3 @@ class Item(models.Model):
 	oferta = models.ForeignKey(Oferta)
 	def __unicode__(self):
 		return self.cantidad
-
-
-
-
-
-
-
