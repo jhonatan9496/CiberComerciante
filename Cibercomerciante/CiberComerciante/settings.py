@@ -112,3 +112,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#AUTH_USER_MODEL = 'Gestion.Usuario'
+# variable AUTH_USER_MODEL a la que se le debe asignar la app y el modelo con la notacion 'app.modelo'

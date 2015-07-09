@@ -1,8 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User 
 
 # Create your models here.
-from django.contrib.auth.models import User
-
 class TipoIVA(models.Model):
 	nombre_tipo_iva = models.CharField(max_length=250)
 	porcentaje = models.FloatField()
@@ -32,10 +31,9 @@ class TipoUsuario(models.Model):
 
 class Usuario(models.Model):
 	user = models.OneToOneField(User)
-	xxx = models.CharField(max_length=250)
 	tipo_usuario = models.ForeignKey(TipoUsuario)
-	#def __unicode__(self):
-	#	return '%s %s' % (self.user.first_name,self.user.last_name)
+	def __unicode__(self):
+		return "%s %s" % (self.user.first_name, self.user.last_name)
 
 class Empresa(models.Model):
 	nombre_empresa = models.CharField(max_length=250)
@@ -123,10 +121,3 @@ class Item(models.Model):
 	oferta = models.ForeignKey(Oferta)
 	def __unicode__(self):
 		return self.cantidad
-
-
-
-
-
-
-
