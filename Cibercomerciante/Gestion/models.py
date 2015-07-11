@@ -33,7 +33,7 @@ class Usuario(models.Model):
 	user = models.OneToOneField(User)
 	tipo_usuario = models.ForeignKey(TipoUsuario)
 	def __unicode__(self):
-		return "%s %s" % (self.user.first_name, self.user.last_name)
+		return '%s %s' % (self.user.username,self.user.last_name)
 
 class Empresa(models.Model):
 	nombre_empresa = models.CharField(max_length=250)
