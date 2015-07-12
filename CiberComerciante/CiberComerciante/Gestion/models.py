@@ -1,10 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 
-# Create your
-# models here.
-
-
+# Create your models here.
 class TipoIVA(models.Model):
 	nombre_tipo_iva = models.CharField(max_length=250)
 	porcentaje = models.FloatField()
@@ -13,6 +10,7 @@ class TipoIVA(models.Model):
 
 class Lugar(models.Model):
 	nombre_lugar = models.CharField(max_length=250)
+	ubicado_en = models.ForeignKey('self',blank=True,null=True)
 	def __unicode__(self):
 		return self.nombre_lugar
 
@@ -34,29 +32,34 @@ class TipoUsuario(models.Model):
 
 class Usuario(models.Model):
 	user = models.OneToOneField(User)
-	tipo_usuario = models.ForeignKey(TipoUsuario)
+	
 	def __unicode__(self):
-		return "%s %s" % (self.user.first_name,self.user.last_name)
+		return '%s %s' % (self.user.username,self.user.last_name)
+
+class Permisos(models.Model):
+	tipo_usuario = models.ForeignKey(TipoUsuario)
+	usuario = models.ForeignKey(Usuario)
 
 class Empresa(models.Model):
 	nombre_empresa = models.CharField(max_length=250)
 	nit = models.CharField(max_length=15)
-	telefono = models.CharField(max_length=15)
-	direccion = models.CharField(max_length=250)
-	email = models.CharField(max_length=250)
-	nombre_contacto = models.CharField(max_length=250)
 	estado_empresa = models.CharField(max_length=15)
 	cat_sector = models.ForeignKey(CategoriaSector)
-	lugar = models.ForeignKey(Lugar)
 	def __unicode__(self):
 		return self.nombre_empresa
+
+
 
 class Sucursal(models.Model):
 	nombre_sucursal = models.CharField(max_length=250)
 	direccion = models.CharField(max_length=250)
 	telefono = models.CharField(max_length=250)
+	tipo_sucursal = models.CharField(max_length=15)
+	nombre_contacto = models.CharField(max_length=250)
+	email = models.CharField(max_length=250)
 	lugar = models.ForeignKey(Lugar)
 	empresa =  models.ForeignKey(Empresa)
+
 	def __unicode__(self):
 		return self.nombre_sucursal
 
@@ -104,8 +107,8 @@ class Pedido(models.Model):
 	fecha_pedido = models.CharField(max_length=250)
 	descuento = models.FloatField()
 	tipo_pago = models.ForeignKey(TipoPago)
-	comprador = models.ForeignKey(Sucursal)
-	vendedor = models.ForeignKey(Empresa)
+	comprador = models.ForeignKey(Sucursal,related_name='comprador')
+	vendedor  = models.ForeignKey(Sucursal,related_name='vendedor')
 	def __unicode__(self):
 		return self.numero_factura
 

@@ -1,7 +1,6 @@
 from django.contrib import admin
-from Gestion.models import *
+from .models import*
 # Register your models here.
-
 admin.site.register(Usuario)
 admin.site.register(TipoUsuario)
 admin.site.register(Sector)
@@ -18,3 +17,4 @@ admin.site.register(TipoPago)
 admin.site.register(Pedido)
 admin.site.register(Oferta)
 admin.site.register(Item)
+admin.site.register(Permisos)
