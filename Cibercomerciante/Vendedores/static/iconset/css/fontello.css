@@ -65,7 +65,22 @@
   margin-left: 30px;
 }
 
+#ic2{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
 .adduser{
+  margin-top: 10px;
+
+}
+
+.addcat{
+  margin-top: 10px;
+
+}
+
+.addproduct{
   margin-top: 10px;
 
 }
