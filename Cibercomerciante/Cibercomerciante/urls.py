@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^guardarUsuario/','Gestion.views.guardarUsuario',name='guardarUsuario'),
 
 
-
+    #Urls gestion de usuarios
    # Vendedores
     url(r'^inicioVendedorCatalogo/','Vendedores.views.inicioVendedorCatalogo',name='inicioVendedorCatalogo'),
     url(r'^inicioVendedorPedidos/','Vendedores.views.inicioVendedorPedidos',name='inicioVendedorPedidos'),
