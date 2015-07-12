@@ -1,0 +1,175 @@
+<html>
+	<head>
+		<title>Perfil Vendedores</title>
+
+		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
+		<link type="text/css" rel="stylesheet" href="/static/iconset/css/fontello.css" />
+		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<!--Encabezado de la pagina-->
+		<header>
+			<h1>CiberComerciante</h1>
+		</header>
+		<!--Cuerpo de la pagina-->
+		<section>
+		<!--Barra de Menu-->
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="#">
+			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
+			    </a>
+			    <a href="#" class='pull-right'>
+			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
+			    </a>
+			    <a href="/salir" class='pull-right'>
+			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
+			    </a>
+			  </div>
+			</div>
+		<!--Panel de secciones con menu izquierdo-->
+			<div class="tabbable tabs-left">
+		<!--lista izquierda de menu de opciones-->
+				<ul class="nav nav-tabs">
+				    <li>
+				    	<a href="/inicioVendedorCatalogo/">Catalogo</a>
+				    </li>
+		    		<li>
+		    			<a href="/inicioVendedorPedidos/">Pedidos</a>
+		    		</li>
+		    		<li>
+		    			<a href="/inicioVendedorReportes/">Reportes</a>
+		    		</li>
+		    		<li class="active">
+		    			<a href="/inicioVendedorUsuarios/">Usuarios</a>
+		    		</li>
+				</ul>
+		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
+			  <div class="tab-content">
+			    
+			    <div class="tab-pane active" id="Catalogo">
+					
+			    </div>
+			    <div class="tab-pane" id="Pedidos">
+			      	
+			    </div>
+			    <div class="tab-pane" id="Reportes">
+			      	
+			    </div>
+			    <div class="tab-pane active" id="Usuarios">    				
+			      	<div class="active item">
+						<table class="table table-hover">
+ 							<tr>
+ 								<th>
+ 									<div class="adduser">
+ 										<a href="#"><i class="icon-user-plus" id="ic"></i></a>
+ 									</div>
+ 								</th>
+ 								<th>
+ 									<select name="type_user" id="select" class="controls">
+										<option value="administrador" selected>Administrador</option>
+										<option value="catalogo" selected>Catalogo</option>
+										<option value="pedidos" selected>Pedidos</option>
+										<option value="consulta" selected>Consulta</option>
+										<option value="todos" selected>Todos</option>
+									</select>
+ 								</th>
+ 								<th>
+ 									<input  type="text" name='buscar' id="buscar" placeholder="buscar"></input>
+ 									<i class="icon-search"></i>
+ 								</th>
+ 							</tr>
+ 							<tr>
+ 								<th>Nombre Usuario</th>
+ 								<th>Tipo</th>
+ 								<th>Acciones</th>
+ 							</tr>
+ 							<tr>
+ 								<td>User 1</td>
+ 								<td>Administrador</td>
+ 								<td>
+ 									<div>
+ 										<a href="#"><i class="icon-user" id="ic"></i></a>
+ 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
+ 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
+ 									</div>
+ 									
+ 								</td>
+ 								
+ 							</tr>
+
+ 							<tr>
+ 								<td>User 2</td>
+ 								<td>Consulta</td>
+ 								<td>
+ 									<div>
+ 										<a href="#"><i class="icon-user" id="ic"></i></a>
+ 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
+ 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
+ 									</div>
+ 									
+ 								</td>
+ 								
+ 							</tr>
+ 							<tr>
+ 								<td>User 3</td>
+ 								<td>Administrador</td>
+ 								<td>
+ 									<div>
+ 										<a href="#"><i class="icon-user" id="ic"></i></a>
+ 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
+ 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
+ 									</div>
+ 									
+ 								</td>
+ 								
+ 							</tr>
+
+ 							<tr>
+ 								<td>User 4</td>
+ 								<td>Pedidos</td>
+ 								<td>
+ 									<div>
+ 										<a href="#"><i class="icon-user" id="ic"></i></a>
+ 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
+ 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
+ 									</div>
+ 									
+ 								</td>
+ 							
+ 							</tr>
+
+ 							<tr>
+ 								<td>User 5</td>
+ 								<td>Catalogo</td>
+ 								<td>
+ 									<div>
+ 										<a href="#"><i class="icon-user" id="ic"></i></a>
+ 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
+ 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
+ 									</div>
+ 									
+ 								</td>
+ 	
+ 							</tr>
+
+						</table>
+					</div>
+
+			    </div>
+
+			  </div>
+			</div>
+
+
+		</section>
+		<!--Pie de pagina de la pagina -->
+		<footer>
+
+		</footer>
+	</body>
+</html>
+
