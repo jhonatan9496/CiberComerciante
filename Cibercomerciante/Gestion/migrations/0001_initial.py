@@ -20,6 +20,7 @@ class Migration(SchemaMigration):
         db.create_table(u'Gestion_lugar', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nombre_lugar', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('ubicado_en', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Lugar'], null=True, blank=True)),
         ))
         db.send_create_signal(u'Gestion', ['Lugar'])
 
@@ -49,22 +50,24 @@ class Migration(SchemaMigration):
         db.create_table(u'Gestion_usuario', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('tipo_usuario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.TipoUsuario'])),
         ))
         db.send_create_signal(u'Gestion', ['Usuario'])
+
+        # Adding model 'Permisos'
+        db.create_table(u'Gestion_permisos', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('tipo_usuario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.TipoUsuario'])),
+            ('usuario', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Usuario'])),
+        ))
+        db.send_create_signal(u'Gestion', ['Permisos'])
 
         # Adding model 'Empresa'
         db.create_table(u'Gestion_empresa', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nombre_empresa', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('nit', self.gf('django.db.models.fields.CharField')(max_length=15)),
-            ('telefono', self.gf('django.db.models.fields.CharField')(max_length=15)),
-            ('direccion', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('email', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('nombre_contacto', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('estado_empresa', self.gf('django.db.models.fields.CharField')(max_length=15)),
             ('cat_sector', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.CategoriaSector'])),
-            ('lugar', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Lugar'])),
         ))
         db.send_create_signal(u'Gestion', ['Empresa'])
 
@@ -74,6 +77,9 @@ class Migration(SchemaMigration):
             ('nombre_sucursal', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('direccion', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('telefono', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('tipo_sucursal', self.gf('django.db.models.fields.CharField')(max_length=15)),
+            ('nombre_contacto', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('email', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('lugar', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Lugar'])),
             ('empresa', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Empresa'])),
         ))
@@ -135,8 +141,8 @@ class Migration(SchemaMigration):
             ('fecha_pedido', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('descuento', self.gf('django.db.models.fields.FloatField')()),
             ('tipo_pago', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.TipoPago'])),
-            ('comprador', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Sucursal'])),
-            ('vendedor', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Empresa'])),
+            ('comprador', self.gf('django.db.models.fields.related.ForeignKey')(related_name='comprador', to=orm['Gestion.Sucursal'])),
+            ('vendedor', self.gf('django.db.models.fields.related.ForeignKey')(related_name='vendedor', to=orm['Gestion.Sucursal'])),
         ))
         db.send_create_signal(u'Gestion', ['Pedido'])
 
@@ -179,6 +185,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Usuario'
         db.delete_table(u'Gestion_usuario')
+
+        # Deleting model 'Permisos'
+        db.delete_table(u'Gestion_permisos')
 
         # Deleting model 'Empresa'
         db.delete_table(u'Gestion_empresa')
@@ -232,15 +241,10 @@ class Migration(SchemaMigration):
         u'Gestion.empresa': {
             'Meta': {'object_name': 'Empresa'},
             'cat_sector': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.CategoriaSector']"}),
-            'direccion': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'estado_empresa': ('django.db.models.fields.CharField', [], {'max_length': '15'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lugar': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Lugar']"}),
             'nit': ('django.db.models.fields.CharField', [], {'max_length': '15'}),
-            'nombre_contacto': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'nombre_empresa': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'telefono': ('django.db.models.fields.CharField', [], {'max_length': '15'})
+            'nombre_empresa': ('django.db.models.fields.CharField', [], {'max_length': '250'})
         },
         u'Gestion.inventario': {
             'Meta': {'object_name': 'Inventario'},
@@ -261,7 +265,8 @@ class Migration(SchemaMigration):
         u'Gestion.lugar': {
             'Meta': {'object_name': 'Lugar'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nombre_lugar': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+            'nombre_lugar': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'ubicado_en': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Lugar']", 'null': 'True', 'blank': 'True'})
         },
         u'Gestion.oferta': {
             'Meta': {'object_name': 'Oferta'},
@@ -273,14 +278,20 @@ class Migration(SchemaMigration):
         },
         u'Gestion.pedido': {
             'Meta': {'object_name': 'Pedido'},
-            'comprador': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Sucursal']"}),
+            'comprador': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comprador'", 'to': u"orm['Gestion.Sucursal']"}),
             'descuento': ('django.db.models.fields.FloatField', [], {}),
             'estado_pedido': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'fecha_pedido': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'numero_factura': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'tipo_pago': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.TipoPago']"}),
-            'vendedor': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Empresa']"})
+            'vendedor': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'vendedor'", 'to': u"orm['Gestion.Sucursal']"})
+        },
+        u'Gestion.permisos': {
+            'Meta': {'object_name': 'Permisos'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'tipo_usuario': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.TipoUsuario']"}),
+            'usuario': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Usuario']"})
         },
         u'Gestion.producto': {
             'Meta': {'object_name': 'Producto'},
@@ -304,11 +315,14 @@ class Migration(SchemaMigration):
         u'Gestion.sucursal': {
             'Meta': {'object_name': 'Sucursal'},
             'direccion': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'email': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'empresa': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Empresa']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lugar': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Lugar']"}),
+            'nombre_contacto': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'nombre_sucursal': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'telefono': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+            'telefono': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'tipo_sucursal': ('django.db.models.fields.CharField', [], {'max_length': '15'})
         },
         u'Gestion.tipoiva': {
             'Meta': {'object_name': 'TipoIVA'},
@@ -329,7 +343,6 @@ class Migration(SchemaMigration):
         u'Gestion.usuario': {
             'Meta': {'object_name': 'Usuario'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'tipo_usuario': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.TipoUsuario']"}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         },
         u'auth.group': {
