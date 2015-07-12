@@ -83,7 +83,7 @@ Descripcion  	Finaliza session
 Funcion 		Gestion.5
 '''
 @login_required(login_url='/logearse')
-def salir(request): 
+def salir(request):
 	logout(request)
 	return HttpResponseRedirect('/')
 '''

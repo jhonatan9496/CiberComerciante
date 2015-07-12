@@ -3,78 +3,73 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Registro</title>
-  	<link href="/static/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
+	<link href="/static/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="/static/bootstrap-switch-master/static/stylesheets/bootstrap-switch.css">
-  	<link rel="stylesheet" type="text/css" href="/static/css/signup.css">
-  	<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
-  	<script type="text/javascript" src="/static/bootstrap-switch-master/static/js/bootstrap-switch.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/signup.css">
+	<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="/static/bootstrap-switch-master/static/js/bootstrap-switch.js"></script>
 
-<style type="text/css">
+	<style type="text/css">
 	#tipo {
-
 		display: none;
 	}
-</style>
+	</style>
 </head>
 <body>
- 
+
 	<div id="topLogo" align="center">
-   		<h1>Logo cibercomerciante</h1>
- 	</div>
-  	<form class="form-horizontal" method="POST" action="/registrar_user/">
- 	<!-- Inicio tipo usuario-->
-  	
-
-  	
-
+		<h1>Logo cibercomerciante</h1>
+	</div>
+	<form class="form-horizontal" method="POST" action="/registrar_user/">
+		<!-- Inicio tipo usuario-->
 		<div class="input-group input-group-lg pull-right login" id="usuario-radio">
-  					<div id="label-switch" class="make-switch switch-large" data-on="warning" data-on-label="Vendedor" data-off-label="Comprador">
-    				<input type="checkbox" name="tipo_usuario" checked>
-					</div>
-  					<div class="input-group login3">
-      					<span class="input-group-addon">
-        					<input id="label-check" class="pull-left"type="checkbox" aria-label="...">
-      					</span><p class="pull-left1"><strong>Ambos</strong></p>
-    				</div>
+			<div id="label-switch" class="make-switch switch-large" data-on="warning" data-on-label="Vendedor" data-off-label="Comprador">
+				<input type="checkbox" name="tipo_usuario" checked>
+			</div>
+			<div class="input-group login3">
+				<span class="input-group-addon">
+					<input id="label-check" class="pull-left"type="checkbox" aria-label="...">
+				</span><p class="pull-left1"><strong>Ambos</strong></p>
+			</div>
 		</div>
 
-  	
-  	<select name="tipo" id='tipo'>
-  	  	<option value="Vendedor">v</option>
-  		<option value="Comprador">c</option>
-  		<option value="Ambos">a</option>
-  	</select>
 
-  	<script type="text/javascript">
-  		$('#label-switch').on('switch-change', function(e,data){
-  			if (data.value==false) {
-  				$('#codigo-form').remove();
-  				$("select option[value='Comprador']").attr("selected","selected");
-  				
-  			} else{
-  				$("#codigo-before").append('<div class="control-group" id="codigo-form"><label class="control-label" for="codigo-input">NIT</label><div class="controls"><input type="number" id="codigo-input" name="nit" required></div></div>');
-  				$("select option[value='Vendedor']").attr("selected","selected");
-  				
-  			}
-  		});
+		<select name="tipo" id='tipo'>
+			<option value="Vendedor">v</option>
+			<option value="Comprador">c</option>
+			<option value="Ambos">a</option>
+		</select>
 
-  		
-  		if (document.getElementById("#label-check").checked) {
-  			$("#codigo-before").append('<div class="control-group" id="codigo-form"><label class="control-label" for="codigo-input">NIT</label><div class="controls"><input type="number" id="codigo-input" name="nit" required></div></div>');
-  			$("select option[value='Ambos']").attr("selected","selected");
-  		};
-  		
-  	</script>
+		<script type="text/javascript">
+		$('#label-switch').on('switch-change', function(e,data){
+			if (data.value==false) {
+				$('#codigo-form').remove();
+				$("select option[value='Comprador']").attr("selected","selected");
+
+			} else{
+				$("#codigo-before").append('<div class="control-group" id="codigo-form"><label class="control-label" for="codigo-input">NIT</label><div class="controls"><input type="number" id="codigo-input" name="nit" required></div></div>');
+				$("select option[value='Vendedor']").attr("selected","selected");
+
+			}
+		});
 
 
-  	<script type="text/javascript">
-  		$('#label-switch').bootstrapSwitch('setOnClass', 'success');
+		if (document.getElementById("#label-check").checked) {
+			$("#codigo-before").append('<div class="control-group" id="codigo-form"><label class="control-label" for="codigo-input">NIT</label><div class="controls"><input type="number" id="codigo-input" name="nit" required></div></div>');
+			$("select option[value='Ambos']").attr("selected","selected");
+		};
+
+		</script>
+
+
+		<script type="text/javascript">
+		$('#label-switch').bootstrapSwitch('setOnClass', 'success');
 		$('#label-switch').bootstrapSwitch('setOffClass', 'danger');
-  	</script>
- 	<!-- Fin tipo usuario-->
+		</script>
+		<!-- Fin tipo usuario-->
 
 
-  		<div class="control-group">
+		<div class="control-group">
 			<label class="control-label" for="nombres-input">Nombre Empresa o Comerciante</label>
 			<div class="controls">
 				<input type="text" id="nombres-input" name ="username" required>
@@ -82,11 +77,11 @@
 		</div>
 
 		<div class="control-group" id="codigo-form">
-  			<label class="control-label" for="codigo-input">NIT</label>
-  			<div class="controls">
-  				<input type="number" id="codigo-input" name="nit" required>
-  			</div>
-  		</div>
+			<label class="control-label" for="codigo-input">NIT</label>
+			<div class="controls">
+				<input type="number" id="codigo-input" name="nit" required>
+			</div>
+		</div>
 
 		<div id="codigo-before">		
 		</div>
@@ -95,10 +90,10 @@
 			<label class="control-label" for="contraseña-input">Departamento</label>
 			<div class="controls">
 				<select name="departamento">
-                	<option value="0">Seleccione Departamento</option>
+					<option value="0">Seleccione Departamento</option>
 					{% for i in departamentos %}
-                	    <option value="{{i.pk}}">{{i}}</option>
-                	{% endfor %}
+					<option value="{{i.pk}}">{{i}}</option>
+					{% endfor %}
 				</select>
 			</div>
 		</div>
@@ -169,13 +164,11 @@
 		<div id="codigo-before2">		
 		</div>		
 
-	    <div class="control-group">
-	      	<div class="controls">
-	        	<button type="submit" class="btn">Crear Cuenta</button>
-	      	</div>
-	    </div>
-
-
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn">Crear Cuenta</button>
+			</div>
+		</div>
 		
 	</form>
 	

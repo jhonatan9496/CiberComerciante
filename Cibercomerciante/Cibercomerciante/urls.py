@@ -20,8 +20,8 @@ urlpatterns = patterns('',
     url(r'^guardarUsuario/','Gestion.views.guardarUsuario',name='guardarUsuario'),
 
 
-
-    # Vendedores
+    #Urls gestion de usuarios
+   # Vendedores
     url(r'^inicioVendedorCatalogo/','Vendedores.views.inicioVendedorCatalogo',name='inicioVendedorCatalogo'),
     url(r'^inicioVendedorPedidos/','Vendedores.views.inicioVendedorPedidos',name='inicioVendedorPedidos'),
     url(r'^inicioVendedorReportes/','Vendedores.views.inicioVendedorReportes',name='inicioVendedorReportes'),
@@ -31,7 +31,6 @@ urlpatterns = patterns('',
     url(r'^inicioCompradorInventario/','Compradores.views.inicioCompradorInventario',name='inicioCompradorInventario'),
     url(r'^inicioCompradorReportes/','Compradores.views.inicioCompradorReportes',name='inicioCompradorReportes'),
     url(r'^inicioCompradorUsuarios/','Compradores.views.inicioCompradorUsuarios',name='inicioCompradorUsuarios'),
-
     # Salir 
     url(r'^salir/','Gestion.views.salir',name='salir'),
 
