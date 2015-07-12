@@ -22,10 +22,15 @@ urlpatterns = patterns('',
 
 
     # Vendedores
-    url(r'^inicioVendedor/','Vendedores.views.inicioVendedor',name='inicioVendedor'),
-
+    url(r'^inicioVendedorCatalogo/','Vendedores.views.inicioVendedorCatalogo',name='inicioVendedorCatalogo'),
+    url(r'^inicioVendedorPedidos/','Vendedores.views.inicioVendedorPedidos',name='inicioVendedorPedidos'),
+    url(r'^inicioVendedorReportes/','Vendedores.views.inicioVendedorReportes',name='inicioVendedorReportes'),
+    url(r'^inicioVendedorUsuarios/','Vendedores.views.inicioVendedorUsuarios',name='inicioVendedorUsuarios'),
     # Compradores
-    url(r'^inicioComprador/','Compradores.views.inicioComprador',name='inicioComprador'),
+    url(r'^inicioCompradorPedidos/','Compradores.views.inicioCompradorPedidos',name='inicioCompradorPedidos'),
+    url(r'^inicioCompradorInventario/','Compradores.views.inicioCompradorInventario',name='inicioCompradorInventario'),
+    url(r'^inicioCompradorReportes/','Compradores.views.inicioCompradorReportes',name='inicioCompradorReportes'),
+    url(r'^inicioCompradorUsuarios/','Compradores.views.inicioCompradorUsuarios',name='inicioCompradorUsuarios'),
 
     # Salir 
     url(r'^salir/','Gestion.views.salir',name='salir'),

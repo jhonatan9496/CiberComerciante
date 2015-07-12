@@ -71,10 +71,10 @@ def preguntar(request):
 	# if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='Administrador'):
 	#  	return HttpResponseRedirect('/inicioAdministrador')
 	if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='AV'):
-	 	return HttpResponseRedirect('/inicioVendedor')
+	 	return HttpResponseRedirect('/inicioVendedorCatalogo')
 		print ('entro' )
 	elif permisos[0].tipo_usuario == TipoUsuario.objects.get(nombre_tipo_usuario='AC'):
-	 	return HttpResponseRedirect('/inicioComprador')
+	 	return HttpResponseRedirect('/inicioCompradorPedidos')
 	return HttpResponse('no hay tipo usuario')
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -83,7 +83,7 @@ Descripcion  	Finaliza session
 Funcion 		Gestion.5
 '''
 @login_required(login_url='/logearse')
-def salir(request):
+def salir(request): 
 	logout(request)
 	return HttpResponseRedirect('/')
 '''

@@ -21,5 +21,17 @@ Descripcion  	Renderiza la pantalla de inicio de vendedor
 Funcion 		Vendedores.1
 '''
 @login_required(login_url='/logearse')
-def inicioVendedor(request):
-	return render_to_response('inicioVendedor.html',locals(), context_instance=RequestContext(request))
+def inicioVendedorCatalogo(request):
+	return render_to_response('Perfil_vendedores_catalogo.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def inicioVendedorPedidos(request):
+	return render_to_response('Perfil_vendedores_pedidos.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def inicioVendedorReportes(request):
+	return render_to_response('Perfil_vendedores_reportes.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def inicioVendedorUsuarios(request):
+	return render_to_response('Perfil_vendedores_usuarios.html',locals(), context_instance=RequestContext(request))		

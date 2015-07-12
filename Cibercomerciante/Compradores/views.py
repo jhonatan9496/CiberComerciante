@@ -21,8 +21,20 @@ Descripcion  	Renderiza la pantalla de inicio de vendedor
 Funcion 		Compradores.1
 '''
 @login_required(login_url='/logearse')
-def inicioComprador(request):
-	return render_to_response('inicioComprador.html',locals(), context_instance=RequestContext(request))
+def inicioCompradorPedidos(request):
+	return render_to_response('Perfil_compradores_pedidos.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def inicioCompradorInventario(request):
+	return render_to_response('Perfil_compradores_inventario.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def inicioCompradorReportes(request):
+	return render_to_response('Perfil_compradores_reportes.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def inicioCompradorUsuarios(request):
+	return render_to_response('Perfil_compradores_usuarios.html',locals(), context_instance=RequestContext(request))
 
 
 
