@@ -63,18 +63,22 @@ Funcion 		Gestion.4
 def preguntar(request):
 	usuario = request.user
 	us = Usuario.objects.get(user=usuario)
-	permisos = Permisos.objects.filter(usuario=us)
-	print(permisos[0].tipo_usuario)
-	for i in permisos:
-		print(i.tipo_usuario)
-	#print (us.tipo_usuario )
+	grupo = request.user.groups.all()[0].name
+	# permisos = Permisos.objects.filter(usuario=us)
 	# if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='Administrador'):
 	#  	return HttpResponseRedirect('/inicioAdministrador')
-	if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='AV'):
+	if grupo=='CV' or grupo=='AV' :
 	 	return HttpResponseRedirect('/inicioVendedorCatalogo')
-		print ('entro' )
-	elif permisos[0].tipo_usuario == TipoUsuario.objects.get(nombre_tipo_usuario='AC'):
+	elif grupo=='PV':
+	 	return HttpResponseRedirect('/inicioVendedorPedidos')
+	elif grupo=='RV':
+	 	return HttpResponseRedirect('/inicioVendedorReportes')
+	elif grupo=='AC' or grupo=='PC':
 	 	return HttpResponseRedirect('/inicioCompradorPedidos')
+	elif grupo=='RC':
+	 	return HttpResponseRedirect('/inicioCompradorReportes')
+	elif grupo=='IC':
+	 	return HttpResponseRedirect('/inicioCompradorInventario')
 	return HttpResponse('no hay tipo usuario')
 '''
 Autor 			Jhonatan Acelas Arevalo

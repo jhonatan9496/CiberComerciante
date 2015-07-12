@@ -24,24 +24,29 @@ Modifico
 '''
 
 
-
 @login_required(login_url='/logearse')
 def inicioVendedorCatalogo(request):
-	if pedidosVendedor(request):
+	if catalogoVendedor(request):
 		return render_to_response('Perfil_vendedores_catalogo.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
 def inicioVendedorPedidos(request):
-	return render_to_response('Perfil_vendedores_pedidos.html',locals(), context_instance=RequestContext(request))
+	if pedidosVendedor(request):
+		return render_to_response('Perfil_vendedores_pedidos.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
 def inicioVendedorReportes(request):
-	return render_to_response('Perfil_vendedores_reportes.html',locals(), context_instance=RequestContext(request))
+	if reportesVendedor(request):
+		return render_to_response('Perfil_vendedores_reportes.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
 def inicioVendedorUsuarios(request):
-	return render_to_response('Perfil_vendedores_usuarios.html',locals(), context_instance=RequestContext(request))		
+	if usuariosVendedor(request):
+		return render_to_response('Perfil_vendedores_usuarios.html',locals(), context_instance=RequestContext(request))		
+	return HttpResponseRedirect('/')
 
 
 '''
