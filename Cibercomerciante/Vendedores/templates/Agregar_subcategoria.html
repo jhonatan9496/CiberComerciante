@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<title>Agregar Subcategoria</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
+		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<!--Encabezado de la pagina-->
+		<header>
+			<h1>CiberComerciante</h1>
+		</header>
+		<!--Cuerpo de la pagina-->
+		<section>
+		<!--Barra de Menu-->
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="#">
+			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
+			    </a>
+			    <a href="#" class='pull-right'>
+			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
+			    </a>
+			    <a href="/salir" class='pull-right'>
+			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
+			    </a>
+			  </div>
+			</div>
+		<!--Panel de secciones con menu izquierdo-->
+			<div class="tabbable tabs-left">
+		<!--lista izquierda de menu de opciones-->
+				<ul class="nav nav-tabs">
+				    <li class="active">
+				    	<a href="/inicioVendedorCatalogo/">Catalogo</a>
+				    </li>
+		    		<li>
+		    			<a href="/inicioVendedorPedidos/">Pedidos</a>
+		    		</li>
+		    		<li>
+		    			<a href="/inicioVendedorReportes/">Reportes</a>
+		    		</li>
+		    		<li>
+		    			<a href="/inicioVendedorUsuarios/">Usuarios</a>
+		    		</li>
+				</ul>
+		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
+			  <div class="tab-content">
+			    
+			    <div class="tab-pane active" id="Catalogo">
+					<div class="row-fluid">
+							<h2>Agregar Subcategoria</h2>	
+							<form class="form-horizontal" method="POST" action="/agregarSubcategoria/">	
+								{% csrf_token %}
+								<div class="control-group">
+									<label class="control-label">Categoria</label>
+									<div class="controls">
+										<select  name="categoria" id="select_categoria">
+											{% for i in categorias %}
+											<option value="{{i.pk}}" selected>{{i.nombre_categoria}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+
+								<div class="control-group">
+									<label class="control-label" for="nombre_subcategoria">Nombre subcategoria</label>
+									<div class="controls">
+										<input  type="text" name='nombre_subcategoria' id="nombre_subcategoria" placeholder="Nombre subcategoria"></input>
+									</div>
+								</div>
+								
+								<div class="control-group">
+									<div class="controls">
+										<button type="submit"class="btn" id="boton_guardar">Agregar</button>
+										<a href="/inicioVendedorCatalogo/" class="btn">Volver</a>
+
+									</div>		
+								</div>
+								
+	
+						</form>
+						</div>
+			    </div>
+			    <div class="tab-pane" id="Pedidos">
+			      	
+			    </div>
+			    <div class="tab-pane" id="Reportes">
+			      	
+			    </div>
+			    <div class="tab-pane" id="Usuarios">
+
+			  </div>
+			</div>
+
+
+		</section>
+		<!--Pie de pagina de la pagina -->
+		<footer>
+
+		</footer>
+	</body>
+</html>

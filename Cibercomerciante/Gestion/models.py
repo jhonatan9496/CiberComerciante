@@ -30,22 +30,26 @@ class TipoUsuario(models.Model):
 	def __unicode__(self):
 		return self.nombre_tipo_usuario
 
-class Usuario(models.Model):
-	user = models.OneToOneField(User)
-	def __unicode__(self):
-		return '%s %s' % (self.user.username,self.user.last_name)
 
-class Permisos(models.Model):
-	tipo_usuario = models.ForeignKey(TipoUsuario)
-	usuario = models.ForeignKey(Usuario)
 
 class Empresa(models.Model):
 	nombre_empresa = models.CharField(max_length=250)
-	nit = models.CharField(max_length=15)
+	nit = models.CharField(max_length=15,blank=True,null=True)
 	estado_empresa = models.CharField(max_length=15)
 	cat_sector = models.ForeignKey(CategoriaSector)
 	def __unicode__(self):
 		return self.nombre_empresa
+
+class Permisos(models.Model):
+	tipo_usuario = models.ForeignKey(TipoUsuario)
+
+class Usuario(models.Model):
+	user = models.OneToOneField(User)
+	empresa =  models.ForeignKey(Empresa)
+	permisos = models.ForeignKey(Permisos)
+	def __unicode__(self):
+		return '%s %s' % (self.user.username,self.user.last_name)
+
 
 
 
@@ -79,7 +83,7 @@ class Producto(models.Model):
 	costo = models.CharField(max_length=15)
 	costo_venta = models.CharField(max_length=250)
 	presentacion = models.CharField(max_length=250)
-	imagen = models.CharField(max_length=250)
+	imagen = models.ImageField(upload_to='images')
 	descuento = models.CharField(max_length=15)
 	empresa = models.ForeignKey(Empresa)
 	iva = models.ForeignKey(TipoIVA)

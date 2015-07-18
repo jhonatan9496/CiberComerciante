@@ -1,124 +1,65 @@
-<html>
-	<head>
-		<title>Perfil Vendedores</title>
+{% extends 'BaseVendedores.html' %}
 
-		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
-		<link type="text/css" rel="stylesheet" href="/static/iconset/css/fontello.css" />
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<style type="text/css"></style>
-	</head>
-	<body>
-		<!--Encabezado de la pagina-->
-		<header>
-			<h1>CiberComerciante</h1>
-		</header>
-		<!--Cuerpo de la pagina-->
-		<section>
-		<!--Barra de Menu-->
-			<div class="navbar">
-			  <div class="navbar-inner">
-			    <a class="brand" href="#">
-			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
-			    </a>
-			    <a href="#" class='pull-right'>
-			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
-			    </a>
-			    <a href="/salir" class='pull-right'>
-			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
-			    </a>
-			  </div>
+
+{% block listaCatalogoClase %} class="active" {% endblock %}
+
+{% block catalogoClase %}class="tab-pane active{% endblock %}
+{% block catalogo %}
+
+<h1> Catalogo </h1>
+
+<table class="table table-hover">
+	<tr>
+		<th>
+			<div>
+				<a class="btn" href="/formularioCategoria/">Agregar Subcategoria</a>
+				<a class="btn" href="/formularioProducto/">Agregar Producto</a>
 			</div>
-		<!--Panel de secciones con menu izquierdo-->
-			<div class="tabbable tabs-left">
-		<!--lista izquierda de menu de opciones-->
-				<ul class="nav nav-tabs">
-				    <li class="active">
-				    	<a href="/inicioVendedorCatalogo/">Catalogo</a>
-				    </li>
-		    		<li>
-		    			<a href="/inicioVendedorPedidos/">Pedidos</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorReportes/">Reportes</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorUsuarios/">Usuarios</a>
-		    		</li>
-				</ul>
-		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
-			  <div class="tab-content">
-			    
-			    <div class="tab-pane active" id="Catalogo">
-					<div class="active item">
-						<table class="table table-hover">
- 							<tr>
- 								<th>
- 									<div>
- 										<button class="btn">Agregar Producto</button>
- 										<button class="btn">Agregar Subcategoria</button>
- 									</div>
- 								</th>
- 								<th></th>
- 								<th></th>
- 								<th></th>
- 							</tr>
- 							<tr>
- 								<th>
- 									<div class="control-group">
-    									<div class="controls">
-      										<input type="text" id="producto" placeholder="Producto">
-    									</div>
-  									</div>
- 								</th>
- 								<th>
- 									<select name="categoria" id="select" class="controls">
-										<option value="Categorias" selected>Categorias</option>
-									</select>
- 								</th>
- 								<th>
- 									<select name="subcategoria" id="select" class="controls">
-										<option value="subcategorias" selected>Subcategorias</option>
-									</select>
- 								</th>
- 								<th>Acciones</th>
- 							</tr>
- 							<tr>
- 								<td>Producto 1</td>
- 								<td>Categoria 1</td>
- 								<td>Subcategoria 1</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic2"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic2"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic2"></i></a>
- 									</div>
- 									
- 								</td>
- 								
- 							</tr>
-						</table>
-					</div>
-			    </div>
-			    <div class="tab-pane" id="Pedidos">
-			      	
-			    </div>
-			    <div class="tab-pane" id="Reportes">
-			      	
-			    </div>
-			    <div class="tab-pane" id="Usuarios">    				
-			      	
-			    </div>
-
-			  </div>
+		</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<tr>
+		<th>
+			<div class="control-group">
+				<div class="controls">
+					<input type="text" id="producto" placeholder="Producto">
+				</div>
 			</div>
+		</th>
+		<th>
+			<select name="categoria" id="select" class="controls">
+				{% for i in categorias %}
+				<option value="Categorias" selected>{{i.nombre_categoria}}</option>
+				{% endfor %}
+			</select>
+		</th>
+		<th>
+			<select name="subcategoria" id="select" class="controls">
+				{% for i in subcategorias %}
+				<option value="subcategorias" selected>{{i.nombre_cat_interna}}</option>
+				{% endfor %}
+			</select>
+		</th>
+		<th>Acciones</th>
+	</tr>
+	{% for i in productos %}
+	<tr> 
+		<td>{{i.nombre_producto}}</td>
+		<td>{{i.categoria.cat_producto}}</td>
+		<td>{{i.categoria}}</td>
+		<td>
+			<div>
+				<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
+				<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
+				<a href="#"><i class="icon-cancel-circled" id="ic2"></i></a>
+			</div>
+			
+		</td>
+		
+	</tr>
+	{% endfor %}
+</table>
 
-
-		</section>
-		<!--Pie de pagina de la pagina -->
-		<footer>
-
-		</footer>
-	</body>
-</html>
+{% endblock %}
