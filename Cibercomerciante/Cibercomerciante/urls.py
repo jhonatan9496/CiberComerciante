@@ -29,6 +29,10 @@ urlpatterns = patterns('',
     url(r'^inicioVendedorPedidos/','Vendedores.views.inicioVendedorPedidos',name='inicioVendedorPedidos'),
     url(r'^inicioVendedorReportes/','Vendedores.views.inicioVendedorReportes',name='inicioVendedorReportes'),
     url(r'^inicioVendedorUsuarios/','Vendedores.views.inicioVendedorUsuarios',name='inicioVendedorUsuarios'),
+    url(r'^agregar_usuariov/','Vendedores.views.agregar_usuariov',name='agregar_usuariov'),
+    url(r'^guardarUsuarioV/','Vendedores.views.guardarUsuarioV',name='guardarUsuarioV'),
+    url(r'^eliminarUsuario/','Vendedores.views.eliminarUsuario',name='eliminarUsuario'),
+
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT,}),
 
     url(r'^baseVendedor/','Vendedores.views.baseVendedor',name='baseVendedor'),

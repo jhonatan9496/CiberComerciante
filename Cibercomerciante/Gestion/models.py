@@ -40,17 +40,20 @@ class Empresa(models.Model):
 	def __unicode__(self):
 		return self.nombre_empresa
 
-class Permisos(models.Model):
-	tipo_usuario = models.ForeignKey(TipoUsuario)
+# class Permisos(models.Model):
+# 	tipo_usuario = models.ForeignKey(TipoUsuario)
 
 class Usuario(models.Model):
 	user = models.OneToOneField(User)
 	empresa =  models.ForeignKey(Empresa)
-	permisos = models.ForeignKey(Permisos)
 	def __unicode__(self):
 		return '%s %s' % (self.user.username,self.user.last_name)
 
-
+class Permisos(models.Model):
+	usuario = models.ForeignKey(Usuario)
+	tipo_usuario = models.ForeignKey(TipoUsuario)
+	def __unicode__(self):
+		return '%s %s' % (self.usuario,self.tipo_usuario)
 
 
 class Sucursal(models.Model):
@@ -74,8 +77,7 @@ class CategoriaProducto(models.Model):
 class CategoriaInterna(models.Model):
 	nombre_cat_interna = models.CharField(max_length=250)
 	cat_producto = models.ForeignKey(CategoriaProducto)
-	def __unicode__(self):
-		return self.cat_producto
+	
 
 class Producto(models.Model):
 	nombre_producto = models.CharField(max_length=250)

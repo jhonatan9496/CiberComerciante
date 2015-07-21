@@ -1,0 +1,67 @@
+{% extends 'BaseVendedores.html' %}
+
+
+{% block listaUsuarioClase %} class="active" {% endblock %}
+
+{% block usuarioClase %}class="tab-pane active{% endblock %}
+{% block usuario %}
+<div class="row-fluid">
+	<h2>Agregar Usuario</h2>
+	{{ mensaje }}
+	<form class="form-horizontal" method="POST" action="/guardarUsuarioV/">	
+		{% csrf_token %}
+		<div class="control-group">
+			<label class="control-label" for="nombres">Nombres</label>
+			<div class="controls">
+				<input type="text" id="nombres" name="nombres" placeholder="Nombre" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="apellidos">Apellidos</label>
+			<div class="controls">
+				<input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="username">Usuario</label>
+			<div class="controls">
+				<input type="text" id="username" name="username" placeholder="Nombre" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="email">Email</label>
+			<div class="controls">
+				<input type="email" id="email" name="email" placeholder="Email" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputPassword">Password</label>
+			<div class="controls">
+				<input type="password" id="password" name="password" placeholder="Password" required >
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputPassword">Permisos</label>
+			<div class="controls">
+				<label class="checkbox">
+					<input type="checkbox" id="administrador" name="administrador" > Administrador
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" id="catalogo" name="catalogo"> Catalogo
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" id="pedidos" name="pedidos"> Pedidos
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" id="reportes" name="reportes"> Reportes
+				</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn">Agregar Usuario</button>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

@@ -15,6 +15,10 @@ import time
 from django.contrib.auth.decorators import user_passes_test  
 # Create your views here.
 from django.conf import settings
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
+
+
  
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -55,8 +59,87 @@ def inicioVendedorReportes(request):
 @login_required(login_url='/logearse')
 def inicioVendedorUsuarios(request):
 	if usuariosVendedor(request):
+		admin =  Usuario.objects.get(user=request.user)
+		usuarios = Usuario.objects.filter(empresa=admin.empresa)
 		return render_to_response('Perfil_vendedores_usuarios.html',locals(), context_instance=RequestContext(request))		
 	return HttpResponseRedirect('/')
+
+'''
+Autor 			Jhonatan Acelas Arevalo 
+Fecha 	 		20 Julio 2015
+Descripcion  	agregar usuarios
+Funcion 		Vendedores.1
+'''
+
+@login_required(login_url='/logearse')
+def agregar_usuariov(request):
+	if usuariosVendedor(request):
+		return render_to_response('Agregar_usuario_vendedores.html',locals(), context_instance=RequestContext(request))		
+	return HttpResponseRedirect('/')
+
+
+'''
+Autor 			Jhonatan Acelas Arevalo 
+Fecha 	 		20 Julio 2015
+Descripcion  	agregar usuarios
+Funcion 		Vendedores.1
+'''
+
+@login_required(login_url='/logearse')
+def guardarUsuarioV(request):
+	if usuariosVendedor(request):
+		if request.method == 'POST':
+			try:
+				existe = User.objects.get(username=request.POST['username'])
+				mensaje= "el usuario ya existe"
+				return HttpResponseRedirect('/agregar_usuariov/')
+			except Exception, e:
+				user = User.objects.create_user(request.POST['username'],None,request.POST['password'])
+				user.first_name=request.POST['nombres']
+				user.last_name=request.POST['apellidos']
+				user.email=request.POST['email']
+				user.is_active = True
+				user.save()
+				if  'administrador' in  request.POST:
+					g = Group.objects.get(name='AV')
+					g.user_set.add(user)
+				else :
+					if  'catalogo' in request.POST:
+						g = Group.objects.get(name='CV')
+						g.user_set.add(user)
+					if  'pedidos' in request.POST:
+						g = Group.objects.get(name='PV')
+						g.user_set.add(user)
+					if  'reportes' in request.POST:
+						g = Group.objects.get(name='RV')
+						g.user_set.add(user)
+
+				admin =  Usuario.objects.get(user=request.user)
+				# guardamos cybercomerciante
+				cybercomerciante = Usuario(user=user,empresa=admin.empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AC')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
+			return HttpResponseRedirect('/inicioVendedorUsuarios/')
+	return HttpResponseRedirect('/')
+
+'''
+Autor 			Jhonatan Acelas Arevalo 
+Fecha 	 		20 Julio 2015
+Descripcion  	agregar usuarios
+Funcion 		Vendedores.1
+'''
+
+@login_required(login_url='/logearse')
+def eliminarUsuario(request):
+	if usuariosVendedor(request):
+		if request.method == 'POST':
+			d = User.objects.get(username=request.POST['pk_eliminar']).delete()
+		return HttpResponseRedirect('/inicioVendedorUsuarios/')
+	return HttpResponseRedirect('/')
+
 
 '''
 Autor 			Sebastian Rincon Rangel 

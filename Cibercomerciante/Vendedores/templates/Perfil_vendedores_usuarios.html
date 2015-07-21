@@ -7,101 +7,100 @@
 {% block usuario %}
 
 <h1> Usuario</h1>
+<table class="table table-hover">
+	<tr>
+		<th>
+			<input  type="text" name='buscar' id="buscar" placeholder="buscar"></input>
+			<i class="icon-search"></i>
+			
+		</th>
+		<th>
+			<select name="type_user" id="select" class="controls">
+				<option value="administrador" >Administrador</option>
+				<option value="catalogo" >Catalogo</option>
+				<option value="pedidos" >Pedidos</option>
+				<option value="consulta" >Reporte</option>
+				<option value="todos" selected>Todos</option>
+			</select>
+		</th>
+		<th>
+			<div class="adduser">
+				<a href="/agregar_usuariov/"><i class="icon-user-plus" id="ic"></i></a>
+			</div>
+		</th>
+	</tr>
+	<tr>
+		<th>Nombre Usuario</th>
+		<th>Tipo</th>
+		<th>Acciones</th>
+	</tr>
+	{% for i in usuarios %}
+	<tr>
+		<td>{{i.user.first_name}}</td>
+		<td>{{ i.user.groups }}
+		</td>
+		<td>
+			<div>
+				<a href="#"><i class="icon-user" id="ic"></i></a>
+				<a href="#"><i class="icon-pencil" id="ic"></i></a>
+				<a  data-toggle="modal" data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="icon-cancel-circled" ></i></a>
+			</div>
 
-						<table class="table table-hover">
- 							<tr>
- 								<th>
- 									<div class="adduser">
- 										<a href="#"><i class="icon-user-plus" id="ic"></i></a>
- 									</div>
- 								</th>
- 								<th>
- 									<select name="type_user" id="select" class="controls">
-										<option value="administrador" selected>Administrador</option>
-										<option value="catalogo" selected>Catalogo</option>
-										<option value="pedidos" selected>Pedidos</option>
-										<option value="consulta" selected>Consulta</option>
-										<option value="todos" selected>Todos</option>
-									</select>
- 								</th>
- 								<th>
- 									<input  type="text" name='buscar' id="buscar" placeholder="buscar"></input>
- 									<i class="icon-search"></i>
- 								</th>
- 							</tr>
- 							<tr>
- 								<th>Nombre Usuario</th>
- 								<th>Tipo</th>
- 								<th>Acciones</th>
- 							</tr>
- 							<tr>
- 								<td>User 1</td>
- 								<td>Administrador</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
- 									</div>
- 									
- 								</td>
- 								
- 							</tr>
+		</td>
 
- 							<tr>
- 								<td>User 2</td>
- 								<td>Consulta</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
- 									</div>
- 									
- 								</td>
- 								
- 							</tr>
- 							<tr>
- 								<td>User 3</td>
- 								<td>Administrador</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
- 									</div>
- 									
- 								</td>
- 								
- 							</tr>
+	</tr>
+	{% endfor %}
 
- 							<tr>
- 								<td>User 4</td>
- 								<td>Pedidos</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
- 									</div>
- 									
- 								</td>
- 							
- 							</tr>
+</table>
 
- 							<tr>
- 								<td>User 5</td>
- 								<td>Catalogo</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic"></i></a>
- 									</div>
- 									
- 								</td>
- 	
- 							</tr>
+<!-- Modal Eliminar -->
 
-						</table>
+
+
+<!-- Modal Elimianr-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Eliminar Usuario</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" method="POST" action="/eliminarUsuario/">	
+					{% csrf_token %}
+					<div class="span4 well">
+						<input type="text" id="pk_eliminar" name="pk_eliminar" style="display:none;"></input> 
+						<p>
+							<strong>Nombre</strong>
+							<div id="nombre_eliminar"></div>
+						</p>
+						<p>
+							<strong>Apellido</strong>
+							<div id="apellido_eliminar"></div>
+						</p>
+						<p>
+							<strong>Usuario</strong>
+							<div id="username_eliminar"></div>
+						</p>
+						<p>
+							<strong>Email</strong>
+							<div id="email_eliminar"></div>
+						</p>
+						<p >
+							<strong>Permisos</strong>
+							<div id="permisos_eliminar"></div>
+						</p>
+					</div>
+
+			</div>
+			<div class="modal-footer">
+				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+				<button type="submit" class="btn btn-danger">Eliminar Usuario</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

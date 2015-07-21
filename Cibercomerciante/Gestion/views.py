@@ -138,7 +138,13 @@ def guardarUsuario(request):
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
 				empresa.save()
+				# guardamos cybercomerciante
 				cybercomerciante = Usuario(user=user,empresa=empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AC')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
 				# Crear la sucursal
 				sucursal = Sucursal(empresa=empresa)
 				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
@@ -157,6 +163,11 @@ def guardarUsuario(request):
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
 				empresa.save()
 				cybercomerciante = Usuario(user=user,empresa=empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AV')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
 				# Crear la sucursal
 				sucursal = Sucursal(empresa=empresa)
 				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
@@ -177,7 +188,16 @@ def guardarUsuario(request):
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
 				empresa.save()
+				#usuario
 				cybercomerciante = Usuario(user=user,empresa=empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AC')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AV')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
 				# Crear la sucursal
 				sucursal = Sucursal(empresa=empresa)
 				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
