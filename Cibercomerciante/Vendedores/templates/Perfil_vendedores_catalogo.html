@@ -1,124 +1,129 @@
-<html>
-	<head>
-		<title>Perfil Vendedores</title>
+{% extends 'BaseVendedores.html' %}
 
-		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
-		<link type="text/css" rel="stylesheet" href="/static/iconset/css/fontello.css" />
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<style type="text/css"></style>
-	</head>
-	<body>
-		<!--Encabezado de la pagina-->
-		<header>
-			<h1>CiberComerciante</h1>
-		</header>
-		<!--Cuerpo de la pagina-->
-		<section>
-		<!--Barra de Menu-->
-			<div class="navbar">
-			  <div class="navbar-inner">
-			    <a class="brand" href="#">
-			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
-			    </a>
-			    <a href="#" class='pull-right'>
-			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
-			    </a>
-			    <a href="/salir" class='pull-right'>
-			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
-			    </a>
-			  </div>
+
+{% block listaCatalogoClase %} class="active" {% endblock %}
+
+{% block catalogoClase %}class="tab-pane active{% endblock %}
+{% block catalogo %}
+<table class="table table-hover">
+	<tr>
+		<th>
+			<div>
+				<a class="btn" href="/formularioCategoria/">Agregar Subcategoria</a>
+				<a class="btn" href="/formularioProducto/">Agregar Producto</a>
 			</div>
-		<!--Panel de secciones con menu izquierdo-->
-			<div class="tabbable tabs-left">
-		<!--lista izquierda de menu de opciones-->
-				<ul class="nav nav-tabs">
-				    <li class="active">
-				    	<a href="/inicioVendedorCatalogo/">Catalogo</a>
-				    </li>
-		    		<li>
-		    			<a href="/inicioVendedorPedidos/">Pedidos</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorReportes/">Reportes</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorUsuarios/">Usuarios</a>
-		    		</li>
-				</ul>
-		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
-			  <div class="tab-content">
-			    
-			    <div class="tab-pane active" id="Catalogo">
-					<div class="active item">
-						<table class="table table-hover">
- 							<tr>
- 								<th>
- 									<div>
- 										<button class="btn">Agregar Producto</button>
- 										<button class="btn">Agregar Subcategoria</button>
- 									</div>
- 								</th>
- 								<th></th>
- 								<th></th>
- 								<th></th>
- 							</tr>
- 							<tr>
- 								<th>
- 									<div class="control-group">
-    									<div class="controls">
-      										<input type="text" id="producto" placeholder="Producto">
-    									</div>
-  									</div>
- 								</th>
- 								<th>
- 									<select name="categoria" id="select" class="controls">
-										<option value="Categorias" selected>Categorias</option>
-									</select>
- 								</th>
- 								<th>
- 									<select name="subcategoria" id="select" class="controls">
-										<option value="subcategorias" selected>Subcategorias</option>
-									</select>
- 								</th>
- 								<th>Acciones</th>
- 							</tr>
- 							<tr>
- 								<td>Producto 1</td>
- 								<td>Categoria 1</td>
- 								<td>Subcategoria 1</td>
- 								<td>
- 									<div>
- 										<a href="#"><i class="icon-user" id="ic2"></i></a>
- 										<a href="#"><i class="icon-pencil" id="ic2"></i></a>
- 										<a href="#"><i class="icon-cancel-circled" id="ic2"></i></a>
- 									</div>
- 									
- 								</td>
- 								
- 							</tr>
-						</table>
+		</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<tr>
+		<th>
+			<div class="control-group">
+				<div class="controls">
+					<input type="text" id="producto" placeholder="Producto">
+				</div>
+			</div>
+		</th>
+		<th>
+			<select name="categoria" id="select" class="controls">
+				{% for i in categorias %}
+				<option value="Categorias" selected>{{i.nombre_categoria}}</option>
+				{% endfor %}
+			</select>
+		</th>
+		<th>
+			<select name="subcategoria" id="select" class="controls">
+				{% for i in subcategorias %}
+				<option value="subcategorias" selected>{{i.nombre_cat_interna}}</option>
+				{% endfor %}
+			</select>
+		</th>
+		<th>Acciones</th>
+	</tr>
+	{% for i in productos %}
+	<tr> 
+		<td>{{i.nombre_producto}}</td>
+		<td>{{i.categoria.cat_producto.nombre_categoria}}</td>
+		<td>{{i.categoria}}</td>
+		<td>
+			<div>
+				<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
+				<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
+				<a  data-toggle="modal" data-target="#myModal" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
+			</div>
+			
+		</td>
+		
+	</tr>
+	{% endfor %}
+</table>
+
+<!-- Modal Eliminar -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Eliminar Producto</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" method="POST" action="/eliminarProducto/">	
+					{% csrf_token %}
+					<div class="span4 well">
+						<input type="text" id="pk_eliminar" name="pk_eliminar" style="display:none;"></input> 
+						<p>
+							<strong>Nombre Producto</strong>
+							<div id="nombre_eliminar"></div>
+						</p>
+						<p>
+							<strong>Subcategoria</strong>
+							<div id="subcategoria_eliminar"></div>
+						</p>
+						<p>
+							<strong>Precio Compra</strong>
+							<div id="precioCompra_eliminar"></div>
+						</p>
+						<p>
+							<strong>Precio Venta</strong>
+							<div id="precioVenta_eliminar"></div>
+						</p>
+						<p >
+							<strong>Descuento</strong>
+							<div id="descuento_eliminar"></div>
+						</p>
+						<p >
+							<strong>IVA</strong>
+							<div id="iva_eliminar"></div>
+						</p>
+						<p >
+							<strong>Presentacion</strong>
+							<div id="presentacion_eliminar"></div>
+						</p>
+						<p >
+							<strong>Imagen</strong>
+							<div id="imagen_eliminar"></div>
+						</p>
+						<p >
+							<strong>Empresa</strong>
+							<div id="empresa_eliminar"></div>
+						</p>
+						<p >
+							<strong>Descripcion</strong>
+							<div id="descripcion_eliminar"></div>
+						</p>
 					</div>
-			    </div>
-			    <div class="tab-pane" id="Pedidos">
-			      	
-			    </div>
-			    <div class="tab-pane" id="Reportes">
-			      	
-			    </div>
-			    <div class="tab-pane" id="Usuarios">    				
-			      	
-			    </div>
 
-			  </div>
 			</div>
+			<div class="modal-footer">
+				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+				<button type="submit" class="btn btn-danger">Eliminar producto</button>
+				</form>
 
+			</div>
+		</div>
+	</div>
+</div>
 
-		</section>
-		<!--Pie de pagina de la pagina -->
-		<footer>
-
-		</footer>
-	</body>
-</html>
+{% endblock %}

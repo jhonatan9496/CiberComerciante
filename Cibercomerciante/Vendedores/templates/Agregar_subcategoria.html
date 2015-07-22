@@ -1,0 +1,44 @@
+{% extends 'BaseVendedores.html' %}
+
+
+{% block listaCatalogoClase %} class="active" {% endblock %}
+
+{% block catalogoClase %}class="tab-pane active{% endblock %}
+{% block catalogo %}
+		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
+
+<div class="row-fluid">
+		<h2>Agregar Subcategoria</h2>	
+		<form class="form-horizontal" method="POST" action="/agregarSubcategoria/">	
+			{% csrf_token %}
+			<div class="control-group">
+				<label class="control-label">Categoria</label>
+				<div class="controls">
+					<select  name="categoria" id="select_categoria">
+						{% for i in categorias %}
+						<option value="{{i.pk}}" selected>{{i.nombre_categoria}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="nombre_subcategoria">Nombre subcategoria</label>
+				<div class="controls">
+					<input  type="text" name='nombre_subcategoria' id="nombre_subcategoria" placeholder="Nombre subcategoria"></input>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit"class="btn" id="boton_guardar">Agregar</button>
+					<a href="/inicioVendedorCatalogo/" class="btn">Volver</a>
+
+				</div>		
+			</div>
+			
+
+	</form>
+	</div>
+
+{% endblock %}

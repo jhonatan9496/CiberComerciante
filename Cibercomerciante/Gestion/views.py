@@ -11,6 +11,8 @@ from django.core import serializers
 from django.core.files import File
 import re
 import time
+from django.contrib.auth.models import Group
+
 
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -61,20 +63,24 @@ Funcion 		Gestion.4
 '''
 @login_required(login_url='/logearse')
 def preguntar(request):
-	usuario = request.user
-	us = Usuario.objects.get(user=usuario)
-	permisos = Permisos.objects.filter(usuario=us)
-	print(permisos[0].tipo_usuario)
-	for i in permisos:
-		print(i.tipo_usuario)
-	#print (us.tipo_usuario )
+	# usuario = request.user
+	# us = Usuario.objects.get(user=usuario)
+	grupo = request.user.groups.all()[0].name
+	# permisos = Permisos.objects.filter(usuario=us)
 	# if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='Administrador'):
 	#  	return HttpResponseRedirect('/inicioAdministrador')
-	if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='AV'):
+	if grupo=='CV' or grupo=='AV' :
 	 	return HttpResponseRedirect('/inicioVendedorCatalogo')
-		print ('entro' )
-	elif permisos[0].tipo_usuario == TipoUsuario.objects.get(nombre_tipo_usuario='AC'):
+	elif grupo=='PV':
+	 	return HttpResponseRedirect('/inicioVendedorPedidos')
+	elif grupo=='RV':
+	 	return HttpResponseRedirect('/inicioVendedorReportes')
+	elif grupo=='AC' or grupo=='PC':
 	 	return HttpResponseRedirect('/inicioCompradorPedidos')
+	elif grupo=='RC':
+	 	return HttpResponseRedirect('/inicioCompradorReportes')
+	elif grupo=='IC':
+	 	return HttpResponseRedirect('/inicioCompradorInventario')
 	return HttpResponse('no hay tipo usuario')
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -93,34 +99,131 @@ Descripcion  	Renderiza html de registrar usuario
 Funcion 		Gestion.5
 '''
 def registrar(request):
-	sectores = Sector.objects.all()
+	sectores = CategoriaSector.objects.all()
 	departamentos = Lugar.objects.filter(ubicado_en=None) 
 	return render_to_response('Registro.html',locals(), context_instance=RequestContext(request))
 
+
+def filtrar_ciudades(request,id_depto):
+	ciudades =  Lugar.objects.filter(ubicado_en=id_depto)
+		# data = { 'titulo': cultivo.nombre_cultivo
+	# }
+	# cultivo = Cultivo.objects.all()
+	# for i in cultivo:
+	# 	# data['titulo']=str(i.nombre_cultivo)
+	# 	data = {'titulo':str(i.nombre_cultivo)}
+	# json_data= json.dumps(data)
+	data = serializers.serialize("json", ciudades)
+	return HttpResponse(data,content_type='application/json')
+
 def guardarUsuario(request):
 	if request.method == 'POST':
-		existe = User.objects.get(username=request.POST['username'])
-		if existe==True:
+		try:
+			existe = User.objects.get(username=request.POST['username'])
 			mensaje= "el usuario ya existe"
 			return render_to_response('Registro.html',locals(), context_instance=RequestContext(request))
-		user = User.objects.create_user(request.POST['username'],None,request.POST['password'])
-		user.first_name=request.POST['first_name']
-		user.last_name=request.POST['last_name']
-		user.email=request.POST['email']
-		user.is_active = True
-		user.save()
-		cultivador = Cultivador(user=user)
-		cultivador.save()
+		except Exception, e:
+			user = User.objects.create_user(request.POST['username'],None,request.POST['password'])
+			# user.first_name=request.POST['first_name']
+			# user.last_name=request.POST['last_name']
+			user.email=request.POST['email']
+			user.is_active = True
+			user.save()
+			empresa = Empresa()
+			
+
+			if request.POST['tipo']=='Comprador':
+				g = Group.objects.get(name='AC') 
+				g.user_set.add(user)
+				empresa.estado_empresa='active'
+				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.save()
+				# guardamos cybercomerciante
+				cybercomerciante = Usuario(user=user,empresa=empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AC')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
+				# Crear la sucursal
+				sucursal = Sucursal(empresa=empresa)
+				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				sucursal.direccion = request.POST['direccion']
+				sucursal.telefono = request.POST['telefono']
+				sucursal.tipo_sucursal= 'Comprador'
+				sucursal.nombre_contacto= request.POST['representante']
+				sucursal.email=request.POST['email']
+				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				sucursal.save()
+			elif request.POST['tipo']=='Vendedor':
+				empresa.nit=request.POST['nit']
+				g = Group.objects.get(name='AV') 
+				g.user_set.add(user)
+				empresa.estado_empresa='active'
+				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.save()
+				cybercomerciante = Usuario(user=user,empresa=empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AV')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
+				# Crear la sucursal
+				sucursal = Sucursal(empresa=empresa)
+				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				sucursal.direccion = request.POST['direccion']
+				sucursal.telefono = request.POST['telefono']
+				sucursal.tipo_sucursal= 'Vendedor'
+				sucursal.nombre_contacto= request.POST['representante']
+				sucursal.email=request.POST['email']
+				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				sucursal.save()
+			else :
+				empresa.nit=request.POST['nit']
+				g = Group.objects.get(name='AC') 
+				g.user_set.add(user)
+				g = Group.objects.get(name='AV') 
+				g.user_set.add(user)
+				#  compra
+				empresa.estado_empresa='active'
+				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.save()
+				#usuario
+				cybercomerciante = Usuario(user=user,empresa=empresa)
+				cybercomerciante.save()
+				#guardamos los permisos la base de atos
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AC')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
+				tipo_usuario =  TipoUsuario.objects.get(nombre_tipo_usuario='AV')
+				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
+				permisos.save()
+				# Crear la sucursal
+				sucursal = Sucursal(empresa=empresa)
+				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				sucursal.direccion = request.POST['direccion']
+				sucursal.telefono = request.POST['telefono']
+				sucursal.tipo_sucursal= 'Comprador'
+				sucursal.nombre_contacto= request.POST['representante']
+				sucursal.email=request.POST['email']
+				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				sucursal.save()
+				# Venta
+				empresa.estado_empresa='active'
+				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.save()
+				cybercomerciante = Usuario(user=user,empresa=empresa)
+				# Crear la sucursal
+				sucursal = Sucursal(empresa=empresa)
+				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				sucursal.direccion = request.POST['direccion']
+				sucursal.telefono = request.POST['telefono']
+				sucursal.tipo_sucursal= 'Vendedor'
+				sucursal.nombre_contacto= request.POST['representante']
+				sucursal.email=request.POST['email']
+				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				sucursal.save()
 	return HttpResponseRedirect('/')
-		# if request.POST['tipo'] == 'estudiante' :
-		# 	nuevo_estudiante = Estudiante(user=user,codigo_estudiante=request.POST['codigo_estudiantil'])
-		# 	nuevo_estudiante.save()
-		# 	return render_to_response('success.html',locals(), context_instance=RequestContext(request))
-		# if request.POST['tipo'] == 'docente' :
-		# 	areafor = Area.objects.get(pk=request.POST['area'])
-		# 	nuevo_docente = Docente(user=user,area=areafor)
-		# 	nuevo_docente.save()
-		# 	return render_to_response('success.html',locals(), context_instance=RequestContext(request))
 
 
 

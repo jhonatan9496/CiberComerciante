@@ -84,3 +84,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+## modificacion a carpeta raiz
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    '../static/',
+)
+
+#MEDIA_ROOT = '/home/sebastian/Proyectos/PasantiaCibercomerciante/Cibercomerciante'
+MEDIA_ROOT = '../Cibercomerciante'
+#MEDIA_ROOT = '/media/'
+MEDIA_URL = '/media/'
+
+
