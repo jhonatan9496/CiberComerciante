@@ -1,113 +1,48 @@
-<html>
-	<head>
-		<title>Detalle usuario</title>
-
-		<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<style type="text/css"></style>
-	</head>
-	<body>
-		<!--Encabezado de la pagina-->
-		<header>
-			<h1>CiberComerciante</h1>
-		</header>
-		<!--Cuerpo de la pagina-->
-		<section>
-		<!--Barra de Menu-->
-			<div class="navbar">
-			  <div class="navbar-inner">
-			    <a class="brand" href="#">
-			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
-			    </a>
-			    <a href="#" class='pull-right'>
-			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
-			    </a>
-			    <a href="/salir" class='pull-right'>
-			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
-			    </a>
-			  </div>
-			</div>
-		<!--Panel de secciones con menu izquierdo-->
-			<div class="tabbable tabs-left">
-		<!--lista izquierda de menu de opciones-->
-				<ul class="nav nav-tabs">
-				     <li class="active">
-				    	<a href="/inicioVendedorCatalogo/">Catalogo</a>
-				    </li>
-		    		<li>
-		    			<a href="/inicioVendedorPedidos/">Pedidos</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorReportes/">Reportes</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorUsuarios/">Usuarios</a>
-		    		</li>
-				</ul>
-		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
-			  <div class="tab-content">
-			    
-			    <div class="tab-pane active" id="Catalogo">
-					<div class="tab-pane" id="producto">
-						
-						<div class="row-fluid">
-
-							<h2>{{producto.nombre_producto}}</h2>
-							<h3>{{producto.categoria}}</h3>
-							<div class="span4 well">
-								<img src="{{producto.imagen.url}}">
-								
-								<p>
-									<strong>Presentacion</strong>
-									{{producto.presentacion}}
-								</p>
-								<p>
-									<strong>Precio de compra</strong>
-									{{producto.costo}}
-								</p>
-								<p >
-									<strong>Precio de venta</strong>
-									{{producto.costo_venta}}
-								</p>
-								<p>
-									<strong>IVA</strong>
-									{{producto.iva}}
-								</p>
-								<p>
-									<strong>Descuento</strong>
-									{{producto.descuento}}
-								</p>
-								<p>
-									<strong>Descripcion</strong>
-									{{producto.descripcion}}
-								</p>
-							</div>
-							
-						</div>
-					
-						<a href="/inicioVendedorCatalogo/" class="btn">Volver</a>
-					</div>
-			    </div>
-			    <div class="tab-pane" id="Pedidos">
-			      	<h1>Pedidos</h1>
-			    </div>
-			    <div class="tab-pane" id="Reportes">
-			      	<h1>Reportes</h1>
-			    </div>
-			    <div class="tab-pane" id="Usuarios">
-			    	
-			    </div>
-
-			  </div>
-			</div>
+{% extends 'BaseVendedores.html' %}
 
 
-		</section>
-		<!--Pie de pagina de la pagina -->
-		<footer>
+{% block listaCatalogoClase %} class="active" {% endblock %}
 
-		</footer>
-	</body>
-</html>
+{% block catalogoClase %}class="tab-pane active{% endblock %}
+{% block catalogo %}
+<div class="tab-pane" id="producto">
+	
+	<div class="row-fluid">
+
+		<h2>{{producto.nombre_producto}}</h2>
+		<h3>{{producto.categoria}}</h3>
+		<div class="span4 well">
+			<img src="{{producto.imagen.url}}" width=150 height=150 border=5 vspace=10>
+			
+			<p>
+				<strong>Presentacion</strong>
+				{{producto.presentacion}}
+			</p>
+			<p>
+				<strong>Precio de compra</strong>
+				{{producto.costo}}
+			</p>
+			<p >
+				<strong>Precio de venta</strong>
+				{{producto.costo_venta}}
+			</p>
+			<p>
+				<strong>IVA</strong>
+				{{producto.iva}}
+			</p>
+			<p>
+				<strong>Descuento</strong>
+				{{producto.descuento}}
+			</p>
+			<p>
+				<strong>Descripcion</strong>
+				{{producto.descripcion}}
+			</p>
+		</div>
+		
+	</div>
+
+	<a href="javascript:history.back()" class="btn">Volver</a>
+</div>
+{% endblock %}
+			  

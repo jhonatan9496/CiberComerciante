@@ -17,7 +17,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+#from .forms import UploadProducto
 
  
 '''
@@ -38,9 +39,18 @@ def baseVendedor(request):
 @login_required(login_url='/logearse')
 def inicioVendedorCatalogo(request):
 	if catalogoVendedor(request):
-		productos = Producto.objects.all()
+		admin =  Usuario.objects.get(user=request.user)
+		productos = Producto.objects.filter(empresa=admin.empresa)
 		categorias = CategoriaProducto.objects.all()
 		subcategorias = CategoriaInterna.objects.all()
+		paginator = Paginator(productos, 10)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
 		return render_to_response('Perfil_vendedores_catalogo.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
 
@@ -149,75 +159,97 @@ Funcion 		Vendedores.1
 '''
 @login_required(login_url='/logearse')
 def formularioProducto(request):
-	categorias = CategoriaProducto.objects.all()
-	subcategorias = CategoriaInterna.objects.all()
-	tipoIVA = TipoIVA.objects.all()
-	empresas = Empresa.objects.all()
-	return render_to_response('Agregar_producto.html',locals(), context_instance=RequestContext(request))		
+	if catalogoVendedor(request):
+		categorias = CategoriaProducto.objects.all()
+		subcategorias = CategoriaInterna.objects.all()
+		tipoIVA = TipoIVA.objects.all()
+		return render_to_response('Agregar_producto.html',locals(), context_instance=RequestContext(request))		
+	return HttpResponseRedirect('/')	
 
 @login_required(login_url='/logearse')
 def formularioCategoria(request):
-	categorias = CategoriaProducto.objects.all()
-	return render_to_response('Agregar_subcategoria.html',locals(), context_instance=RequestContext(request))
+	if catalogoVendedor(request):
+		categorias = CategoriaProducto.objects.all()
+		return render_to_response('Agregar_subcategoria.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')	
 
 @login_required(login_url='/logearse')
 def agregarProducto(request):
-	nombreProducto = request.POST['nombre_producto']
-	presentacion = request.POST['presentacion']
-	precioCompra = request.POST['precio_compra']
-	precioVenta = request.POST['precio_venta']
-	iva = TipoIVA.objects.get(pk=request.POST['iva'])
-	descuento = request.POST['descuento']
-	foto = "images/"+request.POST['foto']
-	fotoUrl = settings.MEDIA_URL+request.POST['foto']
-	descripcion = request.POST['descripcion']
-	subcat= CategoriaInterna.objects.get(pk=request.POST['subcategoria'])
-	empresa= Empresa.objects.get(pk=request.POST['empresa'])
-	producto= Producto(nombre_producto=nombreProducto, descripcion=descripcion, costo=precioCompra, costo_venta=precioVenta, presentacion=presentacion, imagen=foto, descuento=descuento, empresa=empresa, iva=iva, categoria=subcat)
-	producto.save()
-	return HttpResponseRedirect('/inicioVendedorCatalogo/')
+	if catalogoVendedor(request):
+		nombreProducto = request.POST['nombre_producto']
+		presentacion = request.POST['presentacion']
+		precioCompra = request.POST['precio_compra']
+		precioVenta = request.POST['precio_venta']
+		iva = TipoIVA.objects.get(pk=request.POST['iva'])
+		descuento = request.POST['descuento']
+		foto = request.FILES['foto']
+		admin =  Usuario.objects.get(user=request.user)
+		descripcion = request.POST['descripcion']
+		subcat= CategoriaInterna.objects.get(pk=request.POST['subcategoria'])
+		producto= Producto(nombre_producto=nombreProducto, descripcion=descripcion, costo=precioCompra, costo_venta=precioVenta, presentacion=presentacion, imagen=foto, empresa=admin.empresa, descuento=descuento, iva=iva, categoria=subcat)
+		producto.save()
+		return HttpResponseRedirect('/inicioVendedorCatalogo/')
+	return HttpResponseRedirect('/')	
 
 @login_required(login_url='/logearse')
 def agregarSubcategoria(request):
-	categoriaPadre = CategoriaProducto.objects.get(pk=request.POST['categoria'])
-	nombreSubcategoria = request.POST['nombre_subcategoria']
-	subcategoria = CategoriaInterna(nombre_cat_interna=nombreSubcategoria,cat_producto=categoriaPadre)
-	subcategoria.save()
-	return HttpResponseRedirect('/inicioVendedorCatalogo/')
-
+	if catalogoVendedor(request):
+		categoriaPadre = CategoriaProducto.objects.get(pk=request.POST['categoria'])
+		nombreSubcategoria = request.POST['nombre_subcategoria']
+		subcategoria = CategoriaInterna(nombre_cat_interna=nombreSubcategoria,cat_producto=categoriaPadre)
+		subcategoria.save()
+		return HttpResponseRedirect('/inicioVendedorCatalogo/')
+	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
 def modificarProductoformulario(request, idProducto):
-	categorias = CategoriaProducto.objects.all()
-	subcategorias = CategoriaInterna.objects.all()
-	tipoIVA = TipoIVA.objects.all()
-	empresas = Empresa.objects.all()
-	producto = Producto.objects.get(pk=idProducto)
-	return render_to_response('Modificar_producto.html',locals(), context_instance=RequestContext(request))
+	if catalogoVendedor(request):
+		categorias = CategoriaProducto.objects.all()
+		subcategorias = CategoriaInterna.objects.all()
+		tipoIVA = TipoIVA.objects.all()
+		#foto = Producto.objects.filter(pk=idProducto.imagen)
+		producto = Producto.objects.get(pk=idProducto)
+		return render_to_response('Modificar_producto.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')	
 
 # esto esta mal, es el mismo codigo de agregar producto
 @login_required(login_url='/logearse')
 def modificarProducto(request):
-	p = Producto.objects.get(pk=request.POST['pk'])
-	p.nombre_producto = request.POST['nombre_producto']
-	p.presentacion = request.POST['presentacion']
-	p.costo = request.POST['precio_compra']
-	p.costo_venta = request.POST['precio_venta']
-	p.iva = TipoIVA.objects.get(pk=request.POST['iva'])
-	p.descuento = request.POST['descuento']
-	p.imagen = "images/"+request.POST['foto']
-	p.descripcion = request.POST['descripcion']
-	p.categoria= CategoriaInterna.objects.get(pk=request.POST['subcategoria'])
-	p.empresa= Empresa.objects.get(pk=request.POST['empresa'])
-	p.save()
-	return HttpResponseRedirect('/inicioVendedorCatalogo/')
+	if catalogoVendedor(request):
+		p = Producto.objects.get(pk=request.POST['pk'])
+		p.nombre_producto = request.POST['nombre_producto']
+		p.presentacion = request.POST['presentacion']
+		p.costo = request.POST['precio_compra']
+		p.costo_venta = request.POST['precio_venta']
+		p.iva = TipoIVA.objects.get(pk=request.POST['iva'])
+		p.descuento = request.POST['descuento']
+		p.imagen = request.FILES['foto']
+		p.descripcion = request.POST['descripcion']
+		p.categoria= CategoriaInterna.objects.get(pk=request.POST['subcategoria'])
+		p.save()
+		return HttpResponseRedirect('/inicioVendedorCatalogo/')
+	return HttpResponseRedirect('/')	
 
 @login_required(login_url='/logearse')
 def visualizarProducto(request,idProducto):
-	producto = Producto.objects.get(pk=idProducto)
-	return render_to_response('Detalle_producto.html',locals(), context_instance=RequestContext(request))	
+	if catalogoVendedor(request):
+		producto = Producto.objects.get(pk=idProducto)
+		return render_to_response('Detalle_producto.html',locals(), context_instance=RequestContext(request))	
+	return HttpResponseRedirect('/')	
+
+@login_required(login_url='/logearse')
+def eliminarProducto(request):
+	if catalogoVendedor(request):
+		if request.method == 'POST':
+			d = Producto.objects.get(pk=request.POST['pk_eliminar']).delete()
+		return HttpResponseRedirect('/inicioVendedorCatalogo/')
+	return HttpResponseRedirect('/')
 
 
+def filtrar_categorias(request,id_categoria):
+	subcategoria =  CategoriaInterna.objects.filter(cat_producto=id_categoria)
+	data = serializers.serialize("json", subcategoria)
+	return HttpResponse(data,content_type='application/json') 
 '''
 Autor 			Jhonatan Acelas Arevalo
 Fecha 	 		11 Julio 2015
