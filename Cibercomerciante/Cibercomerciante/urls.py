@@ -22,7 +22,6 @@ urlpatterns = patterns('',
     url(r'^guardarUsuario/','Gestion.views.guardarUsuario',name='guardarUsuario'),
     url(r'^filtrar_ciudades/(?P<id_depto>\d+)/' , 'Gestion.views.filtrar_ciudades',name='filtrar_ciudades'),
 
-    url(r'^filtrar_categorias/(?P<id_categoria>\d+)/' , 'Vendedores.views.filtrar_categorias',name='filtrar_categorias'),
 
     #Urls gestion de usuarios
    # Vendedores
@@ -34,9 +33,7 @@ urlpatterns = patterns('',
     url(r'^guardarUsuarioV/','Vendedores.views.guardarUsuarioV',name='guardarUsuarioV'),
     url(r'^eliminarUsuario/','Vendedores.views.eliminarUsuario',name='eliminarUsuario'),
 
-    #urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT,}),
-    url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.STATIC_ROOT}),
 
     url(r'^baseVendedor/','Vendedores.views.baseVendedor',name='baseVendedor'),
 
@@ -59,8 +56,8 @@ urlpatterns = patterns('',
     url(r'^modificarProductoformulario/(?P<idProducto>\d+)/','Vendedores.views.modificarProductoformulario',name='modificarProductoformulario'),
     url(r'^modificarProducto/','Vendedores.views.modificarProducto',name='modificarProducto'),
     url(r'^visualizarProducto/(?P<idProducto>\d+)/','Vendedores.views.visualizarProducto',name='visualizarProducto'),
-    url(r'^eliminarProducto/','Vendedores.views.eliminarProducto',name='eliminarProducto'),
 
     # Salir 
     url(r'^salir/','Gestion.views.salir',name='salir'),
+
 )

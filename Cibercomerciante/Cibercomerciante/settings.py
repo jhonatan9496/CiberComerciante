@@ -92,7 +92,7 @@ STATICFILES_DIRS = (
     '../static/',
 )
 
-#MEDIA_ROOT = '/home/sebastian/Proyectos/PasantiaCibercomerciante/Cibercomerciante'
+
 MEDIA_ROOT = '../Cibercomerciante'
 #MEDIA_ROOT = '/media/'
 MEDIA_URL = '/media/'

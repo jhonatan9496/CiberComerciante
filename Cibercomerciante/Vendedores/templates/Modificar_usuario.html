@@ -1,71 +1,139 @@
-{% extends 'BaseVendedores.html' %}
+<html>
+	<head>
+		<title>Modificar usuario</title>
 
+		<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css">
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<!--Encabezado de la pagina-->
+		<header>
+			<h1>CiberComerciante</h1>
+		</header>
+		<!--Cuerpo de la pagina-->
+		<section>
+		<!--Barra de Menu-->
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="#">
+			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
+			    </a>
+			    <a href="#" class='pull-right'>
+			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
+			    </a>
+			    <a href="/salir" class='pull-right'>
+			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
+			    </a>
+			  </div>
+			</div>
+		<!--Panel de secciones con menu izquierdo-->
+			<div class="tabbable tabs-left">
+		<!--lista izquierda de menu de opciones-->
+				<ul class="nav nav-tabs">
+				    <li class="active">
+				    	<a href="#Catalogo" data-toggle="tab">Catalogo</a>
+				    </li>
+		    		<li>
+		    			<a href="#Pedidos" data-toggle="tab">Pedidos</a>
+		    		</li>
+		    		<li>
+		    			<a href="#Reportes" data-toggle="tab">Reportes</a>
+		    		</li>
+		    		<li>
+		    			<a href="#Usuarios" data-toggle="tab">Usuarios</a>
+		    		</li>
+				</ul>
+		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
+			  <div class="tab-content">
+			    
+			    <div class="tab-pane active" id="Catalogo">
+					<h1>Catalogo</h1>
+			    </div>
+			    <div class="tab-pane" id="Pedidos">
+			      	<h1>Pedidos</h1>
+			    </div>
+			    <div class="tab-pane" id="Reportes">
+			      	<h1>Reportes</h1>
+			    </div>
+			    <div class="tab-pane" id="Usuarios">
+			    	<div class="row-fluid">
+							<h2>Nombre Usuario</h2>
+							<h3>Tipo Usuario</h3>
+							<i class="fa fa-user fa-2x fa-fw"></i>	
+							<form class="form-horizontal" method="POST" action="/modificar_usuario/">	
+																								
+								<div class="control-group">
+									<label class="control-label" for="name">Nombre</label>
+									<div class="controls">
+										<input  type="text" name='nombre' id="name" placeholder="Nombre"></input>
+									</div>
+								</div>	
 
-{% block listaUsuarioClase %} class="active" {% endblock %}
+								<div class="control-group">
+									<label class="control-label" for="last_name">Apellidos</label>
+									<div class="controls">
+										<input  type="text" name='apellido' id="lastname" placeholder="Apellidos"></input>
+									</div>
+								</div>	
 
-{% block usuarioClase %}class="tab-pane active{% endblock %}
-{% block usuario %}
-<div class="row-fluid">
-		<h2>Nombre Usuario</h2>
-		<h3>Tipo Usuario</h3>
-		<i class="fa fa-user fa-2x fa-fw"></i>	
-		<form class="form-horizontal" method="POST" action="/modificar_usuario/">	
-																			
-			<div class="control-group">
-				<label class="control-label" for="name">Nombre</label>
-				<div class="controls">
-					<input  type="text" name='nombre' id="name" placeholder="Nombre"></input>
-				</div>
-			</div>	
+								<div class="control-group">
+									<label class="control-label" for="address">Direccion</label>
+									<div class="controls">
+										<input  type="text" name='address' id="direccion" placeholder="Direccion"></input>
+									</div>
+								</div>
 
-			<div class="control-group">
-				<label class="control-label" for="last_name">Apellidos</label>
-				<div class="controls">
-					<input  type="text" name='apellido' id="lastname" placeholder="Apellidos"></input>
-				</div>
-			</div>	
+								<div class="control-group">
+									<label class="control-label" for="phone">Telefono</label>
+									<div class="controls">
+										<input  type="text" name='phone' id="Telefono" placeholder="Telefono"></input>
+									</div>
+								</div>
 
-			<div class="control-group">
-				<label class="control-label" for="address">Direccion</label>
-				<div class="controls">
-					<input  type="text" name='address' id="direccion" placeholder="Direccion"></input>
-				</div>
+								<div class="control-group">
+									<label class="control-label" for="email">e-mail</label>
+									<div class="controls">
+										<input  type="text" name='email' id="correo" placeholder="e-mail"></input>
+									</div>
+								</div>
+		
+								<div class="control-group">
+									<label class="control-label">Tipo</label>
+									<div class="controls">
+										<select  name="tipo_propuesta" id="select_tipo_user">
+											<option value="catalogo" selected>Catalogo</option>
+											<option value="pedidos" selected>Pedidos</option>
+											<option value="consulta" selected>Consulta</option>
+											<option value="administrador" selected>Administrador</option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="control-group">
+									<div class="controls">
+										<button type="submit"class="btn" id="boton_guardar">Guardar</button>
+										<button class="btn" id="boton_volver">Volver</button>
+
+									</div>		
+								</div>
+								
+	
+						</form>
+						</div>
+			    </div>
+
+			  </div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label" for="phone">Telefono</label>
-				<div class="controls">
-					<input  type="text" name='phone' id="Telefono" placeholder="Telefono"></input>
-				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label" for="email">e-mail</label>
-				<div class="controls">
-					<input  type="text" name='email' id="correo" placeholder="e-mail"></input>
-				</div>
-			</div>
+		</section>
+		<!--Pie de pagina de la pagina -->
+		<footer>
 
-			<div class="control-group">
-				<label class="control-label">Tipo</label>
-				<div class="controls">
-					<select  name="tipo_propuesta" id="select_tipo_user">
-						<option value="catalogo" selected>Catalogo</option>
-						<option value="pedidos" selected>Pedidos</option>
-						<option value="consulta" selected>Consulta</option>
-						<option value="administrador" selected>Administrador</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<div class="controls">
-					<button type="submit"class="btn" id="boton_guardar">Guardar</button>
-					<button class="btn" id="boton_volver">Volver</button>
-
-				</div>		
-			</div>
-	</form>
-</div>
-{% endblock %}
+		</footer>
+	</body>
+</html>
 
