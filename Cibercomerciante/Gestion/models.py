@@ -77,6 +77,9 @@ class CategoriaProducto(models.Model):
 class CategoriaInterna(models.Model):
 	nombre_cat_interna = models.CharField(max_length=250)
 	cat_producto = models.ForeignKey(CategoriaProducto)
+
+	def __unicode__(self):
+		return self.nombre_cat_interna
 	
 
 class Producto(models.Model):
@@ -89,7 +92,7 @@ class Producto(models.Model):
 	descuento = models.CharField(max_length=15)
 	empresa = models.ForeignKey(Empresa)
 	iva = models.ForeignKey(TipoIVA)
-	categoria = models.ForeignKey(CategoriaInterna)
+	categoria = models.ForeignKey(CategoriaInterna)  
 	def __unicode__(self):
 		return self.nombre_producto
 

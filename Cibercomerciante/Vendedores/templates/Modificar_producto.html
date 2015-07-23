@@ -1,178 +1,112 @@
-<html>
-	<head>
-		<title>Modificar usuario</title>
-
-		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<style type="text/css"></style>
-	</head>
-	<body>
-		<!--Encabezado de la pagina-->
-		<header>
-			<h1>CiberComerciante</h1>
-		</header>
-		<!--Cuerpo de la pagina-->
-		<section>
-		<!--Barra de Menu-->
-			<div class="navbar">
-			  <div class="navbar-inner">
-			    <a class="brand" href="#">
-			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre de la empresa
-			    </a>
-			    <a href="#" class='pull-right'>
-			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
-			    </a>
-			    <a href="/salir" class='pull-right'>
-			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
-			    </a>
-			  </div>
-			</div>
-		<!--Panel de secciones con menu izquierdo-->
-			<div class="tabbable tabs-left">
-		<!--lista izquierda de menu de opciones-->
-				<ul class="nav nav-tabs">
-				   <li class="active">
-				    	<a href="/inicioVendedorCatalogo/">Catalogo</a>
-				    </li>
-		    		<li>
-		    			<a href="/inicioVendedorPedidos/">Pedidos</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorReportes/">Reportes</a>
-		    		</li>
-		    		<li>
-		    			<a href="/inicioVendedorUsuarios/">Usuarios</a>
-		    		</li>
-				</ul>
-		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
-			  <div class="tab-content">
-			    
-			    <div class="tab-pane active" id="Catalogo">
-					<div class="row-fluid">
-							<h2>Modificar producto</h2>
-								
-							<form class="form-horizontal" method="POST" action="/modificarProducto/">
-							<input style="display:none;" name="pk" value="{{producto.pk}}"/>	
-								{% csrf_token %}									
-								<div class="control-group">
-									<label class="control-label" for="nombre_producto">Nombre Producto</label>
-									<div class="controls">
-										<input  type="text" name='nombre_producto' id="name_product" value="{{producto.nombre_producto}}"></input>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<label class="control-label" for="presentacion">Presentacion</label>
-									<div class="controls">
-										<input  type="text" name='presentacion' id="presentacion" value="{{producto.presentacion}}"></input>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<label class="control-label" for="precio_compra">Precio de compra</label>
-									<div class="controls">
-										<input  type="text" name='precio_compra' id="precio_compra" value="{{producto.costo}}"></input>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<label class="control-label" for="precio_venta">Precio de venta</label>
-									<div class="controls">
-										<input  type="text" name='precio_venta' id="precio_venta" value="{{producto.costo_venta}}"></input>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<label class="control-label">IVA</label>
-									<div class="controls">
-										<select  name="iva" id="select_iva">
-											{% for i in tipoIVA %}
-											<option value="{{i.pk}}" selected>{{i.porcentaje}}</option>
-											{% endfor %}
-										</select>
-									</div> 
-								</div>
-
-								<div class="control-group">
-									<label class="control-label">Empresa</label>
-									<div class="controls">
-										<select  name="empresa" id="select_empresa">
-											{% for i in empresas %}
-											<option value="{{i.pk}}" selected>{{i.nombre_empresa}}</option>
-											{% endfor %}
-										</select>
-									</div> 
-								</div>
-
-								<div class="control-group">
-									<label class="control-label" for="descuento">Descuento</label>
-									<div class="controls">
-										<input  type="text" name='descuento' id="descuento" value="{{producto.descuento}}"></input>
-									</div>
-								</div>
-
-								<div class="controls">
-									<img src="/productos/twitter_logo.png">
-								</div>
-
-								<div class="control-group">
-									<label class="control-label">Foto</label>
-									<div class="controls">
-										<input type="file" name="foto" id="adjuntar_archivos"></input>
-									</div>
-								</div>			
+{% extends 'BaseVendedores.html' %}
 
 
-								<div class="control-group">
-									<label class="control-label">Subcategoria</label>
-									<div class="controls">
-										<select  name="subcategoria" id="select_subcategoria">
-											{% for i in subcategorias %}
-											<option value="{{i.pk}}" selected>{{i.nombre_cat_interna}}</option>
-											{% endfor %}
-										</select>
-									</div>
-								</div>
+{% block listaCatalogoClase %} class="active" {% endblock %}
 
-								<div class="control-group">
-									<label class="control-label">Descripcion</label>
-									<div class="controls">
-										<textarea maxlength="50" name="descripcion" id="descripcion" rows="5" cols="50">{{producto.descripcion}}</textarea>
-									</div>
-								</div>
-								
-								<div class="control-group">
-									<div class="controls">
-										<button type="submit"class="btn" id="boton_guardar">Guardar</button>
-										<a href="/inicioVendedorCatalogo/" class="btn">Volver</a>
-
-									</div>		
-								</div>
-								
-	
-						</form>
-						</div>
-			    </div>
-			    <div class="tab-pane" id="Pedidos">
-			      	<h1>Pedidos</h1>
-			    </div>
-			    <div class="tab-pane" id="Reportes">
-			      	<h1>Reportes</h1>
-			    </div>
-			    <div class="tab-pane" id="Usuarios">
-			    	<h1>Usuarios</h1>
-			    </div>
-
-			  </div>
+{% block catalogoClase %}class="tab-pane active{% endblock %}
+{% block catalogo %}
+<div class="row-fluid">
+		<h2>Modificar producto</h2>
+			
+		<form class="form-horizontal" method="POST" action="/modificarProducto/" enctype="multipart/form-data">
+		<input style="display:none;" name="pk" value="{{producto.pk}}"/>	
+			{% csrf_token %}									
+			<div class="control-group">
+				<label class="control-label" for="nombre_producto">Nombre Producto</label>
+				<div class="controls">
+					<input  type="text" name='nombre_producto' id="name_product" value="{{producto.nombre_producto}}" required></input>
+				</div>
 			</div>
 
+			<div class="control-group">
+				<label class="control-label" for="presentacion">Presentacion</label>
+				<div class="controls">
+					<input  type="text" name='presentacion' id="presentacion" value="{{producto.presentacion}}" required></input>
+				</div>
+			</div>
 
-		</section>
-		<!--Pie de pagina de la pagina -->
-		<footer>
+			<div class="control-group">
+				<label class="control-label" for="precio_compra">Precio de compra</label>
+				<div class="controls">
+					<input  type="number" name='precio_compra' id="precio_compra" value="{{producto.costo}}"  required></input>
+				</div>
+			</div>
 
-		</footer>
-	</body>
-</html>
+			<div class="control-group">
+				<label class="control-label" for="precio_venta">Precio de venta</label>
+				<div class="controls">
+					<input  type="number" name='precio_venta' id="precio_venta" value="{{producto.costo_venta}}" required></input>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">IVA</label>
+				<div class="controls">
+					<select  name="iva" id="select_iva">
+						{% for i in tipoIVA %}
+						<option value="{{i.pk}}" selected>{{i.porcentaje}}</option>
+						{% endfor %}
+					</select>
+				</div> 
+			</div> 
+
+			<div class="control-group">
+				<label class="control-label" for="descuento">Descuento</label>
+				<div class="controls">
+					<input  type="number" name='descuento' id="descuento" value="{{producto.descuento}}" required></input>
+				</div>
+			</div>
+
+			<div class="controls">
+				<img src="{{producto.imagen.url}}" width=150 height=150 border=5 vspace=10>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Foto</label>
+				<div class="controls">
+					<input type="file" name="foto" id="adjuntar_archivos"></input>
+
+				</div>
+			</div>			
+
+
+			<div class="control-group">
+				<label class="control-label">Categoria</label>
+				<div class="controls">
+					<select  name="categoria" id="categoria">
+						<option value="0">Seleccione Categoria</option>
+						{{% for i in categorias %}
+						<option value="{{i.pk}}" required>{{i}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			
+
+			<div class="control-group">
+				<label class="control-label">Subcategoria</label>
+				<div class="controls">
+					<select  name="subcategoria" id="select_subcategoria">
+						<option value="0" selected required>Seleccione subcategoria</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Descripcion</label>
+				<div class="controls">
+					<textarea maxlength="50" name="descripcion" id="descripcion" rows="5" cols="50">{{producto.descripcion}}</textarea>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit"class="btn" id="boton_guardar">Guardar</button>
+					<a href="javascript:history.back()" class="btn">Volver</a>
+
+				</div>		
+			</div>
+	</form>
+</div>
+{% endblock %}
+
