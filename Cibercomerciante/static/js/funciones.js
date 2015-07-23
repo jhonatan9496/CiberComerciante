@@ -177,4 +177,25 @@ if (document.getElementById("#label-check").checked) {
     $("select option[value='Ambos']").attr("selected","selected");
 };
 
+//----------------------------------------------------------------------
+//                           VALIDAR FORMULARIOS
+//----------------------------------------------------------------------
+$('#categoria').click(function() {
+    indice = document.getElementById("categoria").selectedIndex;
+        if( indice == null || indice == 0 ) {
+            alert('[ERROR] El campo debe tener un valor de...');
+            return false;
+        }
+    return true;
+});
+
+$('#select_subcategoria').click(function() {
+    indice = document.getElementById("select_subcategoria").selectedIndex;
+        if( indice == null || indice == 0 ) {
+            alert('[ERROR] El campo debe tener un valor de...');
+            return false;
+        }
+    return true;
+});
+
 });

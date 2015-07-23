@@ -17,6 +17,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from .forms import UploadProducto
 
  
@@ -42,6 +43,14 @@ def inicioVendedorCatalogo(request):
 		productos = Producto.objects.filter(empresa=admin.empresa)
 		categorias = CategoriaProducto.objects.all()
 		subcategorias = CategoriaInterna.objects.all()
+		paginator = Paginator(productos, 10)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
 		return render_to_response('Perfil_vendedores_catalogo.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
 
@@ -198,7 +207,7 @@ def modificarProductoformulario(request, idProducto):
 		categorias = CategoriaProducto.objects.all()
 		subcategorias = CategoriaInterna.objects.all()
 		tipoIVA = TipoIVA.objects.all()
-		empresas = Empresa.objects.all()
+		#foto = Producto.objects.filter(pk=idProducto.imagen)
 		producto = Producto.objects.get(pk=idProducto)
 		return render_to_response('Modificar_producto.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')	

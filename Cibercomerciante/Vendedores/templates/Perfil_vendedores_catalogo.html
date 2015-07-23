@@ -21,7 +21,7 @@
 		<th>
 			<div class="control-group">
 				<div class="controls">
-					<input type="text" id="producto" placeholder="Producto">
+					<input type="text" id="producto" placeholder="Producto" style="height:30px">
 				</div>
 			</div>
 		</th>
@@ -41,8 +41,10 @@
 		</th>
 		<th>Acciones</th>
 	</tr>
-	{% for i in productos %}
-	<tr> 
+	
+
+{% for i in products %}
+<tr> 
 		<td>{{i.nombre_producto}}</td>
 		<td>{{i.categoria.cat_producto.nombre_categoria}}</td>
 		<td>{{i.categoria}}</td>
@@ -50,15 +52,30 @@
 			<div>
 				<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
 				<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
-				<a  data-toggle="modal" data-target="#myModal" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
+				<a  data-toggle="modal" data-target="#myModal" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
 			</div>
 			
 		</td>
 		
 	</tr>
-	{% endfor %}
+{% endfor %}
 </table>
 
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </span>
+</div>
 <!-- Modal Eliminar -->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -72,7 +89,9 @@
 				<form class="form-horizontal" method="POST" action="/eliminarProducto/">	
 					{% csrf_token %}
 					<div class="span4 well">
-						<input type="text" id="pk_eliminar" name="pk_eliminar" style="display:none;"></input> 
+						<input type="text" id="pk_eliminar" name="pk_eliminar" style="display:none;"></input>
+
+						<img src="{{d.imagen.url}}" width=150 height=150 border=5 vspace=10> 
 						<p>
 							<strong>Nombre Producto</strong>
 							<div id="nombre_eliminar"></div>
@@ -80,6 +99,10 @@
 						<p>
 							<strong>Subcategoria</strong>
 							<div id="subcategoria_eliminar"></div>
+						</p>
+						<p >
+							<strong>Presentacion</strong>
+							<div id="presentacion_eliminar"></div>
 						</p>
 						<p>
 							<strong>Precio Compra</strong>
@@ -97,18 +120,7 @@
 							<strong>IVA</strong>
 							<div id="iva_eliminar"></div>
 						</p>
-						<p >
-							<strong>Presentacion</strong>
-							<div id="presentacion_eliminar"></div>
-						</p>
-						<p >
-							<strong>Imagen</strong>
-							<div id="imagen_eliminar"></div>
-						</p>
-						<p >
-							<strong>Empresa</strong>
-							<div id="empresa_eliminar"></div>
-						</p>
+						
 						<p >
 							<strong>Descripcion</strong>
 							<div id="descripcion_eliminar"></div>

@@ -14,28 +14,28 @@
 			<div class="control-group">
 				<label class="control-label" for="nombre_producto">Nombre Producto</label>
 				<div class="controls">
-					<input  type="text" name='nombre_producto' id="name_product" value="{{producto.nombre_producto}}"></input>
+					<input  type="text" name='nombre_producto' id="name_product" value="{{producto.nombre_producto}}" required></input>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="presentacion">Presentacion</label>
 				<div class="controls">
-					<input  type="text" name='presentacion' id="presentacion" value="{{producto.presentacion}}"></input>
+					<input  type="text" name='presentacion' id="presentacion" value="{{producto.presentacion}}" required></input>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="precio_compra">Precio de compra</label>
 				<div class="controls">
-					<input  type="text" name='precio_compra' id="precio_compra" value="{{producto.costo}}"></input>
+					<input  type="number" name='precio_compra' id="precio_compra" value="{{producto.costo}}"  required></input>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="precio_venta">Precio de venta</label>
 				<div class="controls">
-					<input  type="text" name='precio_venta' id="precio_venta" value="{{producto.costo_venta}}"></input>
+					<input  type="number" name='precio_venta' id="precio_venta" value="{{producto.costo_venta}}" required></input>
 				</div>
 			</div>
 
@@ -48,17 +48,17 @@
 						{% endfor %}
 					</select>
 				</div> 
-			</div>
+			</div> 
 
 			<div class="control-group">
 				<label class="control-label" for="descuento">Descuento</label>
 				<div class="controls">
-					<input  type="text" name='descuento' id="descuento" value="{{producto.descuento}}"></input>
+					<input  type="number" name='descuento' id="descuento" value="{{producto.descuento}}" required></input>
 				</div>
 			</div>
 
 			<div class="controls">
-				<img src="/productos/twitter_logo.png">
+				<img src="{{producto.imagen.url}}" width=150 height=150 border=5 vspace=10>
 			</div>
 
 			<div class="control-group">
@@ -71,12 +71,23 @@
 
 
 			<div class="control-group">
+				<label class="control-label">Categoria</label>
+				<div class="controls">
+					<select  name="categoria" id="categoria">
+						<option value="0">Seleccione Categoria</option>
+						{{% for i in categorias %}
+						<option value="{{i.pk}}" required>{{i}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			
+
+			<div class="control-group">
 				<label class="control-label">Subcategoria</label>
 				<div class="controls">
 					<select  name="subcategoria" id="select_subcategoria">
-						{% for i in subcategorias %}
-						<option value="{{i.pk}}" selected>{{i.nombre_cat_interna}}</option>
-						{% endfor %}
+						<option value="0" selected required>Seleccione subcategoria</option>
 					</select>
 				</div>
 			</div>
@@ -91,10 +102,11 @@
 			<div class="control-group">
 				<div class="controls">
 					<button type="submit"class="btn" id="boton_guardar">Guardar</button>
-					<a href="/inicioVendedorCatalogo/" class="btn">Volver</a>
+					<a href="javascript:history.back()" class="btn">Volver</a>
 
 				</div>		
 			</div>
 	</form>
 </div>
 {% endblock %}
+

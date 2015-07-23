@@ -12,7 +12,7 @@
 		<h2>{{producto.nombre_producto}}</h2>
 		<h3>{{producto.categoria}}</h3>
 		<div class="span4 well">
-			<img src="{{producto.imagen.url}}">
+			<img src="{{producto.imagen.url}}" width=150 height=150 border=5 vspace=10>
 			
 			<p>
 				<strong>Presentacion</strong>
@@ -42,7 +42,7 @@
 		
 	</div>
 
-	<a href="/inicioVendedorCatalogo/" class="btn">Volver</a>
+	<a href="javascript:history.back()" class="btn">Volver</a>
 </div>
 {% endblock %}
 			  
