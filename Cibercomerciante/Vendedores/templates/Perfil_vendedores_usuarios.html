@@ -5,60 +5,94 @@
 
 {% block usuarioClase %}class="tab-pane active{% endblock %}
 {% block usuario %}
+<h1>Usuarios</h1>
+<br>
 
-<h1> Usuario</h1>
 <table class="table table-hover">
-	<tr>
-		<th>
-			<input  type="text" name='buscar' id="buscar" placeholder="buscar"></input>
-			<i class="icon-search"></i>
-			
-		</th>
-		<th>
-			<select name="type_user" id="select" class="controls">
-				<option value="administrador" >Administrador</option>
-				<option value="catalogo" >Catalogo</option>
-				<option value="pedidos" >Pedidos</option>
-				<option value="consulta" >Reporte</option>
-				<option value="todos" selected>Todos</option>
-			</select>
-		</th>
-		<th>
-			<div class="adduser">
-				<a href="/agregar_usuariov/"><i class="icon-user-plus" id="ic"></i></a>
-			</div>
-		</th>
-	</tr>
-	<tr>
-		<th>Nombre Usuario</th>
-		<th>Tipo</th>
-		<th>Acciones</th>
-	</tr>
-	{% for i in usuarios %}
-	<tr>
-		<td>{{i.user.first_name}}</td>
-		<td>{{ i.user.groups }}
-		</td>
-		<td>
-			<div>
-				<a href="#"><i class="icon-user" id="ic"></i></a>
-				<a href="#"><i class="icon-pencil" id="ic"></i></a>
-				<a  data-toggle="modal" data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="icon-cancel-circled" ></i></a>
-			</div>
+	<form action="/filtroCompradorUsuariosV/" id="filtroUsuario" class="listar_ajaxV" method = "POST" >
+		{% csrf_token %}									
+		<tr>
+			<th>
+				<input  type="text" autocomplete="off" name='filtroNombre' id="buscarUsuarioCompradorV" placeholder="buscar"></inpu
+				<i class="icon-search"></i>
 
-		</td>
+			</th>
+			<th>
+				<select name="tipoUsuario" id="selectTipoV" class="controls">
+					<option value="AV" >Administrador</option>
+					<option value="CV" >Catalogo</option>
+					<option value="PV" >Pedidos</option>
+					<option value="RV" >Reporte</option>
+					<option value="null" selected>Todos</option>
+				</select>
+			</th>
+			<th>
+				<div class="adduser">
+					<a href="/agregar_usuariov/" ><i class="icon-user-plus " id="ic"></i></a>
+				</div>
+			</th>
+		</tr>
+	</form>
 
-	</tr>
-	{% endfor %}
-
-</table>
-
-<!-- Modal Eliminar -->
+</table >
 
 
+<div id="tablacontenido">
+	<table class="table table-hover table-bordered eliminar">
+
+		<tr>
+			<th>Nombre Usuario</th>
+			<th>Tipo</th>
+			<th style="width:100px;">Detalle</th>
+			<th style="width:100px;">Actualizar</th>
+			<th style="width:100px;">Eliminar</th>
+
+		</tr>
+		{% for i in products %}
+		<tr>
+			<td>{{i.user.first_name}}</td>
+			<td>{% for i in i.user.groups.all %}
+					{{i}},
+				{%  endfor %}
+			</td>
+			<td>
+				<a href="/visualizarUsuarioV/{{i.pk}}/"><i class="icon-user" id="ic"></i></a>
+			</td>
+			<td>
+				<a href="/modificarUsuarioVformulario/{{i.pk}}/"><i class="icon-pencil" id="ic"></i></a>
+			</td>
+			<td>
+				<a  data-toggle="modal"  data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="icon-cancel-circled" ></i></a>
+			</td>
+
+		</tr>
+		{% endfor %}
+
+	</table>
+
+
+	<div class="pagination eliminar">
+		<span class="step-links">
+			{% if products.has_previous %}
+			<a href="?page={{ products.previous_page_number }}">Anterior</a>
+			{% endif %}
+
+			<span class="current">
+				Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+			</span>
+
+			{% if products.has_next %}
+			<a href="?page={{ products.next_page_number }}">Siguiente</a>
+			{% endif %}
+		</span>
+	</div>
+
+	<!-- Modal Eliminar -->
+
+</div>
 
 <!-- Modal Elimianr-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="myModal"  tabindex="-1"  role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -92,15 +126,16 @@
 						</p>
 					</div>
 
-			</div>
-			<div class="modal-footer">
-				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
-				<button type="submit" class="btn btn-danger">Eliminar Usuario</button>
+				</div>
+				<div class="modal-footer">
+					<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+					<button type="submit" class="btn btn-danger">Eliminar Usuario</button>
 				</form>
 
 			</div>
 		</div>
 	</div>
 </div>
+
 
 {% endblock %}

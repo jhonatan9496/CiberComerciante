@@ -6,61 +6,112 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
 		<link type="text/css" rel="stylesheet" href="/static/iconset/css/fontello.css" />
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+
 		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<style type="text/css"></style>
-	</head>
-	<body>
-		<!--Encabezado de la pagina-->
-		<header>
-			<h1>CiberComerciante</h1> 
-		</header>
-		<!--Cuerpo de la pagina-->
-		<section>
+
+
+		<script>
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie != '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            	break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+function sameOrigin(url) {
+    // test that a given url is a same-origin URL
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+    (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+        // or any other URL that isn't scheme relative or absolute i.e relative.
+        !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    $.ajaxSetup({
+    	beforeSend: function(xhr, settings) {
+    		if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+            // Send the token to same-origin, relative URLs only.
+            // Send the token only if the method warrants CSRF protection
+            // Using the CSRFToken value acquired earlier
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+    </script>
+		<script type="text/javascript" src="/static/js/funciones.js"></script>
+    
+</head>
+<body>
+	<!--Encabezado de la pagina-->
+	<header>
+		<h1>CiberComerciante</h1> 
+	</header>
+	<!--Cuerpo de la pagina-->
+	<section>
 		<!--Barra de Menu-->
-			<div class="navbar">
-			  <div class="navbar-inner">
-			    <a class="brand" href="#">
-			    	<i class="fa fa-user fa-2x fa-fw"></i> Nombre comerciante
-			    </a>
-			    <a href="#" class='pull-right'>
-			    	<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
-			    </a>
-			    <a href="/salir" class='pull-right'>
-			    	<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
-			    </a>
-			  </div>
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="brand" href="#">
+					<i class="fa fa-user fa-2x fa-fw"></i> Nombre comerciante
+				</a>
+				<a href="#" class='pull-right'>
+					<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
+				</a>
+				<a href="/salir" class='pull-right'>
+					<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
+				</a>
 			</div>
+		</div>
 		<!--Panel de secciones con menu izquierdo-->
-			<div class="tabbable tabs-left">
-		<!--lista izquierda de menu de opciones-->
-				<ul class="nav nav-tabs">
-				    <li {% block listaPedidoClase%}{%endblock%}>
-				    	<a href="/inicioCompradorPedidos/">Pedidos</a>
-				    </li>
-		    		<li {% block listaInventarioClase %}{% endblock %}>
-		    			<a href="/inicioCompradorInventario/">Inventario</a>
-		    		</li>
-		    		<li {% block listaReporteClase %}{% endblock %}>
-		    			<a href="/inicioCompradorReportes/">Reportes</a>
-		    		</li>
-		    		<li  {% block listaUsuarioClase %}{% endblock %}>
-		    			<a href="/inicioCompradorUsuarios/">Usuarios</a>
-		    		</li>
-				</ul>
-		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
-			  <div class="tab-content">
-			    
-			    <div {% block pedidoClase%}{%endblock%} id="Pedidos">
+		<div class="tabbable tabs-left">
+			<!--lista izquierda de menu de opciones-->
+			<ul class="nav nav-tabs">
+				<li {% block listaPedidoClase%}{%endblock%}>
+					<a href="/inicioCompradorPedidos/">Pedidos</a>
+				</li>
+				<li {% block listaInventarioClase %}{% endblock %}>
+					<a href="/inicioCompradorInventario/">Inventario</a>
+				</li>
+				<li {% block listaReporteClase %}{% endblock %}>
+					<a href="/inicioCompradorReportes/">Reportes</a>
+				</li>
+				<li  {% block listaUsuarioClase %}{% endblock %}>
+					<a href="/inicioCompradorUsuarios/">Usuarios</a>
+				</li>
+			</ul>
+			<!--div que contiene los divs con el contenido de los paneles izquierdos-->
+			<div class="tab-content">
+
+				<div {% block pedidoClase%}{%endblock%} id="Pedidos">
 					{% block pedido %}{% endblock %}
-			    </div>
-			    <div {% block inventarioClase %}{% endblock %} id="Inventario">
+				</div>
+				<div {% block inventarioClase %}{% endblock %} id="Inventario">
 					{% block inventario %}{% endblock %}
-			    </div>
-			    
-			    <div {% block reporteClase %}{% endblock %}  id="Reportes">
+				</div>
+
+				<div {% block reporteClase %}{% endblock %}  id="Reportes">
 					{% block reporte %}{% endblock %}
-			    </div>
-			    <div {% block usuarioClase %}{% endblock %} id="Usuarios">
+				</div>
+				<div {% block usuarioClase %}{% endblock %} id="Usuarios">
 					{% block usuario %}{% endblock %}
 			    </div>
 

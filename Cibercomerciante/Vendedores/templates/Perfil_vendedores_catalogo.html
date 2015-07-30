@@ -1,65 +1,173 @@
 {% extends 'BaseVendedores.html' %}
 
-
 {% block listaCatalogoClase %} class="active" {% endblock %}
 
 {% block catalogoClase %}class="tab-pane active{% endblock %}
 {% block catalogo %}
 
-<h1> Catalogo </h1>
+<h1>Catalogo de Productos</h1>
 
+<tr>
+	<th>
+		<div>
+			<a class="btn" href="/formularioCategoria/">Agregar Subcategoria</a>
+			<a class="btn" href="/formularioProducto/">Agregar Producto</a>
+		</div>
+	</th>
+	<th></th>
+	<th></th>
+	<th></th>
+</tr>
+
+<br>
 <table class="table table-hover">
-	<tr>
-		<th>
-			<div>
-				<a class="btn" href="/formularioCategoria/">Agregar Subcategoria</a>
-				<a class="btn" href="/formularioProducto/">Agregar Producto</a>
-			</div>
-		</th>
-		<th></th>
-		<th></th>
-		<th></th>
-	</tr>
+	<form action="/filtroVendedorCatalogo/" id="filtro" class="formaCatalogoAjax" method = "POST" >
+		{% csrf_token %}									
 	<tr>
 		<th>
 			<div class="control-group">
 				<div class="controls">
-					<input type="text" id="producto" placeholder="Producto">
+					<input type="text" name="nombreProducto" id="productoBuscar" placeholder="Producto" style="height:30px">
 				</div>
 			</div>
 		</th>
 		<th>
-			<select name="categoria" id="select" class="controls">
-				{% for i in categorias %}
-				<option value="Categorias" selected>{{i.nombre_categoria}}</option>
-				{% endfor %}
-			</select>
-		</th>
-		<th>
-			<select name="subcategoria" id="select" class="controls">
-				{% for i in subcategorias %}
-				<option value="subcategorias" selected>{{i.nombre_cat_interna}}</option>
-				{% endfor %}
-			</select>
-		</th>
-		<th>Acciones</th>
-	</tr>
-	{% for i in productos %}
-	<tr> 
-		<td>{{i.nombre_producto}}</td>
-		<td>{{i.categoria.cat_producto}}</td>
-		<td>{{i.categoria}}</td>
-		<td>
-			<div>
-				<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
-				<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
-				<a href="#"><i class="icon-cancel-circled" id="ic2"></i></a>
-			</div>
-			
-		</td>
-		
-	</tr>
-	{% endfor %}
-</table>
+			<select  name="categoria" id="categoria">
+						<option value="0">Seleccione Categoria</option>
+						{{% for i in categorias %}
+						<option value="{{i.pk}}">{{i}}</option>
+						{% endfor %}
+					</select>
+				</th>
+				<th>
+					<select  name="subcategoria" id="subcategoria">
+						<option value="0">Seleccione subcategoria</option>
+					</select>
+				</th>
+				<th>Detalle</th>
+				<th>Editar</th>
+				<th>Eliminar</th>
+			</tr>
+		</form>
+	</table>
+	<hr>
 
+	<div id="tablaCatalogo">
+
+		<table class="table table-hover eliminar">
+			<tr>
+
+				<th>
+					Nombre PRoducto
+				</th>
+				<th>
+					Categoria
+				</th>
+				<th>
+					SubCategoria
+				</th>
+				<th>Detalle</th>
+				<th>Editar</th>
+				<th>Eliminar</th>
+			</tr>
+
+			{% for i in products %}
+			<tr> 
+				<td>{{i.nombre_producto}}</td>
+				<td>{{i.categoria.cat_producto.nombre_categoria}}</td>
+				<td>{{i.categoria}}</td>
+				<td>
+					<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
+
+
+				</td>
+				<td>
+					<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
+				</td>
+				<td>
+					<a  data-toggle="modalC" data-target="#myModalC" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
+				</td>
+
+			</tr>
+			{% endfor %}
+		</table>
+
+		<div class="pagination eliminar">
+			<span class="step-links">
+				{% if products.has_previous %}
+				<a href="?page={{ products.previous_page_number }}">Anterior</a>
+				{% endif %}
+
+				<span class="current">
+					Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+				</span>
+
+				{% if products.has_next %}
+				<a href="?page={{ products.next_page_number }}">Siguiente</a>
+				{% endif %}
+			</span>
+		</div>
+
+	</div>
+<!-- Modal Eliminar -->
+
+<div class="modalC fade" id="myModalC" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Eliminar Producto</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" method="POST" action="/eliminarProducto/">	
+					{% csrf_token %}
+					<div class="span4 well">
+						<input type="text" id="pk_eliminar" name="pk_eliminar" style="display:none;"></input>
+
+						<img src="{{d.imagen.url}}" width=150 height=150 border=5 vspace=10> 
+						<p>
+							<strong>Nombre Producto</strong>
+							<div id="nombre_eliminar"></div>
+						</p>
+						<p>
+							<strong>Subcategoria</strong>
+							<div id="subcategoria_eliminar"></div>
+						</p>
+						<p >
+							<strong>Presentacion</strong>
+							<div id="presentacion_eliminar"></div>
+						</p>
+						<p>
+							<strong>Precio Compra</strong>
+							<div id="precioCompra_eliminar"></div>
+						</p>
+						<p>
+							<strong>Precio Venta</strong>
+							<div id="precioVenta_eliminar"></div>
+						</p>
+						<p >
+							<strong>Descuento</strong>
+							<div id="descuento_eliminar"></div>
+						</p>
+						<p >
+							<strong>IVA</strong>
+							<div id="iva_eliminar"></div>
+						</p>
+						
+						<p >
+							<strong>Descripcion</strong>
+							<div id="descripcion_eliminar"></div>
+						</p>
+					</div>
+
+			</div>
+			<div class="modal-footer">
+				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+				<button type="submit" class="btn btn-danger">Eliminar producto</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

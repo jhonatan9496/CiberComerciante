@@ -17,45 +17,31 @@
 		<section>
 		<!--Barra de Menu-->
 			<div class="navbar">
-			  <div class="navbar-inner">
+			  <div class="navbar-inner container">
 			    <a class="brand" href="#">
 			    	<i class="fa fa-user fa-2x fa-fw"></i> CiberComerciante
 			    </a>
-			    <form class="form-horizontal" method="POST" action="/logearse/">
-				{% csrf_token %}
-			    <div class="input-group input-group-lg pull-right login2">
-  					<button class="btn">Ingresar</button>
-				</div>
-			    <div class="input-group input-group-lg pull-right login">
-  					<div>
-  						<span class="input-group-addon" id="sizing-addon1">Contraseña</span>
+		
+
+  				<form class="form-horizontal pull-right navbar-form" method="POST" action="/logearse/">
+  					{% csrf_token %}
+
+             		<div class="input-group input-group-lg pull-right login2">
+             			<input  class="span2" type="text" placeholder="Usuario" name="username">
+              			<input  class="span2" type="password" placeholder="Contraseña" name="password">
+              			<button class="btn">Ingresar</button>
+		<a class="btn btn-info" href="/registrar">registro</a>
+
+					</div>
+					<div class="login">
+  						<a href="">recuperar contraseña</a>
   					</div>
-  					<div>
-  						<input type="password" name="password" class="form-control" aria-describedby="sizing-addon1">
-  					</div>
-  					<div>
-  						<a href="">¿olvidaste tu Contraseña?</a>
-  					</div>
-				</div>
-			    <div class="input-group input-group-lg pull-right login">
-  					<div>
-  						<span class="input-group-addon" id="sizing-addon1">Usuario</span>
-  					</div>
-  					<div>
-  						<input type="text" name="username" class="form-control" aria-describedby="sizing-addon1">
-  					</div>
-  					<div class="input-group login3">
-      					<span class="input-group-addon">
-        					<input class="pull-left"type="checkbox" aria-label="...">
-      					</span><p class="pull-left1">No cerrar sesion</p>
-    				</div>
-				</div>
-  				</form>
+            	</form>
+
 			  </div>
 
 			</div>
 		
-		<a href="/registrar">registro</a>
 
 		</section>
 		<!--Pie de pagina de la pagina -->

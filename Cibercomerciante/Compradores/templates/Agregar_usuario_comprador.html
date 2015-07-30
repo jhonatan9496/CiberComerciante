@@ -1,0 +1,69 @@
+{% extends 'BaseCompradores.html' %}
+
+{% block listaUsuarioClase %} class="active" {% endblock %}
+
+{% block usuarioClase %}class="tab-pane active{% endblock %}
+
+{% block usuario %}
+<div class="row-fluid">
+	<h2>Agregar Usuario</h2>
+	{{ mensaje }}
+	<form class="form-horizontal"  id="itemForm"  name="itemForm" method="POST" action="/guardarUsuarioC/">	
+		{% csrf_token %}
+		<div class="control-group">
+			<label class="control-label" for="nombres">Nombres</label>
+			<div class="controls">
+				<input type="text" id="nombres" name="nombres" placeholder="Nombre" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="apellidos">Apellidos</label>
+			<div class="controls">
+				<input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="username">Usuario</label>
+			<div class="controls">
+				<input type="text" id="username" name="username" placeholder="Nombre" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="email">Email</label>
+			<div class="controls">
+				<input type="email" id="email" name="email" placeholder="Email" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputPassword">Password</label>
+			<div class="controls">
+				<input type="password" id="password" name="password" placeholder="Password" required >
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputPassword">Permisos</label>
+			<div class="controls">
+				<label class="checkbox">
+					<input type="checkbox"  class="require-one" value="true"  id="administrador" name="administrador" > Administrador
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" class="require-one" value="true"  id="catalogo" name="catalogo"> Inventario
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" class="require-one" value="true"  id="pedidos" name="pedidos"> Pedidos
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" class="require-one" value="true"  id="reportes" name="reportes"> Reportes
+				</label>
+			<div class="error" style="width:300px;" id="form_error"></div>
+
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn">Agregar Usuario</button>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}
