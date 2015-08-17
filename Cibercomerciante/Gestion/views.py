@@ -31,7 +31,9 @@ Descripcion  	Renderiza la vista del login
 Funcion 		Gestion.2
 '''
 def ingresar(request):
-	return render_to_response('Login.html',context_instance=RequestContext(request))
+	productos = Producto.objects.all()
+	categorias = CategoriaProducto.objects.all()
+	return render_to_response('Login.html',locals(),context_instance=RequestContext(request))
 '''
 Autor 			Jhonatan Acelas Arevalo
 Fecha 	 		11 Julio 2015
@@ -76,7 +78,7 @@ def preguntar(request):
 	elif grupo=='RV':
 	 	return HttpResponseRedirect('/inicioVendedorReportes')
 	elif grupo=='AC' or grupo=='PC':
-	 	return HttpResponseRedirect('/inicioCompradorPedidos')
+	 	return HttpResponseRedirect('/inicioCompradorProductos')
 	elif grupo=='RC':
 	 	return HttpResponseRedirect('/inicioCompradorReportes')
 	elif grupo=='IC':
@@ -146,15 +148,15 @@ def guardarUsuario(request):
 				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
 				permisos.save()
 				# Crear la sucursal
-				sucursal = Sucursal(empresa=empresa)
-				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
-				sucursal.direccion = request.POST['direccion']
-				sucursal.telefono = request.POST['telefono']
-				sucursal.tipo_sucursal= 'Comprador'
-				sucursal.nombre_contacto= request.POST['representante']
-				sucursal.email=request.POST['email']
-				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
-				sucursal.save()
+				# sucursal = Sucursal(empresa=empresa)
+				# sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				# sucursal.direccion = request.POST['direccion']
+				# sucursal.telefono = request.POST['telefono']
+				# sucursal.tipo_sucursal= 'Comprador'
+				# sucursal.nombre_contacto= request.POST['representante']
+				# sucursal.email=request.POST['email']
+				# sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				# sucursal.save()
 			elif request.POST['tipo']=='Vendedor':
 				empresa.nit=request.POST['nit']
 				g = Group.objects.get(name='AV') 
@@ -169,15 +171,15 @@ def guardarUsuario(request):
 				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
 				permisos.save()
 				# Crear la sucursal
-				sucursal = Sucursal(empresa=empresa)
-				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
-				sucursal.direccion = request.POST['direccion']
-				sucursal.telefono = request.POST['telefono']
-				sucursal.tipo_sucursal= 'Vendedor'
-				sucursal.nombre_contacto= request.POST['representante']
-				sucursal.email=request.POST['email']
-				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
-				sucursal.save()
+				# sucursal = Sucursal(empresa=empresa)
+				# sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				# sucursal.direccion = request.POST['direccion']
+				# sucursal.telefono = request.POST['telefono']
+				# sucursal.tipo_sucursal= 'Vendedor'
+				# sucursal.nombre_contacto= request.POST['representante']
+				# sucursal.email=request.POST['email']
+				# sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				# sucursal.save()
 			else :
 				empresa.nit=request.POST['nit']
 				g = Group.objects.get(name='AC') 
@@ -199,30 +201,30 @@ def guardarUsuario(request):
 				permisos =  Permisos(usuario=cybercomerciante,tipo_usuario=tipo_usuario)
 				permisos.save()
 				# Crear la sucursal
-				sucursal = Sucursal(empresa=empresa)
-				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
-				sucursal.direccion = request.POST['direccion']
-				sucursal.telefono = request.POST['telefono']
-				sucursal.tipo_sucursal= 'Comprador'
-				sucursal.nombre_contacto= request.POST['representante']
-				sucursal.email=request.POST['email']
-				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
-				sucursal.save()
+				# sucursal = Sucursal(empresa=empresa)
+				# sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				# sucursal.direccion = request.POST['direccion']
+				# sucursal.telefono = request.POST['telefono']
+				# sucursal.tipo_sucursal= 'Comprador'
+				# sucursal.nombre_contacto= request.POST['representante']
+				# sucursal.email=request.POST['email']
+				# sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				# sucursal.save()
 				# Venta
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
 				empresa.save()
 				cybercomerciante = Usuario(user=user,empresa=empresa)
 				# Crear la sucursal
-				sucursal = Sucursal(empresa=empresa)
-				sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
-				sucursal.direccion = request.POST['direccion']
-				sucursal.telefono = request.POST['telefono']
-				sucursal.tipo_sucursal= 'Vendedor'
-				sucursal.nombre_contacto= request.POST['representante']
-				sucursal.email=request.POST['email']
-				sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
-				sucursal.save()
+				# sucursal = Sucursal(empresa=empresa)
+				# sucursal.nombre_sucursal =  request.POST['username'] + 'principal'
+				# sucursal.direccion = request.POST['direccion']
+				# sucursal.telefono = request.POST['telefono']
+				# sucursal.tipo_sucursal= 'Vendedor'
+				# sucursal.nombre_contacto= request.POST['representante']
+				# sucursal.email=request.POST['email']
+				# sucursal.lugar = Lugar.objects.get(pk=request.POST['ciudades'])
+				# sucursal.save()
 	return HttpResponseRedirect('/')
 
 

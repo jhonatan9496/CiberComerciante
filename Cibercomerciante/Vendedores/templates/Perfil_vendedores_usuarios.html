@@ -9,16 +9,16 @@
 <br>
 
 <table class="table table-hover">
-	<form action="/filtroCompradorUsuariosV/" id="filtroUsuario" class="listar_ajaxV" method = "POST" >
+	<form action="/filtroCompradorUsuariosV/" id="filtroUsuario" class="formularioTablasAjax" method = "POST" >
 		{% csrf_token %}									
 		<tr>
 			<th>
-				<input  type="text" autocomplete="off" name='filtroNombre' id="buscarUsuarioCompradorV" placeholder="buscar"></inpu
+				<input  type="text" autocomplete="off" name='filtroNombre' class="buscarInputTablas" placeholder="buscar"></inpu
 				<i class="icon-search"></i>
 
 			</th>
 			<th>
-				<select name="tipoUsuario" id="selectTipoV" class="controls">
+				<select name="tipoUsuario"  class="controls buscarSelectTablas">
 					<option value="AV" >Administrador</option>
 					<option value="CV" >Catalogo</option>
 					<option value="PV" >Pedidos</option>
@@ -37,7 +37,7 @@
 </table >
 
 
-<div id="tablacontenido">
+<div class="tabla">
 	<table class="table table-hover table-bordered eliminar">
 
 		<tr>

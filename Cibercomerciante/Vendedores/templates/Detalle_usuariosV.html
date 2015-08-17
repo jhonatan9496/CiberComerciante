@@ -1,0 +1,35 @@
+{% extends 'BaseVendedores.html' %}
+
+
+{% block listaUsuarioClase %} class="active" {% endblock %}
+
+{% block usuarioClase %}class="tab-pane active{% endblock %}
+{% block usuario %}
+<h2>{{usuario.user.username}}</h2>
+
+<h3>
+{% for i in usuario.user.groups.all %}
+	{{i}},
+{%  endfor %}</h3>
+					
+				
+<div class="span4 well">
+	<i class="fa fa-user fa-2x fa-fw"></i>
+	<p>
+		<strong>Nombre</strong>
+		{{usuario.user.first_name}}
+	</p>
+	<p >
+		<strong>Apellidos</strong>
+		{{usuario.user.last_name}}
+	</p>
+	<p>
+		<strong>Usuario</strong>
+		{{usuario.user.username}}
+	</p>
+	<p>
+		<strong>e-mail</strong>
+		{{usuario.user.email}}
+	</p>
+</div>
+{% endblock %}

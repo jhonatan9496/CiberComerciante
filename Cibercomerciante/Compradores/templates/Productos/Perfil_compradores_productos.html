@@ -1,0 +1,65 @@
+{% extends 'BaseCompradores.html' %}
+
+{% block listaProductoClase %} class="active" {% endblock %}
+
+{% block productoClase %}class="tab-pane active{% endblock %}
+
+{% block producto %}
+
+<h1>Lista de Productos</h1>
+
+<table class="table table-hover">
+	<form action="/filtroCompradorProductos/" id="busquedaProducto" class="formularioTablasAjax" method = "POST" >
+		{% csrf_token %}									
+		<tr>
+			<th>
+				<input  type="text" name='buscarProducto' class="buscarInputTablas" placeholder="buscar"></input>
+			</th>
+			<th>
+				<select name="tipoBusqueda" id="tipoBusqueda" class="controls">
+					<option value="1" >Productos</option>
+					<option value="2" >Empresas</option>
+					<option value="0" selected>Todos</option>
+				</select>
+			</th>
+			
+			<th>
+				<select  name="categoria" class="categoria buscarSelectTablas">
+					<option value="0">Seleccione Categoria</option>
+					{% for i in categorias %}
+					<option value="{{i.pk}}">{{i}}</option>
+					{% endfor %}
+					</select>
+			</th>
+			<th>
+				<select  name="subcategoria" class="subcategoria buscarSelectTablas">
+					<option value="0">Seleccione subcategoria</option>
+				</select>
+			</th>
+		</tr>
+	</form>
+</table >
+
+
+<div class="tabla">
+
+	<div class="pull-center eliminar">
+		<ul class="thumbnails">
+			{% for i in productos %}
+			<li class="span4">
+				<a href="/comprarProducto/{{i.pk}}/" class="thumbnail">
+					<img src="{{i.imagen.url}}" style="width: 260px; height: 180px;">
+					<div class="caption">
+						<h4>{{i.nombre_producto}}</h4>
+						<p>{{i.descripcion}}</p>
+					</div>
+
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'BaseCompradores.html' %}
+
+{% block listaUsuarioClase %} class="active" {% endblock %}
+
+{% block usuarioClase %}class="tab-pane active{% endblock %}
+
+{% block usuario %}
+
+<h1> Usuarios</h1>
+<table class="table table-hover">
+	<form action="/filtroCompradorUsuarios/" id="filtroUsuario" class="formularioTablasAjax" method = "POST" >
+		{% csrf_token %}									
+		<tr>
+			<th>
+				<input  type="text" autocomplete="off" name='filtroNombre' class="buscarInputTablas" placeholder="buscar"></inpu
+				<i class="icon-search"></i>
+
+			</th>
+			<th>
+				<select name="tipoUsuario" class="controls buscarSelectTablas">
+					<option value="AC" >Administrador</option>
+					<option value="IC" >Inventario</option>
+					<option value="PC" >Pedidos</option>
+					<option value="RC" >Reporte</option>
+					<option value="null" selected>Todos</option>
+				</select>
+			</th>
+			<th>
+				<div class="adduser">
+					<a href="/agregar_usuarioc/" > <i class="fa fa-user-plus fa-2x"></i> Agregar Usuario</a>
+				</div>
+			</th>
+		</tr>
+	</form>
+
+</table >
+
+
+<div class="tabla">
+	<table class="table table-hover table-bordered eliminar">
+
+		<tr>
+			<th>Nombre Usuario</th>
+			<th>Tipo</th>
+			<th style="width:100px;">Detalle</th>
+			<th style="width:100px;">Actualizar</th>
+			<th style="width:100px;">Eliminar</th>
+
+		</tr>
+		{% for i in products %}
+		<tr>
+			<td>{{i.user.first_name}}</td>
+			<td>{% for i in i.user.groups.all %}
+					{{i}},
+				{%  endfor %}
+			</td>
+			<td>
+				<a href="/visualizarUsuario/{{i.pk}}/"><i class="icon-user" id="ic"></i></a>
+			</td>
+			<td>
+				<a href="/modificarUsuarioCformulario/{{i.pk}}/"><i class="fa fa-pencil-square-o fa-lg" id="ic"></i></a>
+			</td>
+			<td>
+				<a  data-toggle="modal" data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="fa fa-trash-o fa-lg"></i></a>
+			</td>
+
+		</tr>
+		{% endfor %}
+
+	</table>
+
+
+	<div class="pagination eliminar">
+		<span class="step-links">
+			{% if products.has_previous %}
+			<a href="?page={{ products.previous_page_number }}">Anterior</a>
+			{% endif %}
+
+			<span class="current">
+				Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+			</span>
+
+			{% if products.has_next %}
+			<a href="?page={{ products.next_page_number }}">Siguiente</a>
+			{% endif %}
+		</span>
+	</div>
+
+	<!-- Modal Eliminar -->
+
+</div>
+
+<!-- Modal Elimianr-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Eliminar Usuario</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" method="POST" action="/eliminarUsuarioC/">	
+					{% csrf_token %}
+					<div class="span4 well">
+						<input type="text" id="pk_eliminar" name="pk_eliminar" style="display:none;"></input> 
+						<p>
+							<strong>Nombre</strong>
+							<div id="nombre_eliminar"></div>
+						</p>
+						<p>
+							<strong>Apellido</strong>
+							<div id="apellido_eliminar"></div>
+						</p>
+						<p>
+							<strong>Usuario</strong>
+							<div id="username_eliminar"></div>
+						</p>
+						<p>
+							<strong>Email</strong>
+							<div id="email_eliminar"></div>
+						</p>
+						<p >
+							<strong>Permisos</strong>
+							<div id="permisos_eliminar"></div>
+						</p>
+					</div>
+
+			</div>
+			<div class="modal-footer">
+				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+				<button type="submit" class="btn btn-danger">Eliminar Usuario</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock%}

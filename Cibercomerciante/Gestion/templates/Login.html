@@ -2,11 +2,62 @@
 	<head>
 		<title>CiberComerciante</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<style type="text/css"></style>
+		
+	<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css">
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+
+	<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+
+
+	<script>
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            	break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+function sameOrigin(url) {
+    // test that a given url is a same-origin URL
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+    (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+        // or any other URL that isn't scheme relative or absolute i.e relative.
+        !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    $.ajaxSetup({
+    	beforeSend: function(xhr, settings) {
+    		if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+            // Send the token to same-origin, relative URLs only.
+            // Send the token only if the method warrants CSRF protection
+            // Using the CSRFToken value acquired earlier
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+    </script>
+    <script type="text/javascript" src="/static/js/funciones.js"></script>
 	</head>
 	<body>
 		<!--Encabezado de la pagina-->
@@ -19,7 +70,7 @@
 			<div class="navbar">
 			  <div class="navbar-inner container">
 			    <a class="brand" href="#">
-			    	<i class="fa fa-user fa-2x fa-fw"></i> CiberComerciante
+			    	<img src="/static/img/titulo.png" alt="">
 			    </a>
 		
 
@@ -42,6 +93,73 @@
 
 			</div>
 		
+
+		</section>
+	<h1 style="text-align:center;">Productos</h1>
+
+		<section>
+
+			<div class="row">
+				<div class="span2"></div>
+				<div class="span12">
+			
+<table class="table table-hover">
+	<form action="/filtroCompradorProductos/" id="busquedaProducto" class="formularioTablasAjax" method = "POST" >
+		{% csrf_token %}									
+		<tr>
+			<th>
+				<input  type="text" name='buscarProducto' class="buscarInputTablas" placeholder="buscar"></input>
+			</th>
+			<th>
+				<select name="tipoBusqueda" id="tipoBusqueda" class="controls">
+					<option value="1" >Productos</option>
+					<option value="2" >Empresas</option>
+					<option value="0" selected>Todos</option>
+				</select>
+			</th>
+			
+			<th>
+				<select  name="categoria" class="categoria buscarSelectTablas">
+					<option value="0">Seleccione Categoria</option>
+					{{% for i in categorias %}
+					<option value="{{i.pk}}">{{i}}</option>
+					{% endfor %}
+					</select>
+			</th>
+			<th>
+				<select  name="subcategoria" class="subcategoria">
+					<option value="0">Seleccione subcategoria</option>
+				</select>
+			</th>
+		</tr>
+	</form>
+</table >
+
+
+<div class="tabla">
+
+	<div class="pull-center eliminar">
+		<ul class="thumbnails">
+			{% for i in productos %}
+			<li class="span4">
+				<a href="#" class="thumbnail">
+					<img src="{{i.imagen.url}}" style="width: 260px; height: 180px;">
+					<div class="caption">
+						<h4>{{i.nombre_producto}}</h4>
+						<p>{{i.descripcion}}</p>
+					</div>
+
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+
+</div>
+
+</div>
+
+			</div>
 
 		</section>
 		<!--Pie de pagina de la pagina -->

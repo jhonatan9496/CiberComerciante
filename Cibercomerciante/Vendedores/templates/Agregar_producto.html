@@ -67,7 +67,7 @@
 			<div class="control-group">
 				<label class="control-label">Categoria</label>
 				<div class="controls">
-					<select  name="categoria" id="categoriaAdd">
+					<select  name="categoria" class="categoria">
 						<option value="0">Seleccione Categoria</option>
 						{{% for i in categorias %}
 						<option value="{{i.pk}}">{{i}}</option>
@@ -80,7 +80,7 @@
 			<div class="control-group">
 				<label class="control-label">Subcategoria</label>
 				<div class="controls">
-					<select  name="subcategoria" id="subcategoriaAdd">
+					<select  name="subcategoria" class="subcategoria">
 						<option value="0">Seleccione subcategoria</option>
 					</select>
 				</div>

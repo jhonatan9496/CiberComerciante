@@ -92,13 +92,17 @@ def filtroVendedorCatalogo(request):
 	if catalogoVendedor(request):
 		admin =  Usuario.objects.get(user=request.user)
 		categorias = CategoriaProducto.objects.all()
+		if   request.POST['nombreProducto'] !='':
+			print('viene algo')
 		
-		if 'nombreProducto' in request.POST and '0' != request.POST['categoria'] and '0' != request.POST['subcategoria']:
-			productos = Producto.objects.filter(empresa=admin.empresa,categoria__pk=request.POST['categoria'],nombre_producto__contains=request.POST['nombreProducto'])
-		elif 'nombreProducto' in request.POST:
+		if request.POST['nombreProducto'] !='' and '0' != request.POST['categoria'] and '0' != request.POST['subcategoria']:
+			productos = Producto.objects.filter(empresa=admin.empresa,categoria__cat_producto__pk=request.POST['categoria'],nombre_producto__contains=request.POST['nombreProducto'])
+		elif request.POST['nombreProducto'] !='' and '0' == request.POST['categoria'] and '0' == request.POST['subcategoria']:
 			productos = Producto.objects.filter(empresa=admin.empresa,nombre_producto__contains=request.POST['nombreProducto'])
-		elif '0' != request.POST['categoria']:
-			productos = Producto.objects.filter(empresa=admin.empresa,categoria__pk=request.POST['categoria'])
+		elif '0' != request.POST['categoria'] and '0' == request.POST['subcategoria']:
+			productos = Producto.objects.filter(empresa=admin.empresa,categoria__cat_producto__pk=request.POST['categoria'])
+		elif '0' != request.POST['subcategoria']:
+			productos = Producto.objects.filter(empresa=admin.empresa,categoria__pk=request.POST['subcategoria'])
 		else:
 			productos = Producto.objects.filter(empresa=admin.empresa)
 		
@@ -400,7 +404,7 @@ def modificarUsuarioV(request):
 def visualizarUsuarioV(request,idUsuario):
 	if usuariosVendedor(request):
 		usuario = Usuario.objects.get(pk=idUsuario)
-		return render_to_response('Detalle_usuarios.html',locals(), context_instance=RequestContext(request))	
+		return render_to_response('Detalle_usuariosV.html',locals(), context_instance=RequestContext(request))	
 	return HttpResponseRedirect('/')	
 
 

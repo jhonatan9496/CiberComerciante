@@ -36,11 +36,17 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize' ,
     'south',
     'Gestion',
     'Compradores',
     'Vendedores',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+     'django.contrib.auth.context_processors.auth',
+     'Compradores.processor.pedidosTmpComprador',
+     )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

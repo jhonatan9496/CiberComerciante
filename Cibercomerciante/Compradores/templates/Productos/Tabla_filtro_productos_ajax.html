@@ -1,0 +1,17 @@
+
+<div class="pull-center eliminar">
+	<ul class="thumbnails">
+		{% for i in productos %}
+        <li class="span4">
+          <a href="/comprarProducto/{{i.pk}}/" class="thumbnail">
+            <img src="{{i.imagen.url}}" style="width: 260px; height: 180px;">
+        	<div class="caption">
+        		<h4>{{i.nombre_producto}}</h4>
+        		<p>{{i.descripcion}}</p>
+        	</div>
+
+          </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,57 @@
+{% extends 'BaseCompradores.html' %}
+
+{% block listaProductoClase %} class="active" {% endblock %}
+
+{% block productoClase %}class="tab-pane active{% endblock %}
+
+{% block producto %}
+
+
+<div class="media">
+  <a class="pull-left" href="#">
+    <img src="{{producto.imagen.url}}" width="300" height="300">
+</a>
+<div class="media-body">
+    <p>
+    	<strong>Producto</strong>
+    	{{producto.nombre_producto}}
+    </p>
+
+    <p>
+    	<strong>Categoria</strong>
+    	{{producto.categoria}}
+    </p>
+
+    <p>
+    	<strong>Presentacion</strong>
+    	{{producto.presentacion}}
+    </p>
+    <p >
+    	<strong>Precio</strong>
+    	{{producto.costo_venta}}
+    </p>
+    <p>
+    	<strong>Descripcion</strong>
+    	{{producto.descripcion}}
+    </p>
+    <div class="media">
+      <form action="/agregarAlCarrito/" method="post">
+        {% csrf_token %}                  
+        <div class="control-group">
+            <label class="control-label" for="cantidad"><strong>Cantidad</strong></label>
+            <div class="controls">
+               <input  type="number" name='cantidad' id="cantidad" value="1" style="width:80px"  required></input>
+               <input type="hidden" name= "empresa" value="{{producto.empresa.pk}}">
+               <input type="hidden" name= "producto" value="{{producto.pk}}">
+
+           </div>
+       </div>
+       <input type="submit" name="submit" value="Agregar al carrito" class="btn" style="display:none">
+       <button type="submit" class="btn">Agregar al carrito</button>
+   </form>
+</div>
+</div>
+</div>
+
+		
+{% endblock %}

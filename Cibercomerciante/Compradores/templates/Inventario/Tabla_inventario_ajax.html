@@ -1,0 +1,43 @@
+<table class="table table-hover table-bordered eliminar">
+			<tr>
+
+				<th>
+					Nombre Producto
+				</th>
+				<th>
+					Categoria
+				</th>
+				<th>
+					SubCategoria
+				</th>
+				<th>Precio</th>
+				<th>Cantidad</th>
+			</tr>
+
+			{% for i in products %}
+			<tr> 
+				<td>{{i.producto.nombre_producto}}</td>
+				<td>{{i.producto.categoria.cat_producto.nombre_categoria}}</td>
+				<td>{{i.producto.categoria}}</td>
+				<td>{{i.producto.costo_venta}}</td>
+				<td>{{i.cantidad}}</td>
+
+			</tr>
+			{% endfor %}
+		</table>
+
+		<div class="pagination eliminar">
+			<span class="step-links">
+				{% if products.has_previous %}
+				<a href="?page={{ products.previous_page_number }}">Anterior</a>
+				{% endif %}
+
+				<span class="current">
+					Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+				</span>
+
+				{% if products.has_next %}
+				<a href="?page={{ products.next_page_number }}">Siguiente</a>
+				{% endif %}
+			</span>
+		</div>

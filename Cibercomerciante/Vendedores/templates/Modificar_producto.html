@@ -73,7 +73,7 @@
 			<div class="control-group">
 				<label class="control-label">Categoria</label>
 				<div class="controls">
-					<select  name="categoria" id="categoria">
+					<select  name="categoria" id="categoriaAdd">
 						<option value="0">Seleccione categoria</option>
 						{{% for i in categorias %}
 						<option value="{{i.pk}}"{% if i.pk == categoria.pk %} selected{% endif %}>{{i}}</option>
@@ -86,7 +86,7 @@
 			<div class="control-group">
 				<label class="control-label">Subcategoria</label>
 				<div class="controls">
-					<select  name="subcategoria" id="subcategoria">
+					<select  name="subcategoria" id="subcategoriaAdd">
 						<option value="0">Seleccione subcategorias</option>
 						{{% for i in subcategorias %}
 						<option value="{{i.pk}}"{% if i.pk == subcategoria.pk %} selected{% endif %}>{{i}}</option>

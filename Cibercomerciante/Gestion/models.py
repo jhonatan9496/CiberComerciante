@@ -99,15 +99,15 @@ class Producto(models.Model):
 class Inventario(models.Model):
 	cantidad = models.IntegerField()
 	ubicacion =  models.CharField(max_length=250)
-	sucursal = models.ForeignKey(Sucursal)
+	sucursal = models.ForeignKey(Empresa,blank=None,null=None)
 	producto = models.ForeignKey(Producto)
 	def __unicode__(self):
-		return self.cantidad
+		return '%s %s' % (self.cantidad,self.producto.nombre_producto)
 
 class TipoPago(models.Model):
 	nombre_tipo = models.CharField(max_length=250)
 	def __unicode__(self):
-		return self.tipo_pago
+		return self.nombre_tipo
 
 class Pedido(models.Model):
 	numero_factura = models.CharField(max_length=250)
@@ -115,8 +115,8 @@ class Pedido(models.Model):
 	fecha_pedido = models.CharField(max_length=250)
 	descuento = models.FloatField()
 	tipo_pago = models.ForeignKey(TipoPago)
-	comprador = models.ForeignKey(Sucursal,related_name='comprador')
-	vendedor  = models.ForeignKey(Sucursal,related_name='vendedor')
+	comprador = models.ForeignKey(Empresa,related_name='comprador')
+	vendedor  = models.ForeignKey(Empresa,related_name='vendedor')
 	def __unicode__(self):
 		return self.numero_factura
 
@@ -130,8 +130,37 @@ class Oferta(models.Model):
 
 class Item(models.Model):
 	cantidad = models.IntegerField()
-	producto = models.ForeignKey(Producto)
+	producto = models.ForeignKey(Producto,blank=True,null=True)
 	pedido = models.ForeignKey(Pedido)
-	oferta = models.ForeignKey(Oferta)
+	oferta = models.ForeignKey(Oferta,blank=True,null=True)
 	def __unicode__(self):
 		return self.cantidad
+
+class PedidoTmp(models.Model):
+	numero_factura = models.CharField(max_length=250)
+	estado_pedido =models.CharField(max_length=250)
+	fecha_pedido = models.CharField(max_length=250)
+	descuento = models.FloatField()
+	tipo_pago = models.ForeignKey(TipoPago)
+	comprador = models.ForeignKey(Empresa,related_name='compradortmp')
+	vendedor  = models.ForeignKey(Empresa,related_name='vendedortmp')
+	def __unicode__(self):
+		return self.numero_factura
+	def valorPedido(self):
+		total = 0
+		for x in ItemTmp.objects.filter(pedido=self):
+			total+=x.cantidad*int(x.producto.costo_venta)
+			print total
+		return total
+		
+
+
+class ItemTmp(models.Model):
+	cantidad = models.IntegerField()
+	producto = models.ForeignKey(Producto,blank=True,null=True)
+	pedido = models.ForeignKey(PedidoTmp)
+	oferta = models.ForeignKey(Oferta,blank=True,null=True)
+	def __unicode__(self):
+		return  '%s' % self.cantidad
+	def valorTotal(self):
+		return self.cantidad*int(self.producto.costo_venta)

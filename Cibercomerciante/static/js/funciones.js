@@ -1,14 +1,126 @@
 $(document).ready(function() {
 
 //----------------------------------------------------------
-//     JS AJAX
+//     Funcion  filtro Subcategorias
+//----------------------------------------------------------
+
+/*
+Autor           Jhonatan Acelas Arevalo
+Fecha           30 Julio 2015
+Descripcion     filtro generico input para tablas de contenido
+Modificado      2 Agosto 2015 Generico, elimino codigo repetido
+*/ 
+
+$('.categoria').change(function(e){
+           
+         var url1='/filtrar_categorias/'+this.value+'/' ;
+
+       e.preventDefault();
+       $.ajax({
+        type: 'GET',
+        url: url1,
+        beforeSend: function(){
+
+           },
+           complete: function(data){
+
+           },
+           success: function (data) {
+                var subcategoria = '';  
+                subcategoria += '<option selected value="0">Seleccionar</option>';
+                for (i in data) {
+
+                 subcategoria += '<option value="'+data[i].pk+'">';
+                 subcategoria +=  data[i].fields.nombre_cat_interna;
+                 subcategoria += '</option>';
+
+             };
+
+             $('.subcategoria').html(subcategoria);
+            },
+            error: function(errors){
+                alert('no se ha creado');
+            }
+        })
+});
+
+
+//----------------------------------------------------------
+//     Funcion  Filtro Input Tabla  Ajax
 //----------------------------------------------------------
 
 
+/*
+Autor           Jhonatan Acelas Arevalo
+Fecha           30 Julio 2015
+Descripcion     filtro generico INPUT para tablas de contenido
+Modificado      2 Agosto 2015 Generico, elimino codigo repetido
+*/ 
 
-// ------------------------------------------
-//      Ajax Filtrar Listado Variedades
-//  ------------------------------------------
+$('.buscarInputTablas').keyup(function(){
+     var formulariolistar = $('.formularioTablasAjax');
+       $.ajax({
+                type:'post',
+                url: formulariolistar.attr('action'),
+                data: formulariolistar.serialize(),
+                beforeSend: function(){
+
+                },
+                complete: function(data){
+                    
+                },
+                success: function (data) {
+                    $('.eliminar').remove();
+
+                    $(".tabla").append(data);
+  
+                },
+                error: function(errors){
+                    alert('no se ha creado');
+                }
+            });
+
+});
+
+//----------------------------------------------------------
+//     Funcion  Filtro Select  Tabla  Ajax
+//----------------------------------------------------------
+
+
+/*
+Autor           Jhonatan Acelas Arevalo
+Fecha           30 Julio 2015
+Descripcion     filtro generico SELECT para tablas de contenido
+Modificado      2 Agosto 2015 Generico, elimino codigo repetido
+*/ 
+
+$('.buscarSelectTablas').change(function(){
+     var formulariolistar = $('.formularioTablasAjax');
+       $.ajax({
+                type:'post',
+                url: formulariolistar.attr('action'),
+                data: formulariolistar.serialize(),
+                beforeSend: function(){
+
+                },
+                complete: function(data){
+                    
+                },
+                success: function (data) {
+                    $('.eliminar').remove();
+
+                    $(".tabla").append(data);
+  
+                },
+                error: function(errors){
+                    alert('no se ha creado');
+                }
+            });
+
+});
+
+
+
     var formulariolistar = $('.listar_ajax');
         formulariolistar.bind('submit',function () {
             $.ajax({
@@ -34,8 +146,16 @@ $(document).ready(function() {
        return false;
     });
 
+//----------------------------------------------------------
+//     Funcion  filtro Ciudades
+//----------------------------------------------------------
 
-    //mostrar sub grupos al seleccionar grupo
+/*
+Autor           Jhonatan Acelas Arevalo
+Fecha           4 Julio 2015
+Descripcion     filtro generico input para tablas de contenido
+Modificado      
+*/ 
     $('#departamento').change(function(e){
          // alert(this.value);
          var url1='/filtrar_ciudades/'+this.value+'/' ;
@@ -46,18 +166,11 @@ $(document).ready(function() {
         type: 'GET',
         url: url1,
         beforeSend: function(){
-               // $('.preload_users').html('<img src="imgs/350.gif" />');
-               // alert("va a enviar ajax");
            },
            complete: function(data){
 
            },
            success: function (data) {
-                //$('.preload_users').html('');
-                //$('.load_ajax').html(usuarios)
-                // alert(data);
-                // alert(data[1].pk)
-                // alert(data[1].fields.nombre_lugar)
                 var ciudades = '';  
                 ciudades += '<option value="seleccionar">Seleccionar</option>';
                 for (i in data) {
@@ -67,9 +180,7 @@ $(document).ready(function() {
                    ciudades += '</option>';
 
                };
-
                $('#seleccionar_ciudades').html(ciudades);
-                // $('#seleccionar_ciudades').html('<option value="seleccionar">Seleccionar SubGgrupo</option>');
             },
             error: function(errors){
                 alert('no se ha creado');
@@ -77,91 +188,6 @@ $(document).ready(function() {
         })
     });
 
-
-$('#categoria').change(function(e){
-         // alert(this.value);
-         var url1='/filtrar_categorias/'+this.value+'/' ;
-
-       // alert(id_grupo);
-       e.preventDefault();
-       $.ajax({
-        type: 'GET',
-        url: url1,
-        beforeSend: function(){
-               // $('.preload_users').html('<img src="imgs/350.gif" />');
-               // alert("va a enviar ajax");
-           },
-           complete: function(data){
-
-           },
-           success: function (data) {
-                //$('.preload_users').html('');
-                //$('.load_ajax').html(usuarios)
-                // alert(data);
-                // alert(data[1].pk)
-                // alert(data[1].fields.nombre_lugar)
-                var subcategoria = '';  
-                subcategoria += '<option value="0">Seleccionar</option>';
-                for (i in data) {
-
-                 subcategoria += '<option value="'+data[i].pk+'">';
-                 subcategoria +=  data[i].fields.nombre_cat_interna;
-                 subcategoria += '</option>';
-
-             };
-
-             $('#subcategoria').html(subcategoria);
-                // $('#seleccionar_ciudades').html('<option value="seleccionar">Seleccionar SubGgrupo</option>');
-            },
-            error: function(errors){
-                alert('no se ha creado');
-            }
-        })
-});
-
-
-
-
-$('#categoriaAdd').change(function(e){
-         // alert(this.value);
-         var url1='/filtrar_categorias/'+this.value+'/' ;
-
-       // alert(id_grupo);
-       e.preventDefault();
-       $.ajax({
-        type: 'GET',
-        url: url1,
-        beforeSend: function(){
-               // $('.preload_users').html('<img src="imgs/350.gif" />');
-               // alert("va a enviar ajax");
-           },
-           complete: function(data){
-
-           },
-           success: function (data) {
-                //$('.preload_users').html('');
-                //$('.load_ajax').html(usuarios)
-                // alert(data);
-                // alert(data[1].pk)
-                // alert(data[1].fields.nombre_lugar)
-                var subcategoria = '';  
-                subcategoria += '<option value="0">Seleccionar</option>';
-                for (i in data) {
-
-                 subcategoria += '<option value="'+data[i].pk+'">';
-                 subcategoria +=  data[i].fields.nombre_cat_interna;
-                 subcategoria += '</option>';
-
-             };
-
-             $('#subcategoriaAdd').html(subcategoria);
-                // $('#seleccionar_ciudades').html('<option value="seleccionar">Seleccionar SubGgrupo</option>');
-            },
-            error: function(errors){
-                alert('no se ha creado');
-            }
-        })
-});
 
 //----------------------------------------------------------
 //     JS INTERFAZ GRAFICA USUARIOS VENDEDOR
@@ -181,8 +207,6 @@ $('#categoriaAdd').change(function(e){
             $('#reportes').attr('disabled','disabled');
             $("#reportes").prop('checked', true);
 
-            
-
         }else{
 
             $('#catalogo').removeAttr('disabled');
@@ -193,8 +217,6 @@ $('#categoriaAdd').change(function(e){
 
             $('#reportes').removeAttr('disabled');
             $("#reportes").prop('checked', false);
-            
-
         }
     }); 
 
@@ -206,10 +228,6 @@ $('#categoriaAdd').change(function(e){
          $('#email_eliminar').html($(this).attr('email'));
          $('#username_eliminar').html($(this).attr('usuario'));
          $('#pk_eliminar').val($(this).attr('usuario'));
-
-
-
-
     });
 
     $('.eliminar_productos').click(function(){
@@ -228,117 +246,24 @@ $('#categoriaAdd').change(function(e){
     });
 
 
-$('#buscarUsuarioComprador').keyup(function() {
-    var formulariolistar = $('.listar_ajax');
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+//                             Pantalla productos en compradores 
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+
+/*
+Autor           Jhonatan Acelas Arevalo
+Fecha           30 Julio 2015
+Descripcion     filtro de productos con Categoria
+Modificado
+*/ 
+
+$('#categoriaFiltroProductos').change(function(){
+     var formulariolistar = $('.productosCompradorAjax');
        $.ajax({
                 type:'post',
-                url: '/filtroCompradorUsuarios/',
-                data: formulariolistar.serialize(),
-                beforeSend: function(){
-
-                },
-                complete: function(data){
-                    
-                },
-                success: function (data) {
-                    $('.eliminar').remove();
-
-                    $("#tablacontenido").append(data);
-  
-                },
-                error: function(errors){
-                    alert('no se ha creado');
-                }
-            });
-});    
-
-
-
-$('#buscarUsuarioCompradorV').keyup(function() {
-    var formulariolistar = $('.listar_ajaxV');
-       $.ajax({
-                type:'post',
-                url: '/filtroCompradorUsuariosV/',
-                data: formulariolistar.serialize(),
-                beforeSend: function(){
-
-                },
-                complete: function(data){
-                    
-                },
-                success: function (data) {
-                    $('.eliminar').remove();
-
-                    $("#tablacontenido").append(data);
-  
-                },
-                error: function(errors){
-                    alert('no se ha creado');
-                }
-            });
-});    
-
-
-$('#selectTipo').change(function(){
-     var formulariolistar = $('.listar_ajax');
-       $.ajax({
-                type:'post',
-                url: '/filtroCompradorUsuarios/',
-                data: formulariolistar.serialize(),
-                beforeSend: function(){
-
-                },
-                complete: function(data){
-                    
-                },
-                success: function (data) {
-                    $('.eliminar').remove();
-
-                    $("#tablacontenido").append(data);
-  
-                },
-                error: function(errors){
-                    alert('no se ha creado');
-                }
-            });
-
-});
-
-
-
-$('#selectTipoV').change(function(){
-     var formulariolistar = $('.listar_ajaxV');
-       $.ajax({
-                type:'post',
-                url: '/filtroCompradorUsuariosV/',
-                data: formulariolistar.serialize(),
-                beforeSend: function(){
-
-                },
-                complete: function(data){
-                    
-                },
-                success: function (data) {
-                    $('.eliminar').remove();
-
-                    $("#tablacontenido").append(data);
-  
-                },
-                error: function(errors){
-                    alert('no se ha creado');
-                }
-            });
-
-});
-
-//catalogo
-
-
-$('#categoria').change(function(){
-     var formulariolistar = $('.formaCatalogoAjax');
-       $.ajax({
-                type:'post',
-                url: '/filtroVendedorCatalogo/',
+                url: '/filtroCompradorProductos/',
                 data: formulariolistar.serialize(),
                 beforeSend: function(){
 
@@ -358,82 +283,6 @@ $('#categoria').change(function(){
             });
 
 });
-
-
-$('#subcategoria').change(function(){
-     var formulariolistar = $('.formaCatalogoAjax');
-       $.ajax({
-                type:'post',
-                url: '/filtroVendedorCatalogo/',
-                data: formulariolistar.serialize(),
-                beforeSend: function(){
-
-                },
-                complete: function(data){
-                    
-                },
-                success: function (data) {
-                    $('.eliminar').remove();
-
-                    $("#tablaCatalogo").append(data);
-  
-                },
-                error: function(errors){
-                    alert('no se ha creado');
-                }
-            });
-
-});
-
-
-$('#productoBuscar').keyup(function(){
-     var formulariolistar = $('.formaCatalogoAjax');
-       $.ajax({
-                type:'post',
-                url: '/filtroVendedorCatalogo/',
-                data: formulariolistar.serialize(),
-                beforeSend: function(){
-
-                },
-                complete: function(data){
-                    
-                },
-                success: function (data) {
-                    $('.eliminar').remove();
-
-                    $("#tablaCatalogo").append(data);
-  
-                },
-                error: function(errors){
-                    alert('no se ha creado');
-                }
-            });
-
-});
-
-//----------------------------------------------------------
-//     JS INTERFAZ GRAFICA REGISTRO
-//----------------------------------------------------------
-
-
-$('#label-switch').on('switch-change', function(e,data){
-    if (data.value==false) {
-        $('#codigo-form').remove();
-        $("select option[value='Comprador']").attr("selected","selected");
-
-    } else{
-        $("#codigo-before").append('<div class="control-group" id="codigo-form"><label class="control-label" for="codigo-input">NIT</label><div class="controls"><input type="number" id="codigo-input" name="nit" required></div></div>');
-        $("select option[value='Vendedor']").attr("selected","selected");
-
-    }
-});
-
-
-
-// if (document.getElementById("#label-check").checked) {
-//     $("#codigo-before").append('<div class="control-group" id="codigo-form"><label class="control-label" for="codigo-input">NIT</label><div class="controls"><input type="number" id="codigo-input" name="nit" required></div></div>');
-//     $("select option[value='Ambos']").attr("selected","selected");
-// };
 
 // '''
 // Autor           Jhonatan Acelas Arevalo 
@@ -441,7 +290,6 @@ $('#label-switch').on('switch-change', function(e,data){
 // Descripcion     validar que se seleccione al menos un permiso en modificar y agregar usuarios
 // Funcion         Vendedores.compradres.1
 // '''
-
 
     var checkboxes = $('.require-one');
     var checkbox_names = $.map(checkboxes, function(e, i) {
@@ -463,17 +311,8 @@ $('#label-switch').on('switch-change', function(e,data){
             $('#form_error').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error: </span>Seleccione al menos un Permiso</div>');
 
         }
-        // ,
-        // submitHandler: function(form) {
-        //     alert('Form Submited puta alerta');
-        //     return false;
-        // }        
-    
+           
     });
-
-
-
-
 
 });
 
@@ -492,10 +331,6 @@ $.validator.addMethod('require-one', function(value) {
     }
 }, 'Seleccione un permiso.');
 
-
-
-
-
 function validarCategoria(form) 
     { 
         
@@ -509,7 +344,4 @@ function validarCategoria(form)
         }
         return true;
     }  
-
-
-
  

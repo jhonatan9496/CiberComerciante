@@ -1,0 +1,119 @@
+{% extends 'BaseCompradores.html' %}
+{% block listaVentasClase %} class="active" {% endblock %}
+{% block ventasClase %}class="tab-pane active{% endblock %}
+{% block ventas %}
+<!-- inicio row  -->
+<form action="/filtroCompradorProductos/" id="busquedaProducto" class="productosCompradorAjax" method = "POST" >
+        {% csrf_token %}                                    
+      <input  type="text" name='buscarProducto' id="buscarProducto" placeholder="buscar"></input>
+           
+           
+    </form>
+<div class="row">
+  <div class="span6">
+    
+<div id="productos">
+   <table class="table table-hover table-bordered eliminar" id="tablaInventario">
+      <tr>
+         <th>
+            Nombre Producto
+        </th>
+        <th>
+            Valor unitario
+        </th>
+        <th>Unidades disponibles</th>
+        <th>
+            Vender
+        </th>
+    </tr>
+    {% for i in products %}
+    
+    <tr> 
+       <td>{{i.producto.nombre_producto}}</td>
+       <td>{{i.producto.costo_venta}}</td>
+       <td class="cant" cant="{{i.cantidad}}">{{i.cantidad}}</td>
+       <td style= "text-align:center;">
+          <!-- <input type="button" class="btn" id="addProducto" value="Add Row"/> -->
+          <a href="#" class="addProducto" nombre="{{i.producto.nombre_producto}}" precio="{{i.producto.costo_venta}}" cantidad="{{i.cantidad}}"><i class="fa fa-cart-plus"></i></a>
+      </td>
+  </tr>
+  {% endfor %}
+</table>
+<div class="pagination eliminar">
+  <span class="step-links">
+     {% if products.has_previous %}
+     <a href="?page={{ products.previous_page_number }}">Anterior</a>
+     {% endif %}
+     <span class="current">
+        Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+    </span>
+    {% if products.has_next %}
+    <a href="?page={{ products.next_page_number }}">Siguiente</a>
+    {% endif %}
+</span>
+</div>
+</div>
+<!-- fin colimna 1  -->
+</div>
+<div class="span8">
+<div id="factura">
+  <table class="table table-hover table-bordered eliminar" id="tablaFactura">
+     <tr><th>FACTURA</th></tr>
+     <tr>
+        <th>
+           Nombre Producto
+       </th>
+       <th>
+           Cantidad
+       </th>
+       <th>
+           Precio
+       </th>
+       <th>
+           Precio Total
+       </th>
+       <th >
+           Eliminar 
+       </th>
+   </tr>
+  
+   <!-- {% for i in products %}
+   <tr> 
+      <td>{{i.nombre_producto}}</td>
+      <td>cantidad</td>
+      <td>{{i.costo_venta}}</td>
+      <td>costo total</td>
+      <td>
+         <a href="/inicioCompradorVentas/"><i class="icon-cancel-circled" id="ic2"></i></a>
+     </td>
+ </tr>
+ {% endfor %} -->
+</table >
+<table class="table table-hover table-bordered " style="text-align:right ; width:200px;" >
+ <tr>
+  <td><p style="text-align:right">Total</p></td>
+  <td class="totalFactura">$ 0</td>
+  
+</table>
+<!-- <button class="btn pull-right">Confirmar</button> -->
+<form action="/hello_pdf/" method = "POST">
+        {% csrf_token %}                                    
+      <button   type="submit" class="btn pull-right">Pagar</button>           
+</form>
+
+<!-- <form action="/generar_pdf/" class='formularioTablasAjax' method = "POST">
+        {% csrf_token %}  
+        <input type="text" id="html" name="html" />
+</form>
+
+<button  class="facturar">enviar</button> -->
+
+
+</div>
+<!-- fin columna 2 -->
+</div>
+<!-- fin row  -->
+</div>
+
+
+{% endblock %}

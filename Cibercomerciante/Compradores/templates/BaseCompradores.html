@@ -1,23 +1,22 @@
 <html>
-	<head>
-		<title>{% block titulo %}{% endblock %}</title>
+<head>
+	<title>{% block titulo %}{% endblock %}</title>
 
-		<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.css">
-		<link type="text/css" rel="stylesheet" href="/static/iconset/css/fontello.css" />
-		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css">
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 
 
-		<script>
-		function getCookie(name) {
-			var cookieValue = null;
-			if (document.cookie && document.cookie != '') {
-				var cookies = document.cookie.split(';');
-				for (var i = 0; i < cookies.length; i++) {
-					var cookie = jQuery.trim(cookies[i]);
+	<script>
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
             	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -57,73 +56,109 @@ function sameOrigin(url) {
     }
 });
     </script>
-		<script type="text/javascript" src="/static/js/funciones.js"></script>
+    <script type="text/javascript" src="/static/js/funciones.js"></script>
+    <script type="text/javascript" src="/static/js/funcionesCompradores.js"></script>
     
 </head>
+
 <body>
 	<!--Encabezado de la pagina-->
 	<header>
-		<h1>CiberComerciante</h1> 
 	</header>
 	<!--Cuerpo de la pagina-->
 	<section>
 		<!--Barra de Menu-->
 		<div class="navbar">
-			<div class="navbar-inner">
-				<a class="brand" href="#">
-					<i class="fa fa-user fa-2x fa-fw"></i> Nombre comerciante
+			<div class="navbar-inner ">
+				<a href="" class="brand">
+					<img src="/static/img/titulo.png" style="height:25px" alt="CiberComerciante">
 				</a>
-				<a href="#" class='pull-right'>
-					<i class="fa fa-cog fa-2x fa-fw pull-right"></i>Settings
+
+				<ul class="nav pull-right">
+
+				<a class=" pull-right brand" href="#">
+					<i class="fa fa-user fa-lg"></i> Usuario: {{user.username}}
 				</a>
-				<a href="/salir" class='pull-right'>
-					<i class="fa fa-sign-out fa-2x fa-fw pull-right"></i>Logout
+
+				<a href="#" class='pull-right brand'>
+					<i class="fa fa-cog fa-lg pull-right"></i>Settings
 				</a>
-			</div>
+				<a href="/salir" class='pull-right brand'>
+					<i class="fa fa-sign-out fa-lg pull-right"></i>Logout
+				</a>
+
+				<ul class="nav nav-tabs pull-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle"
+						data-toggle="dropdown"
+						href="#">
+						<span class="badge"> {{ pedidos.count }} </span> Mis Pedidos 
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						{% for i in pedidos %}
+						<li><a href="/detallePedido/{{i.pk}}/">{{ i.vendedor.nombre_empresa }}</a></li>
+						{% endfor %}
+
+					</ul>
+				</li>
+				</ul>
+				</ul>
 		</div>
-		<!--Panel de secciones con menu izquierdo-->
-		<div class="tabbable tabs-left">
-			<!--lista izquierda de menu de opciones-->
-			<ul class="nav nav-tabs">
-				<li {% block listaPedidoClase%}{%endblock%}>
-					<a href="/inicioCompradorPedidos/">Pedidos</a>
-				</li>
-				<li {% block listaInventarioClase %}{% endblock %}>
-					<a href="/inicioCompradorInventario/">Inventario</a>
-				</li>
-				<li {% block listaReporteClase %}{% endblock %}>
-					<a href="/inicioCompradorReportes/">Reportes</a>
-				</li>
-				<li  {% block listaUsuarioClase %}{% endblock %}>
-					<a href="/inicioCompradorUsuarios/">Usuarios</a>
-				</li>
-			</ul>
-			<!--div que contiene los divs con el contenido de los paneles izquierdos-->
-			<div class="tab-content">
-
-				<div {% block pedidoClase%}{%endblock%} id="Pedidos">
-					{% block pedido %}{% endblock %}
-				</div>
-				<div {% block inventarioClase %}{% endblock %} id="Inventario">
-					{% block inventario %}{% endblock %}
-				</div>
-
-				<div {% block reporteClase %}{% endblock %}  id="Reportes">
-					{% block reporte %}{% endblock %}
-				</div>
-				<div {% block usuarioClase %}{% endblock %} id="Usuarios">
-					{% block usuario %}{% endblock %}
-			    </div>
-
-			  </div>
+	</div>
+	<!--Panel de secciones con menu izquierdo-->
+	<div class="tabbable tabs-left">
+		<!--lista izquierda de menu de opciones-->
+		<ul class="nav nav-tabs">
+			<li {% block listaProductoClase%}{%endblock%}>
+				<a href="/inicioCompradorProductos/">Productos</a>
+			</li>
+			<li {% block listaPedidoClase%}{%endblock%}>
+				<a href="/inicioCompradorPedidos/">Pedidos</a>
+			</li>
+			<li {% block listaInventarioClase %}{% endblock %}>
+				<a href="/inicioCompradorInventario/">Inventario</a>
+			</li>
+			<li {% block listaVentasClase %}{% endblock %}>
+				<a href="/inicioCompradorVentas/">Ventas</a>
+			</li>
+			<li {% block listaReporteClase %}{% endblock %}>
+				<a href="/inicioCompradorReportes/">Reportes</a>
+			</li>
+			<li  {% block listaUsuarioClase %}{% endblock %}>
+				<a href="/inicioCompradorUsuarios/">Usuarios</a>
+			</li>
+		</ul>
+		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
+		<div class="tab-content">
+			<div {% block productoClase%}{%endblock%} id="Productos">					
+				{% block producto %}{% endblock %}
+			</div>
+			<div {% block pedidoClase%}{%endblock%} id="Pedidos">
+				{% block pedido %}{% endblock %}
+			</div>
+			<div {% block inventarioClase %}{% endblock %} id="Inventario">
+				{% block inventario %}{% endblock %}
 			</div>
 
+			<div {% block ventasClase %}{% endblock %} id="Ventas">
+				{% block ventas %}{% endblock %}
+			</div>
 
-		</section>
-		<!--Pie de pagina de la pagina -->
-		<footer>
+			<div {% block reporteClase %}{% endblock %}  id="Reportes">
+				{% block reporte %}{% endblock %}
+			</div>
+			<div {% block usuarioClase %}{% endblock %} id="Usuarios">
+				{% block usuario %}{% endblock %}
+			</div>
 
-		</footer>
-	</body>
+		</div>
+	</div>
+
+
+</section>
+<!--Pie de pagina de la pagina -->
+<footer>
+</footer>
+</body>
 </html>
-

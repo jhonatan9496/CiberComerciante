@@ -4,35 +4,19 @@
 
 {% block catalogoClase %}class="tab-pane active{% endblock %}
 {% block catalogo %}
-
-<h1>Catalogo de Productos</h1>
-
-<tr>
-	<th>
-		<div>
-			<a class="btn" href="/formularioCategoria/">Agregar Subcategoria</a>
-			<a class="btn" href="/formularioProducto/">Agregar Producto</a>
-		</div>
-	</th>
-	<th></th>
-	<th></th>
-	<th></th>
-</tr>
-
-<br>
 <table class="table table-hover">
-	<form action="/filtroVendedorCatalogo/" id="filtro" class="formaCatalogoAjax" method = "POST" >
+	<form action="/filtroVendedorCatalogo/" id="filtro" class="formularioTablasAjax" method = "POST" >
 		{% csrf_token %}									
 	<tr>
 		<th>
 			<div class="control-group">
 				<div class="controls">
-					<input type="text" name="nombreProducto" id="productoBuscar" placeholder="Producto" style="height:30px">
+					<input type="text" name="nombreProducto"  placeholder="Producto" class="buscarInputTablas" style="height:30px">
 				</div>
 			</div>
 		</th>
 		<th>
-			<select  name="categoria" id="categoria">
+			<select  name="categoria" class="categoria buscarSelectTablas">
 						<option value="0">Seleccione Categoria</option>
 						{{% for i in categorias %}
 						<option value="{{i.pk}}">{{i}}</option>
@@ -40,75 +24,76 @@
 					</select>
 				</th>
 				<th>
-					<select  name="subcategoria" id="subcategoria">
+					<select  name="subcategoria" class="subcategoria buscarSelectTablas">
 						<option value="0">Seleccione subcategoria</option>
 					</select>
 				</th>
-				<th>Detalle</th>
-				<th>Editar</th>
-				<th>Eliminar</th>
+				<th>
+					<div>
+						<a class="btn" href="/formularioCategoria/">Agregar Subcategoria</a>
+						<a class="btn" href="/formularioProducto/">Agregar Producto</a>
+					</div>
+				</th>
 			</tr>
 		</form>
 	</table>
 	<hr>
 
-	<div id="tablaCatalogo">
+	<div class="tabla">
+	<table class="table table-hover table-bordered eliminar">
+	<tr>
 
-		<table class="table table-hover eliminar">
-			<tr>
+		<th>
+			Nombre Producto
+		</th>
+		<th>
+			Categoria
+		</th>
+		<th>
+			SubCategoria
+		</th>
+		<th style="width:100px;">Detalle</th>
+		<th style="width:100px;">Editar</th>
+		<th style="width:100px;">Eliminar</th>
+	</tr>
 
-				<th>
-					Nombre PRoducto
-				</th>
-				<th>
-					Categoria
-				</th>
-				<th>
-					SubCategoria
-				</th>
-				<th>Detalle</th>
-				<th>Editar</th>
-				<th>Eliminar</th>
-			</tr>
-
-			{% for i in products %}
-			<tr> 
-				<td>{{i.nombre_producto}}</td>
-				<td>{{i.categoria.cat_producto.nombre_categoria}}</td>
-				<td>{{i.categoria}}</td>
-				<td>
-					<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
+	{% for i in products %}
+	<tr> 
+		<td>{{i.nombre_producto}}</td>
+		<td>{{i.categoria.cat_producto}}</td>
+		<td>{{i.categoria}}</td>
+		<td>
+			<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
 
 
-				</td>
-				<td>
-					<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
-				</td>
-				<td>
-					<a  data-toggle="modalC" data-target="#myModalC" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
-				</td>
+		</td>
+		<td>
+			<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
+		</td>
+		<td>
+			<a  data-toggle="modalC" data-target="#myModalC" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
+		</td>
+		
+	</tr>
+	{% endfor %}
+</table>
 
-			</tr>
-			{% endfor %}
-		</table>
+<div class="pagination eliminar">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">Anterior</a>
+        {% endif %}
 
-		<div class="pagination eliminar">
-			<span class="step-links">
-				{% if products.has_previous %}
-				<a href="?page={{ products.previous_page_number }}">Anterior</a>
-				{% endif %}
+        <span class="current">
+            Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
+        </span>
 
-				<span class="current">
-					Pagina {{ products.number }} de {{ products.paginator.num_pages }}.
-				</span>
-
-				{% if products.has_next %}
-				<a href="?page={{ products.next_page_number }}">Siguiente</a>
-				{% endif %}
-			</span>
-		</div>
-
-	</div>
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">Siguiente</a>
+        {% endif %}
+    </span>
+</div>
+</div>
 <!-- Modal Eliminar -->
 
 <div class="modalC fade" id="myModalC" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

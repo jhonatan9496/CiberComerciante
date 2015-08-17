@@ -142,8 +142,8 @@ class Migration(SchemaMigration):
             ('fecha_pedido', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('descuento', self.gf('django.db.models.fields.FloatField')()),
             ('tipo_pago', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.TipoPago'])),
-            ('comprador', self.gf('django.db.models.fields.related.ForeignKey')(related_name='comprador', to=orm['Gestion.Sucursal'])),
-            ('vendedor', self.gf('django.db.models.fields.related.ForeignKey')(related_name='vendedor', to=orm['Gestion.Sucursal'])),
+            ('comprador', self.gf('django.db.models.fields.related.ForeignKey')(related_name='comprador', to=orm['Gestion.Empresa'])),
+            ('vendedor', self.gf('django.db.models.fields.related.ForeignKey')(related_name='vendedor', to=orm['Gestion.Empresa'])),
         ))
         db.send_create_signal(u'Gestion', ['Pedido'])
 
@@ -161,11 +161,34 @@ class Migration(SchemaMigration):
         db.create_table(u'Gestion_item', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('cantidad', self.gf('django.db.models.fields.IntegerField')()),
-            ('producto', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Producto'])),
+            ('producto', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Producto'], null=True, blank=True)),
             ('pedido', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Pedido'])),
-            ('oferta', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Oferta'])),
+            ('oferta', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Oferta'], null=True, blank=True)),
         ))
         db.send_create_signal(u'Gestion', ['Item'])
+
+        # Adding model 'PedidoTmp'
+        db.create_table(u'Gestion_pedidotmp', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('numero_factura', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('estado_pedido', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('fecha_pedido', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('descuento', self.gf('django.db.models.fields.FloatField')()),
+            ('tipo_pago', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.TipoPago'])),
+            ('comprador', self.gf('django.db.models.fields.related.ForeignKey')(related_name='compradortmp', to=orm['Gestion.Empresa'])),
+            ('vendedor', self.gf('django.db.models.fields.related.ForeignKey')(related_name='vendedortmp', to=orm['Gestion.Empresa'])),
+        ))
+        db.send_create_signal(u'Gestion', ['PedidoTmp'])
+
+        # Adding model 'ItemTmp'
+        db.create_table(u'Gestion_itemtmp', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('cantidad', self.gf('django.db.models.fields.IntegerField')()),
+            ('producto', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Producto'], null=True, blank=True)),
+            ('pedido', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Pedido'])),
+            ('oferta', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['Gestion.Oferta'], null=True, blank=True)),
+        ))
+        db.send_create_signal(u'Gestion', ['ItemTmp'])
 
 
     def backwards(self, orm):
@@ -220,6 +243,12 @@ class Migration(SchemaMigration):
         # Deleting model 'Item'
         db.delete_table(u'Gestion_item')
 
+        # Deleting model 'PedidoTmp'
+        db.delete_table(u'Gestion_pedidotmp')
+
+        # Deleting model 'ItemTmp'
+        db.delete_table(u'Gestion_itemtmp')
+
 
     models = {
         u'Gestion.categoriainterna': {
@@ -259,9 +288,17 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Item'},
             'cantidad': ('django.db.models.fields.IntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'oferta': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Oferta']"}),
+            'oferta': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Oferta']", 'null': 'True', 'blank': 'True'}),
             'pedido': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Pedido']"}),
-            'producto': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Producto']"})
+            'producto': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Producto']", 'null': 'True', 'blank': 'True'})
+        },
+        u'Gestion.itemtmp': {
+            'Meta': {'object_name': 'ItemTmp'},
+            'cantidad': ('django.db.models.fields.IntegerField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'oferta': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Oferta']", 'null': 'True', 'blank': 'True'}),
+            'pedido': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Pedido']"}),
+            'producto': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.Producto']", 'null': 'True', 'blank': 'True'})
         },
         u'Gestion.lugar': {
             'Meta': {'object_name': 'Lugar'},
@@ -279,14 +316,25 @@ class Migration(SchemaMigration):
         },
         u'Gestion.pedido': {
             'Meta': {'object_name': 'Pedido'},
-            'comprador': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comprador'", 'to': u"orm['Gestion.Sucursal']"}),
+            'comprador': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comprador'", 'to': u"orm['Gestion.Empresa']"}),
             'descuento': ('django.db.models.fields.FloatField', [], {}),
             'estado_pedido': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'fecha_pedido': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'numero_factura': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'tipo_pago': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.TipoPago']"}),
-            'vendedor': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'vendedor'", 'to': u"orm['Gestion.Sucursal']"})
+            'vendedor': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'vendedor'", 'to': u"orm['Gestion.Empresa']"})
+        },
+        u'Gestion.pedidotmp': {
+            'Meta': {'object_name': 'PedidoTmp'},
+            'comprador': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'compradortmp'", 'to': u"orm['Gestion.Empresa']"}),
+            'descuento': ('django.db.models.fields.FloatField', [], {}),
+            'estado_pedido': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'fecha_pedido': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'numero_factura': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'tipo_pago': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['Gestion.TipoPago']"}),
+            'vendedor': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'vendedortmp'", 'to': u"orm['Gestion.Empresa']"})
         },
         u'Gestion.permisos': {
             'Meta': {'object_name': 'Permisos'},
