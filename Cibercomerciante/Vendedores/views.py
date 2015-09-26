@@ -255,13 +255,14 @@ def agregarProducto(request):
 		presentacion = request.POST['presentacion']
 		precioCompra = request.POST['precio_compra']
 		precioVenta = request.POST['precio_venta']
+		unidades = request.POST['unidades']
 		iva = TipoIVA.objects.get(pk=request.POST['iva'])
 		descuento = request.POST['descuento']
 		foto = request.FILES['foto']
 		admin =  Usuario.objects.get(user=request.user)
 		descripcion = request.POST['descripcion']
 		subcat= CategoriaInterna.objects.get(pk=request.POST['subcategoria'])
-		producto= Producto(nombre_producto=nombreProducto, descripcion=descripcion, costo=precioCompra, costo_venta=precioVenta, presentacion=presentacion, imagen=foto, empresa=admin.empresa, descuento=descuento, iva=iva, categoria=subcat)
+		producto= Producto(nombre_producto=nombreProducto, descripcion=descripcion, costo=precioCompra, costo_venta=precioVenta, presentacion=presentacion, imagen=foto, empresa=admin.empresa,unidades=unidades, descuento=descuento, iva=iva, categoria=subcat)
 		producto.save()
 		return HttpResponseRedirect('/inicioVendedorCatalogo/')
 	return HttpResponseRedirect('/')	

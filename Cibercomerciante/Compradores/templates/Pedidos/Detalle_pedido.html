@@ -34,9 +34,13 @@
 			<th>
 				<p>Valor unitario</p>
 			</th>
+						<th style="width:100px;">
+				<p>Unidades</p>
+			</th>
 			<th style="width:100px;" >
 				<p>Cantidad</p>
 			</th>
+
 			<th>
 				<p>Valor Total</p>
 			</th>
@@ -44,6 +48,9 @@
 			</th>
 		</tr>
 		{% for i in items %}
+		<form action="/actualizarCantidad/" method="POST" class="formularioActualizarCantidad">
+			{% csrf_token %}
+
 		<tr>
 			<td>
 				<img src="{{i.producto.imagen.url}}" style="width: 80px; height: 80px;">
@@ -55,24 +62,30 @@
 					<p>{{i.producto.descripcion}}</p>
 				</div>
 			</td>
-			<td class='valorUnitario'>
-				{{i.producto.costo_venta}}
+			<td class='valorUnitario texto-derecha'>
+				{{i.producto.costo_venta}} 
 			</td>
-			<td>
-				<input type="number" value="{{i.cantidad}}" class="cantidad">
+			<td class="texto-centrado">
+				{{i.numeroProductos}} 
 			</td>
-			<td class="text-center total">
-				{{i.valorTotal|intcomma }}
+			<td >
+				<input type="number" value="{{i.cantidad}}" class="cantidad texto-derecha modificarCantidadPedido" style="width:70px;" name="cantidad">
+				<input type="hidden" name="pk" value="{{i.pk}}">
+			</td>
+			
+			<td class="texto-derecha total">
+				{{i.valorTotal|intcomma }} 
 			</td>
 			<td >
 				<a  data-toggle="modal" data-target="#myModal2" class="btn btn-danger eliminar_item" nombreItem="{{i.producto.nombre_producto}}"  pkItem="{{i.producto.pk}}" ><i class="fa fa-trash-o fa-lg"  ></i></a>
 			</td>	
 		</tr>
+		</form>
 		{% endfor %}
 
 		<tr>
-			<td COLSPAN=4 > <p class="pull-right">Total Pedido</p></td>
-			<td class="totalPedido">{{p.valorPedido}}</td>
+			<td COLSPAN=5 > <p class="pull-right"> <em>Total Pedido </em></p></td>
+			<td class="totalPedido texto-derecha "> <em>{{p.valorPedido|intcomma}} </em></td>
 		</tr>
 	</table >
 
@@ -80,7 +93,7 @@
 	<div class="media ">
 		<table class="table table-hover">
 				<td>	
-					<input type="submit" name="Seguir comprando" value="Seguir comprando" class="btn">
+					<a  name="Seguir comprando" href="/inicioCompradorProductos/" value="Seguir comprando" class="btn">Seguir comprando</a>
 				</td>
 				<td>	
 					<input type="submit" name="Guardar" value="Guardar" class="btn">

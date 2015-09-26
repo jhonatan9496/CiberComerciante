@@ -1,0 +1,21 @@
+{% extends 'Administrador/BaseAdministrador.html' %}
+{% block administrador %}
+<table class="table table-striped">
+
+	<tr>
+		<th>Nombre Empresa</th>
+		<th>Estado </th>
+		<th>Detalle</th>
+	</tr>
+
+	{% for i in ped %}
+	<tr>
+		<td> {{i.vendedor.nombre_empresa}} </td>
+		<td> {{ i.estado_pedido}}</td>
+		<td> <a href="{% if i.estado_pedido = 'No Pago' %}  /detallePedidoAdmin/{{i.pk}}/ {% endif %}"><i class="fa fa-clipboard fa-lg"></i></a> </td>
+	</tr>
+	{% endfor %}
+	
+
+</table>
+{% endblock %}

@@ -1,0 +1,29 @@
+/*ETIQUETAS*/
+
+
+/* IDs */
+
+/* CLASES */
+.texto-centrado  {
+	text-align: center !important;
+}
+
+.texto-derecha {
+	text-align:  right !important;
+}
+
+.texto-izquierda {
+	text-align:  left !important;
+}
+
+.margen-ancho { 
+
+margin: 0 100px;
+
+}
+
+.margen-derecha { 
+
+margin-right: 50px ;
+
+}

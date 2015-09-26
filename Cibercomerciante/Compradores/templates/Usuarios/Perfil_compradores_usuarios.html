@@ -5,8 +5,9 @@
 {% block usuarioClase %}class="tab-pane active{% endblock %}
 
 {% block usuario %}
-
+<br>
 <h1> Usuarios</h1>
+<br>
 <table class="table table-hover">
 	<form action="/filtroCompradorUsuarios/" id="filtroUsuario" class="formularioTablasAjax" method = "POST" >
 		{% csrf_token %}									

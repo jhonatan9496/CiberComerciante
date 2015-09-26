@@ -32,9 +32,9 @@
        <td>{{i.producto.nombre_producto}}</td>
        <td>{{i.producto.costo_venta}}</td>
        <td class="cant" cant="{{i.cantidad}}">{{i.cantidad}}</td>
-       <td style= "text-align:center;">
+       <td class="texto-centrado">
           <!-- <input type="button" class="btn" id="addProducto" value="Add Row"/> -->
-          <a href="#" class="addProducto" nombre="{{i.producto.nombre_producto}}" precio="{{i.producto.costo_venta}}" cantidad="{{i.cantidad}}"><i class="fa fa-cart-plus"></i></a>
+          <a href="#" class="addProducto" nombre="{{i.producto.nombre_producto}}" precio="{{i.producto.costo_venta}}" pk="{{i.producto.pk}}"  cantidad="{{i.cantidad}}"><i class="fa fa-cart-plus"></i></a>
       </td>
   </tr>
   {% endfor %}
@@ -57,6 +57,8 @@
 </div>
 <div class="span8">
 <div id="factura">
+  <form action="/guardarFactura/" class="facturaForm" method = "POST">
+        {% csrf_token %}   
   <table class="table table-hover table-bordered eliminar" id="tablaFactura">
      <tr><th>FACTURA</th></tr>
      <tr>
@@ -96,10 +98,11 @@
   
 </table>
 <!-- <button class="btn pull-right">Confirmar</button> -->
-<form action="/hello_pdf/" method = "POST">
-        {% csrf_token %}                                    
+                                 
       <button   type="submit" class="btn pull-right">Pagar</button>           
 </form>
+      <button   id="generarFactura" class="btn pull-right">Pagar Factura</button>           
+
 
 <!-- <form action="/generar_pdf/" class='formularioTablasAjax' method = "POST">
         {% csrf_token %}  

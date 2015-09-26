@@ -24,6 +24,20 @@ urlpatterns = patterns('',
 
     url(r'^filtrar_categorias/(?P<id_categoria>\d+)/' , 'Vendedores.views.filtrar_categorias',name='filtrar_categorias'),
 
+
+
+
+    url(r'^baseAdministrador/','Gestion.views.baseAdministrador',name='baseAdministrador'),
+    url(r'^inicioAdministrador/','Gestion.views.inicioAdministrador',name='inicioAdministrador'),
+    url(r'^detalleEmpresaAdmin/(?P<id_empresa>\d+)/','Gestion.views.detalleEmpresaAdmin',name='detalleEmpresaAdmin'),
+    url(r'^productosAdmin/(?P<id_empresa>\d+)/','Gestion.views.productosAdmin',name='productosAdmin'),
+    url(r'^usuariosAdmin/(?P<id_empresa>\d+)/','Gestion.views.usuariosAdmin',name='usuariosAdmin'),
+    url(r'^pedidosAdmin/(?P<id_empresa>\d+)/','Gestion.views.pedidosAdmin',name='pedidosAdmin'),
+    url(r'^detallePedidoAdmin/(?P<idPedido>\d+)/','Gestion.views.detallePedidoAdmin',name='detallePedidoAdmin'),
+    
+    url(r'^reportesAdmin/(?P<id_empresa>\d+)/','Gestion.views.reportesAdmin',name='reportesAdmin'),
+
+
     #Urls gestion de usuarios
 
 

@@ -5,53 +5,101 @@
 {% block productoClase %}class="tab-pane active{% endblock %}
 
 {% block producto %}
+<!-- <div class="container-fluid"> -->
+<div class="row">
+    <div class="span6">
+            <!-- detalle producto comprar  -->
+            <h1>{{producto.nombre_producto}}</h1>
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img src="{{producto.imagen.url}}" width="300" height="300">
+                </a>
+                <div class="media-body">
+                    <p>
+                    	<strong>Categoria</strong>
+                    	{{producto.categoria}}
+                    </p>
 
+                    <p>
+                    	<strong>Presentacion</strong>
+                    	{{producto.presentacion}}
+                    </p>
+                    <p >
+                    	<strong>Precio</strong>
+                    	{{producto.costo_venta}}
+                    </p>
+                    <p>
+                    	<strong>Descripcion</strong>
+                    	{{producto.descripcion}}
+                    </p>
+                    <div class="media">
+                        <form action="/agregarAlCarrito/" method="post">
+                            {% csrf_token %}                  
+                            <div class="control-group">
+                                <label class="control-label" for="cantidad"><strong>Cantidad</strong></label>
+                                <div class="controls">
+                                   <input  type="number" name='cantidad' id="cantidad" value="1" style="width:80px"  required></input>
+                                   <input type="hidden" name= "empresa" value="{{producto.empresa.pk}}">
+                                   <input type="hidden" name= "producto" value="{{producto.pk}}">
 
-<div class="media">
-  <a class="pull-left" href="#">
-    <img src="{{producto.imagen.url}}" width="300" height="300">
-</a>
-<div class="media-body">
-    <p>
-    	<strong>Producto</strong>
-    	{{producto.nombre_producto}}
-    </p>
+                               </div>
+                           </div>
+                           <input type="submit" name="submit" value="Agregar al carrito" class="btn" style="display:none">
+                           <button type="submit" class="btn">Agregar al carrito</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--  fin detalle producto comprar  -->
 
-    <p>
-    	<strong>Categoria</strong>
-    	{{producto.categoria}}
-    </p>
+     <!--Sidebar content-->
+        </div>
+        <div class="span6">
+          <!--Body content-->
+            otro contenido 
+            <br>
+            otro contenido 
+            <br>
+            otro contenido 
+            <br>
+            otro contenido 
+            <br>
+            otro contenido 
+            <br> 
 
-    <p>
-    	<strong>Presentacion</strong>
-    	{{producto.presentacion}}
-    </p>
-    <p >
-    	<strong>Precio</strong>
-    	{{producto.costo_venta}}
-    </p>
-    <p>
-    	<strong>Descripcion</strong>
-    	{{producto.descripcion}}
-    </p>
-    <div class="media">
-      <form action="/agregarAlCarrito/" method="post">
-        {% csrf_token %}                  
-        <div class="control-group">
-            <label class="control-label" for="cantidad"><strong>Cantidad</strong></label>
-            <div class="controls">
-               <input  type="number" name='cantidad' id="cantidad" value="1" style="width:80px"  required></input>
-               <input type="hidden" name= "empresa" value="{{producto.empresa.pk}}">
-               <input type="hidden" name= "producto" value="{{producto.pk}}">
-
-           </div>
-       </div>
-       <input type="submit" name="submit" value="Agregar al carrito" class="btn" style="display:none">
-       <button type="submit" class="btn">Agregar al carrito</button>
-   </form>
+    </div>
 </div>
-</div>
-</div>
+<hr>
+<div class="row">
+    <div class="span12">
+<p > <h4 class="texto-centrado"> Otros productos de {{producto.empresa}} </h4> </p>
+        <div id="myCarousel" class="carousel slide">
+              <ol class="carousel-indicators">
+                {% for i in productos%}
+                 
+                    <li data-target="#myCarousel" data-slide-to="0" {% if  forloop.first %} class="active" {% endif %}></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                {% endfor %}
+              </ol>
+              <!-- Carousel items -->
+              <div class="carousel-inner">
+                {% for i in productos%}
+                <div class=" {% if  forloop.first %} active {% endif %} item margen-ancho">
+                    <img src="{{i.imagen.url}}" style="width: 260px; height: 180px;" class="pull-left margen-derecha ">
+                    <h2>{{i.nombre_producto}}</h2>
+                    <p>{{i.descripcion}} </p>
+                    <p> $ {{i.costo_venta}} </p>
+                    <p> <a href="/comprarProducto/{{i.pk}}/" class="btn btn-success"><i class="fa fa-shopping-cart"></i>  Comprar</a> </p>
+                </div>
+                {% endfor %}
 
+              </div>
+              <!-- Carousel nav -->
+              <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+              <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+</div>
+</div
 		
 {% endblock %}

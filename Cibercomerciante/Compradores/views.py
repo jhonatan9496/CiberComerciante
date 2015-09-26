@@ -1,5 +1,5 @@
 import json
-from django.template import RequestContext
+from django.template import RequestContext, loader, Context
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponse,HttpResponseRedirect
@@ -20,6 +20,7 @@ from Compradores.processor import *
 import requests
 from django.core.urlresolvers import reverse
 from itertools import chain
+from datetime import datetime
 
 
 # Create your views here.
@@ -268,6 +269,7 @@ def inicioCompradorProductos(request):
 @login_required(login_url='/logearse')
 def comprarProducto(request,idProducto):
 	producto = Producto.objects.get(pk=idProducto)
+	productos = Producto.objects.filter(empresa=producto.empresa).exclude(id=idProducto)
 	if pedidosComprador(request):
 		return render_to_response('Productos/Comprar_producto.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
@@ -308,6 +310,12 @@ Autor 			Sebastian Rincon Rangel
 Fecha 	 		27 Julio 2015
 Descripcion  	vistas de inventario y venta de productos en compradores
 '''
+# -------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
+#                       *****    VENTAS     *****
+# -------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
+
 
 
 @login_required(login_url='/logearse')
@@ -328,23 +336,47 @@ def inicioCompradorVentas(request):
 		return render_to_response('Facturacion/Perfil_compradores_ventas.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
 
-def render_to_pdf(template_src, context_dict):
-    template = get_template(template_src)
-    context = Context(context_dict)
-    html  = template.render(context)
-    result = StringIO.StringIO()
+'''
+Autor 			Jhonatan Acelas Arevalo
+Fecha 	 		27 Julio 2015
+Descripcion  	guardar factura en tabla temporal y actualizar inventario, generar factura.
 
-    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf')
-    return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+este motodo hay que cambiarlo por 
+
+'''
+
+
+
 
 @login_required(login_url='/logearse')
-def hello_pdf(request):
-	admin =  Usuario.objects.get(user=request.user)
-	productos = Inventario.objects.filter(sucursal=admin.empresa)
+def guardarFactura(request):
 	if inventarioComprador(request):
-		return render_to_pdf('Facturacion/Perfil_compradores_ventas.html',{'products': productos})
+		comprador  = Usuario.objects.get(user=request.user)
+
+		factura = Factura(num_factura=1,fecha_factura=datetime.now(),comprador=comprador.empresa,cliente='pepito')
+		factura.save()
+		admin =  Usuario.objects.get(user=request.user)
+
+		#recorrer productos que vienen por post
+		numeroItem = 0
+		cantidad = 'cantidad'+str(numeroItem)
+		print(cantidad)
+		while  cantidad  in request.POST:
+			# crea el itemFactura
+			producto = Producto.objects.get(pk=request.POST['producto'+str(numeroItem) ])
+			item = ItemFactura(cantidad=request.POST[cantidad],producto=producto,factura=factura)
+			item.save()
+			#Actualiza las unidades en el inventario
+			inventario = Inventario.objects.get(producto=producto,sucursal=admin.empresa)
+			inventario.cantidad = inventario.cantidad  - int(request.POST[cantidad])
+			inventario.save()
+			#aunmenta en contador de recorrer productos por post
+			numeroItem= numeroItem +1
+			cantidad = 'cantidad'+str(numeroItem)
+		items = ItemFactura.objects.filter(factura=factura)
+
+	return  HttpResponse(factura.pk)
+
 
 
 # .....................................................................................
@@ -561,6 +593,25 @@ def eliminarItemPedido(request):
 	else : 
 		return HttpResponseRedirect('/detallePedido/'+request.POST['pedido']+'/')
 
+
+
+
+
+'''
+Autor 			Jhonatan Acelas Arevalo
+Fecha 	 		10 Agosto 2015
+Descripcion  	Eliminar Item de pedido,
+Modificado
+'''
+@login_required(login_url='/logearse')
+def actualizarCantidad(request):
+	item = ItemTmp.objects.get(pk=request.POST['pk'])
+	item.cantidad = request.POST['cantidad']
+	item.save()
+	return HttpResponse('')
+
+
+
 '''
 Autor 			Jhonatan Acelas Arevalo
 Fecha 	 		11 Agosto 2015
@@ -577,10 +628,10 @@ def pedidoTmpInventario(request):
 	for x in ItemTmp.objects.filter(pedido__pk=request.POST['pedido']):
 		try : 
 			item= Inventario.objects.get(producto=x.producto,sucursal=usuario.empresa)
-			item.cantidad=item.cantidad+x.cantidad
+			item.cantidad=item.cantidad+x.cantidad*x.producto.unidades
 			item.save()
 		except Inventario.DoesNotExist:
-			item = Inventario(producto=x.producto,cantidad=x.cantidad,sucursal=x.pedido.comprador)
+			item = Inventario(producto=x.producto,cantidad=x.cantidad*x.producto.unidades,sucursal=x.pedido.comprador)
 			item.save()
 		#guardar de pedidos tmp a pedidos
 		itemPedido = Item(cantidad=x.cantidad,producto=x.producto,pedido=pedido)
@@ -624,6 +675,25 @@ def reportesComprador(request):
 @login_required(login_url='/logearse')
 def usuariosComprador(request):
 	return request.user.groups.filter(name__in=['UC', 'AC']).exists()
+
+
+
+def jsonprueba(request):
+
+	productos = Producto.objects.all()
+
+	data = { 'titulo': 'wewe' }
+
+
+	for i in productos:
+		# data['titulo']=str(i.nombre_cultivo)
+		data =  {'pk':str(i.pk),'nombre_producto':i.nombre_producto}
+	json_data= json.dumps(data)
+
+	# data = serializers.serialize('json', data)
+
+	return HttpResponse(json_data,content_type='application/json')
+
 
 
 

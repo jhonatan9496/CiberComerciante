@@ -1,13 +1,16 @@
 <html>
 <head>
 	<title>{% block titulo %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/style-generico.css">
 
 	<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css">
+
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 
 	<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+	
 
 
 	<script>
@@ -97,7 +100,7 @@ function sameOrigin(url) {
 					</a>
 					<ul class="dropdown-menu">
 						{% for i in pedidos %}
-						<li><a href="/detallePedido/{{i.pk}}/">{{ i.vendedor.nombre_empresa }}</a></li>
+						<li><a href="/detallePedido/{{i.pk}}/">{{ i.vendedor.nombre_empresa }} j</a></li>
 						{% endfor %}
 
 					</ul>

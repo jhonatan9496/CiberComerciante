@@ -14,8 +14,7 @@ urlpatterns = patterns('',
     url(r'^inicioCompradorProductos/','Compradores.views.inicioCompradorProductos',name='inicioCompradorProductos'),
     url(r'^inicioCompradorVentas/','Compradores.views.inicioCompradorVentas',name='inicioCompradorVentas'),
     #pdf
-    url(r'^hello_pdf/','Compradores.views.hello_pdf',name='hello_pdf'),
-    # url(r'^crearFactura/','Compradores.views.crearFactura',name='crearFactura'),
+    url(r'^guardarFactura/','Compradores.views.guardarFactura',name='guardarFactura'),
     
     url(r'^baseComprador/','Compradores.views.baseComprador',name='baseComprador'),
         #Usuarios
@@ -38,13 +37,19 @@ urlpatterns = patterns('',
     url(r'^detallePedido/(?P<idPedido>\d+)/','Compradores.views.detallePedido',name='detallePedido'),
     url(r'^eliminarPedido/','Compradores.views.eliminarPedido',name='eliminarPedido'),
     url(r'^eliminarItemPedido/','Compradores.views.eliminarItemPedido',name='eliminarItemPedido'),
-
+    url(r'^actualizarCantidad/','Compradores.views.actualizarCantidad',name='actualizarCantidad'),
 
 #inventario
 
 
     url(r'^pedidoTmpInventario/','Compradores.views.pedidoTmpInventario',name='pedidoTmpInventario'),
     url(r'^filtroCompradorInventario/','Compradores.views.filtroCompradorInventario',name='filtroCompradorInventario'),
+
+
+
+    url(r'^jsonprueba/','Compradores.views.jsonprueba',name='jsonprueba'),
+
+
 
 	   # Salir 
     url(r'^salir/','Gestion.views.salir',name='salir'),

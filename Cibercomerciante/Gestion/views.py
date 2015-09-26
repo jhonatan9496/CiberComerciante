@@ -12,7 +12,8 @@ from django.core.files import File
 import re
 import time
 from django.contrib.auth.models import Group
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from itertools import chain
 
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -83,6 +84,9 @@ def preguntar(request):
 	 	return HttpResponseRedirect('/inicioCompradorReportes')
 	elif grupo=='IC':
 	 	return HttpResponseRedirect('/inicioCompradorInventario')
+	elif grupo=='ADMIN':
+		return HttpResponseRedirect('/inicioAdministrador')
+
 	return HttpResponse('no hay tipo usuario')
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -229,6 +233,15 @@ def guardarUsuario(request):
 
 
 
+
+# -------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
+#                       *****    ADMINISTRADOR     *****
+# -------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
+
+
+
 '''
 Autor 			Jhonatan Acelas Arevalo
 Fecha 	 		11 Julio 2015
@@ -236,9 +249,102 @@ Descripcion  	Renderiza plantilla inicio del administrador de Cibercomerciante
 Funcion 		Gestion.6
 '''
 @login_required(login_url='/logearse')
-def inicioAdministrador(request):
-	return render_to_response('inicioAdministrador.html',locals(), context_instance=RequestContext(request))
+def baseAdministrador(request):
+	return render_to_response('Administrador/BaseAdministrador.html',locals(), context_instance=RequestContext(request))
 
+
+
+@login_required(login_url='/logearse')
+def inicioAdministrador(request):
+	if admin(request):
+		empresas = Empresa.objects.all()
+		sectores = Sector.objects.all()
+		subsectores = CategoriaSector.objects.all()
+		paginator = Paginator(empresas, 10)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+		return render_to_response('Administrador/inicioAdministrador.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
+
+
+
+@login_required(login_url='/logearse')
+def detalleEmpresaAdmin(request,id_empresa):
+	if admin(request):
+		empresa = Empresa.objects.get(pk=id_empresa)
+		return render_to_response('Administrador/Detalle_empresa_admin.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
+
+@login_required(login_url='/logearse')
+def productosAdmin(request,id_empresa):
+	if admin(request):
+		empresa = Empresa.objects.get(pk=id_empresa)
+		productos = Producto.objects.filter(empresa=empresa.pk)
+		categorias = CategoriaProducto.objects.all()
+		subcategorias = CategoriaInterna.objects.all()
+		paginator = Paginator(productos, 10)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+		return render_to_response('Administrador/Productos_admin.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
+
+@login_required(login_url='/logearse')
+def usuariosAdmin(request,id_empresa):
+	if admin(request):
+		empresa = Empresa.objects.get(pk=id_empresa)
+		usuarios = Usuario.objects.filter(empresa=empresa.pk)
+		paginator = Paginator(usuarios, 10)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+		return render_to_response('Administrador/Usuarios_admin.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
+
+@login_required(login_url='/logearse')
+def pedidosAdmin(request,id_empresa):
+	if admin(request):
+		empresa = Empresa.objects.get(pk=id_empresa)
+		pedidos = PedidoTmp.objects.filter(comprador=empresa.pk)
+		pedidosPagos = Pedido.objects.filter(comprador=empresa.pk)
+		# union entre dos consultas
+		ped = chain(pedidos, pedidosPagos)
+		return render_to_response('Administrador/Pedidos_admin.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
+
+@login_required(login_url='/logearse')
+def detallePedidoAdmin(request,idPedido):
+	p = PedidoTmp.objects.get(pk=idPedido)
+	items = ItemTmp.objects.filter(pedido__pk=idPedido)
+	total= ItemTmp.objects.filter(pedido__pk=idPedido)#.aggregate(sum('cantidad'))
+	return render_to_response('Detalle_pedido_admin.html',locals(), context_instance=RequestContext(request))
+
+
+
+@login_required(login_url='/logearse')
+def reportesAdmin(request,id_empresa):
+	if admin(request):
+		empresa = Empresa.objects.get(pk=id_empresa)
+		return render_to_response('Administrador/Reportes_admin.html',locals(), context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')				
+
+
+@login_required(login_url='/logearse')
+def admin(request):
+	return request.user.groups.filter(name__in=['ADMIN']).exists()
 
 '''
 

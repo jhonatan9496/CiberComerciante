@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+var contadorFactura =0;
+
 //----------------------------------------------------------
 //     Funcion  agregar item a factura 
 //----------------------------------------------------------
@@ -17,8 +20,9 @@ $('.addProducto').click(function(){
         }
     });
     if (contador==0) {
-        $('#tablaFactura').append('<tr><td class="nombre">'+$(this).attr('nombre')+'</td><td><input class="cantidad" type="number" value="1" style="width:80px"/></td><td class="precio">'+$(this).attr('precio')+'</td><td class="total" >'+$(this).attr('precio')+'</td><td><button class="eliminarProductoFactura"><i class="fa fa-trash-o"></i></button></td></tr>');
+        $('#tablaFactura').append('<tr><td class="nombre">'+$(this).attr('nombre')+'</td><td><input name= "producto'+contadorFactura+'" value="' +$(this).attr('pk')+ '" /><input class="cantidad" name="cantidad'+contadorFactura+'" type="number" value="1" style="width:80px"/></td><td class="precio">'+$(this).attr('precio')+'</td><td class="total" >'+$(this).attr('precio')+'</td><td class="texto-centrado"><button class="eliminarProductoFactura btn btn-danger"><i class="fa fa-trash-o"></i></button></td></tr>');
         sumarTotal();
+        contadorFactura++;
     }else {
         alert('el producto ya existe en la factura');
     };
@@ -99,6 +103,80 @@ Modificado
          $('#nombre_eliminar').html($(this).attr('nombreItem'));
          $('#pk_eliminar').val($(this).attr('pkItem'));
     });
+
+
+//----------------------------------------------------------
+//     Funcion  Guardar pedido al change de el input cantidad en detalle pedido
+//----------------------------------------------------------
+/*
+Autor           Jhonatan Acelas Arevalo 
+Fecha           30 agosto 2015
+Descripcion     metodo generico ajax para enviar formulario por post de modiicar la cantidad
+Modificado      
+*/
+
+$('.modificarCantidadPedido').change(function(){
+     var formulariolistar = $('.formularioActualizarCantidad');
+       $.ajax({
+                type:'post',
+                url: formulariolistar.attr('action'),
+                data: formulariolistar.serialize(),
+                beforeSend: function(){
+
+                },
+                complete: function(data){
+                    
+                },
+                success: function (data) {
+                    alert('Se modifico la cantidad');
+  
+                },
+                error: function(errors){
+                    alert('no se ha actualizado');
+                }
+            });
+
+});
+
+
+
+
+
+//----------------------------------------------------------
+//     Funcion  Guardar pedido al change de el input cantidad en detalle pedido
+//----------------------------------------------------------
+/*
+Autor           Jhonatan Acelas Arevalo 
+Fecha           18 septiembre 2015
+Descripcion     metodo generico ajax para enviar formulario por post de modiicar la cantidad
+Modificado      
+*/
+
+$('#generarFactura').click(function(){
+     var formulariolistar = $('.facturaForm');
+       $.ajax({
+                type:'post',
+                url: formulariolistar.attr('action'),
+                data: formulariolistar.serialize(),
+                beforeSend: function(){
+
+                },
+                complete: function(data){
+                    
+                },
+                success: function (data) {
+                    $('#factura').remove();
+                    // alert('Se creo la factura' + data);
+                    $('.span8').append('<a  href="/inicioCompradorVentas" class="btn ">Facturar + </a>  <iframe width=100% height=75%  src="http://localhost:14342/ReportesCibercomerciante/reporte?reporte=factura&factura='+data+'&TELEFONO_CLIENTE=342342&NIT_CLIENTE=345345&DIRECCION_CLIENTE=3232&NOMBRE_CLIENTE=323" frameborder="0"></iframe>')
+  
+                },
+                error: function(errors){
+                    alert('no se ha actualizado');
+                }
+            });
+
+});
+
 
 
 

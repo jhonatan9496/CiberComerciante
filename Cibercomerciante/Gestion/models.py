@@ -88,6 +88,7 @@ class Producto(models.Model):
 	costo = models.CharField(max_length=15)
 	costo_venta = models.CharField(max_length=250)
 	presentacion = models.CharField(max_length=250)
+	unidades = models.IntegerField(default=1)
 	imagen = models.ImageField(upload_to='images')
 	descuento = models.CharField(max_length=15)
 	empresa = models.ForeignKey(Empresa)
@@ -95,6 +96,7 @@ class Producto(models.Model):
 	categoria = models.ForeignKey(CategoriaInterna)  
 	def __unicode__(self):
 		return self.nombre_producto
+
 
 class Inventario(models.Model):
 	cantidad = models.IntegerField()
@@ -164,3 +166,28 @@ class ItemTmp(models.Model):
 		return  '%s' % self.cantidad
 	def valorTotal(self):
 		return self.cantidad*int(self.producto.costo_venta)
+	def numeroProductos(self):
+		return self.producto.unidades*self.cantidad
+
+
+class Factura(models.Model):
+	num_factura = models.IntegerField()
+	fecha_factura = models.CharField(max_length=250)
+	comprador = models.ForeignKey(Empresa)
+	cliente = models.CharField(max_length=250)
+	def __unicode__(self):
+		return '%s' %  self.num_factura
+	def valorFactura(self):
+		total = 0
+		for x in ItemFactura.objects.filter(factura=self):
+			total+=x.cantidad*int(x.producto.costo_venta)
+			print total
+		return total	
+
+class ItemFactura(models.Model):
+	cantidad = models.IntegerField()
+	producto = models.ForeignKey(Producto,blank=True,null=True)
+	factura = models.ForeignKey(Factura)
+	def __unicode__(self):
+		return  '%s' % self.cantidad
+	
