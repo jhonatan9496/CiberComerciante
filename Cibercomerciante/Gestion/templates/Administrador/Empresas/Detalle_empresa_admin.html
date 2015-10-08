@@ -1,0 +1,82 @@
+{% extends 'Administrador/BaseAdministrador.html' %}
+
+{% block listaEmpresaClase %} class="active" {% endblock %}
+
+{% block empresaClase %}class="tab-pane active{% endblock %}
+
+{% block empresa %}
+
+	<div class="row-fluid">
+
+		<h2>{{empresa.nombre_empresa}}</h2>
+
+		<div class="span5 well">
+			
+			
+			<p>
+				<strong>NIT</strong>
+				{{empresa.nit}}
+			</p>
+			<p>
+				<strong>Estado</strong>
+				{{empresa.estado_empresa}}
+			</p>
+			<p >
+				<strong>Sector</strong>
+				{{empresa.cat_sector.sector}}
+			</p>
+			<p>
+				<strong>Subsector</strong>
+				{{empresa.cat_sector}}
+			</p>
+		</div>
+
+		<div class="span6">
+			<ul class="thumbnails">
+				<a href="/productosAdmin/{{empresa.pk}}/" >
+
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Productos</p>
+						</div>
+					</li>
+				</a>
+				<a href="/pedidosAdmin/{{empresa.pk}}/"  >
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Pedidos</p>
+						</div>
+					</li>
+				</a>
+
+				<a href="/usuariosAdmin/{{empresa.pk}}/"  >
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Usuarios</p>
+						</div>
+					</li>
+				</a>
+
+				<a href="/reportesAdmin/{{empresa.pk}}/"  >
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Reportes</p>
+						</div>
+					</li>
+				</a>
+
+			</ul>
+
+		</div>
+
+	</div>
+
+	<a href="javascript:history.back()" class="btn">Volver</a>
+
+	
+
+{% endblock %}

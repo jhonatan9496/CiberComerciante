@@ -14,6 +14,8 @@ import time
 from django.contrib.auth.models import Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
+from viewsProducts import *
+from viewsEmpresas import * 
 
 '''
 Autor 			Jhonatan Acelas Arevalo
@@ -66,12 +68,17 @@ Funcion 		Gestion.4
 '''
 @login_required(login_url='/logearse')
 def preguntar(request):
-	# usuario = request.user
-	# us = Usuario.objects.get(user=usuario)
+	
 	grupo = request.user.groups.all()[0].name
 	# permisos = Permisos.objects.filter(usuario=us)
 	# if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='Administrador'):
 	#  	return HttpResponseRedirect('/inicioAdministrador')
+	if grupo!='ADMIN':
+		usuario = request.user
+		us = Usuario.objects.get(user=usuario)
+		if us.empresa.estado_empresa != 'active':
+			return HttpResponse('Lo sentimos la empresa esta desactivada')
+
 	if grupo=='CV' or grupo=='AV' :
 	 	return HttpResponseRedirect('/inicioVendedorCatalogo')
 	elif grupo=='PV':
@@ -254,49 +261,6 @@ def baseAdministrador(request):
 
 
 
-@login_required(login_url='/logearse')
-def inicioAdministrador(request):
-	if admin(request):
-		empresas = Empresa.objects.all()
-		sectores = Sector.objects.all()
-		subsectores = CategoriaSector.objects.all()
-		paginator = Paginator(empresas, 10)
-		page = request.GET.get('page')
-		try:
-			products = paginator.page(page)
-		except PageNotAnInteger:
-			products = paginator.page(1)
-		except EmptyPage:
-			products = paginator.page(paginator.num_pages)
-		return render_to_response('Administrador/inicioAdministrador.html',locals(), context_instance=RequestContext(request))
-	return HttpResponseRedirect('/')
-
-
-
-@login_required(login_url='/logearse')
-def detalleEmpresaAdmin(request,id_empresa):
-	if admin(request):
-		empresa = Empresa.objects.get(pk=id_empresa)
-		return render_to_response('Administrador/Detalle_empresa_admin.html',locals(), context_instance=RequestContext(request))
-	return HttpResponseRedirect('/')
-
-@login_required(login_url='/logearse')
-def productosAdmin(request,id_empresa):
-	if admin(request):
-		empresa = Empresa.objects.get(pk=id_empresa)
-		productos = Producto.objects.filter(empresa=empresa.pk)
-		categorias = CategoriaProducto.objects.all()
-		subcategorias = CategoriaInterna.objects.all()
-		paginator = Paginator(productos, 10)
-		page = request.GET.get('page')
-		try:
-			products = paginator.page(page)
-		except PageNotAnInteger:
-			products = paginator.page(1)
-		except EmptyPage:
-			products = paginator.page(paginator.num_pages)
-		return render_to_response('Administrador/Productos_admin.html',locals(), context_instance=RequestContext(request))
-	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
 def usuariosAdmin(request,id_empresa):
@@ -339,12 +303,15 @@ def reportesAdmin(request,id_empresa):
 	if admin(request):
 		empresa = Empresa.objects.get(pk=id_empresa)
 		return render_to_response('Administrador/Reportes_admin.html',locals(), context_instance=RequestContext(request))
-	return HttpResponseRedirect('/')				
-
+	return HttpResponseRedirect('/')	
 
 @login_required(login_url='/logearse')
-def admin(request):
-	return request.user.groups.filter(name__in=['ADMIN']).exists()
+def filtroSectores(request,idSector):
+	subsectores = CategoriaSector.objects.filter(sector=idSector)
+	data = serializers.serialize("json", subsectores)
+	return HttpResponse(data,content_type='application/json')
+
+
 
 '''
 

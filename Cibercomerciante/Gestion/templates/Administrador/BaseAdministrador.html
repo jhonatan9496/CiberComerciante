@@ -6,6 +6,8 @@
 	<script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style-generico.css">
+
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 
 	<script type="text/javascript" src="/static/js/bootstrap.js"></script>
@@ -88,8 +90,8 @@ function sameOrigin(url) {
 			<li {% block listaEmpresaClase%}{%endblock%}>
 				<a href="/inicioAdministrador/">Empresas</a>
 			</li>
-			<li {% block listaPedidoClase%}{%endblock%}>
-				<a href="/inicioCompradorPedidos/">Productos</a>
+			<li {% block listaProductosClase%}{%endblock%}>
+				<a href="/todosProductos/">Productos</a>
 			</li>
 			<li {% block listaInventarioClase %}{% endblock %}>
 				<a href="/inicioCompradorInventario/">Pedidos</a>
@@ -106,11 +108,11 @@ function sameOrigin(url) {
 		</ul>
 		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
 		<div class="tab-content">
-			<div {% block empresaClase%}{%endblock%} id="Productos">					
+			<div {% block empresaClase%}{%endblock%} id="Empresas">					
 				{% block empresa %}{% endblock %}
 			</div>
-			<div {% block pedidoClase%}{%endblock%} id="Pedidos">
-				{% block pedido %}{% endblock %}
+			<div {% block productosClase%}{%endblock%} id="Productos">
+				{% block productos %}{% endblock %}
 			</div>
 			<div {% block inventarioClase %}{% endblock %} id="Inventario">
 				{% block inventario %}{% endblock %}

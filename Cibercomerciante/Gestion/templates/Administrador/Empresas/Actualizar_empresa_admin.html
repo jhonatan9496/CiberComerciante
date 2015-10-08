@@ -1,0 +1,107 @@
+{% extends 'Administrador/BaseAdministrador.html' %}
+
+{% block listaEmpresaClase %} class="active" {% endblock %}
+
+{% block empresaClase %}class="tab-pane active{% endblock %}
+
+{% block empresa %}
+
+	<div class="row-fluid">
+
+		<h1>Actualizar Empresa</h1>
+
+
+		<div class="span5 well">
+
+			<form class="form-horizontal"  id="itemForm"  name="itemForm" method="POST" action="/modificarEmpresa/">	
+		{% csrf_token %}
+		<input type="text" style="display : none;" name="idUsuario" value="{{comerciante.user.pk}}" >
+		<div class="control-group">
+			<label class="control-label" for="nombres">Nombre Empresa</label>
+			<div class="controls">
+				<input type="text" value="{{empresa.nombre_empresa}}" id="nombre_empresa" name="nombres" placeholder="Nombre" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="apellidos">NIT</label>
+			<div class="controls">
+				<input type="text" id="apellidos" value="{{empresa.nit}}" name="nit" placeholder="Apellidos" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="username">Estado</label>
+			<div class="controls">
+				<input type="text" value="{{empresa.estado_empresa}}" id="username" name="estado" placeholder="Nombre" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="email">Sector</label>
+			<div class="controls">
+				<input type="email" id="email" value="{{empresa.cat_sector.sector}}" name="email" placeholder="Email" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputPassword">Sub Sector</label>
+			<div class="controls">
+				<input type="text" id="password" value="{{empresa.cat_sector}}" name="password" placeholder="Password"  required>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn">Modificar Empresa</button>
+			</div>
+		</div>
+	</form>
+			
+		</div>
+
+		<div class="span6">
+			<ul class="thumbnails">
+				<a href="/productosAdmin/{{empresa.pk}}/" >
+
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Productos</p>
+						</div>
+					</li>
+				</a>
+				<a href="/pedidosAdmin/{{empresa.pk}}/"  >
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Pedidos</p>
+						</div>
+					</li>
+				</a>
+
+				<a href="/usuariosAdmin/{{empresa.pk}}/"  >
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Usuarios</p>
+						</div>
+					</li>
+				</a>
+
+				<a href="/reportesAdmin/{{empresa.pk}}/"  >
+					<li class="span4">
+						<div class="thumbnail">
+							<img src="/static/img/logo.png" alt="">
+							<p>Reportes</p>
+						</div>
+					</li>
+				</a>
+
+			</ul>
+
+		</div>
+
+	</div>
+
+	<a href="javascript:history.back()" class="btn">Volver</a>
+
+	
+
+{% endblock %}

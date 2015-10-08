@@ -45,6 +45,51 @@ $('.categoria').change(function(e){
 });
 
 
+
+
+//----------------------------------------------------------
+//     Funcion generico filtro selectPadre a hijo 
+//----------------------------------------------------------
+
+/*
+Autor           Jhonatan Acelas Arevalo
+Fecha           4 Julio 2015
+Descripcion     filtro generico input para tablas de contenido
+Modificado      
+*/ 
+    $('.selectPadre').change(function(e){
+         // alert(this.value);
+         var url1='/filtroSectores/'+this.value+'/' ;
+
+       // alert(id_grupo);
+       e.preventDefault();
+       $.ajax({
+        type: 'GET',
+        url: url1,
+        beforeSend: function(){
+           },
+           complete: function(data){
+
+           },
+           success: function (data) {
+                var ciudades = '';  
+                ciudades += '<option value="0">Seleccionar</option>';
+                for (i in data) {
+                   ciudades += '<option value="'+data[i].pk+'">';
+                   ciudades +=  data[i].fields.nombre_cat_sector;
+                   ciudades += '</option>';
+
+               };
+               $('.selectHijo').html(ciudades);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert('no se ha creado'+errors);
+                console.log(XMLHttpRequest);
+            }
+        })
+    });
+
+
 //----------------------------------------------------------
 //     Funcion  Filtro Input Tabla  Ajax
 //----------------------------------------------------------
@@ -344,4 +389,8 @@ function validarCategoria(form)
         }
         return true;
     }  
+
+
+
+
  
