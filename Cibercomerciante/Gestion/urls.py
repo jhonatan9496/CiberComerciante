@@ -26,14 +26,6 @@ urlpatterns = patterns('',
 
 
 
-
-    url(r'^baseAdministrador/','Gestion.views.baseAdministrador',name='baseAdministrador'),
-    url(r'^inicioAdministrador/','Gestion.views.inicioAdministrador',name='inicioAdministrador'),
-    url(r'^todosProductos/','Gestion.views.todosProductos',name='todosProductos'),
-    
-
-    url(r'^detalleEmpresaAdmin/(?P<id_empresa>\d+)/','Gestion.views.detalleEmpresaAdmin',name='detalleEmpresaAdmin'),
-    url(r'^productosAdmin/(?P<id_empresa>\d+)/','Gestion.views.productosAdmin',name='productosAdmin'),
     url(r'^usuariosAdmin/(?P<id_empresa>\d+)/','Gestion.views.usuariosAdmin',name='usuariosAdmin'),
     url(r'^pedidosAdmin/(?P<id_empresa>\d+)/','Gestion.views.pedidosAdmin',name='pedidosAdmin'),
     url(r'^detallePedidoAdmin/(?P<idPedido>\d+)/','Gestion.views.detallePedidoAdmin',name='detallePedidoAdmin'),
@@ -42,11 +34,40 @@ urlpatterns = patterns('',
 
     url(r'^filtroSectores/(?P<idSector>\d+)/','Gestion.views.filtroSectores',name='filtroSectores'),
 
+# ---------------------------------------------------
+#               Productos
+# ---------------------------------------------------
+
+    url(r'^todosProductos/','Gestion.views.todosProductos',name='todosProductos'),
+    url(r'^detalleProducto/(?P<id_producto>\d+)/','Gestion.views.detalleProducto',name='detalleProducto'),
+    url(r'^productosAdmin/(?P<id_empresa>\d+)/','Gestion.views.productosAdmin',name='productosAdmin'),
+    url(r'^modificarProducto/(?P<id_producto>\d+)/','Gestion.views.modificarProducto',name='modificarProducto'),
+    url(r'^actualizarProducto/','Gestion.views.actualizarProducto',name='actualizarProducto'),
 
 
+# ---------------------------------------------------
+#               Empresas
+# ---------------------------------------------------
+
+    url(r'^modificarEmpresa/','Gestion.views.modificarEmpresa',name='modificarEmpresa'),
     url(r'^filtroEmpresasAdmin/','Gestion.views.filtroEmpresasAdmin',name='filtroEmpresasAdmin'),
     url(r'^actualizarEmpresa/(?P<id_empresa>\d+)/','Gestion.views.actualizarEmpresa',name='actualizarEmpresa'),
+    url(r'^detalleEmpresaAdmin/(?P<id_empresa>\d+)/','Gestion.views.detalleEmpresaAdmin',name='detalleEmpresaAdmin'),
+    url(r'^inicioAdministrador/','Gestion.views.inicioAdministrador',name='inicioAdministrador'),
+   
+# ---------------------------------------------------
+#               Usuarios
+# --------------------------------------------------- 
+    url(r'^inicioUsuariosAdmin/','Gestion.views.inicioUsuariosAdmin',name='inicioUsuariosAdmin'),
 
+
+# ---------------------------------------------------
+#               Reportes
+# --------------------------------------------------- 
+    url(r'^adminReportes/','Gestion.views.adminReportes',name='adminReportes'),
+
+
+    url(r'^baseAdministrador/','Gestion.views.baseAdministrador',name='baseAdministrador'),
 
     #Urls gestion de usuarios
 

@@ -1,0 +1,53 @@
+{% extends 'Administrador/BaseAdministrador.html' %}
+
+{% block listaProductosClase %} class="active" {% endblock %}
+
+{% block empresaClase %}class="tab-pane active{% endblock %}
+
+{% block empresa %}
+
+<h1>Detalle Producto</h1>
+
+<div class="tab-pane" id="producto">
+	
+	<div class="row-fluid">
+
+		<h2>{{producto.nombre_producto}}</h2>
+		<h3>{{producto.categoria}}</h3>
+		<div class="span4 well">
+			<img src="{{producto.imagen.url}}" width=150 height=150 border=5 vspace=10>
+			
+			<p>
+				<strong>Presentacion</strong>
+				{{producto.presentacion}}
+			</p>
+			<p>
+				<strong>Precio de compra</strong>
+				{{producto.costo}}
+			</p>
+			<p >
+				<strong>Precio de venta</strong>
+				{{producto.costo_venta}}
+			</p>
+			<p>
+				<strong>IVA</strong>
+				{{producto.iva}}
+			</p>
+			<p>
+				<strong>Descuento</strong>
+				{{producto.descuento}}
+			</p>
+			<p>
+				<strong>Descripcion</strong>
+				{{producto.descripcion}}
+			</p>
+		</div>
+
+
+		
+	</div>
+
+	<a href="javascript:history.back()" class="btn">Volver</a>
+</div>
+{% endblock %}
+			  

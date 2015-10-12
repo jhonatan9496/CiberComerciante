@@ -32,7 +32,7 @@ def productosAdmin(request,id_empresa):
 			products = paginator.page(1)
 		except EmptyPage:
 			products = paginator.page(paginator.num_pages)
-		return render_to_response('Administrador/Productos_admin.html',locals(), context_instance=RequestContext(request))
+		return render_to_response('Administrador/Productos/Productos_admin.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
 
 
@@ -48,8 +48,30 @@ def todosProductos(request):
 			products = paginator.page(1)
 		except EmptyPage:
 			products = paginator.page(paginator.num_pages)
-		return render_to_response('Administrador/todosProductos_admin copia.html',locals(), context_instance=RequestContext(request))
+		return render_to_response('Administrador/Productos/todosProductos_admin copia.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
+
+@login_required(login_url='/logearse')
+def detalleProducto(request,id_producto):
+	if admin(request):
+		producto = Producto.objects.get(pk=id_producto)
+		
+		return render_to_response('Administrador/Productos/Detalle_producto.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def modificarProducto(request,id_producto):
+	if admin(request):
+		producto = Producto.objects.get(pk=id_producto)
+
+		return render_to_response('Administrador/Productos/ModificarProducto.html',locals(), context_instance=RequestContext(request))
+
+@login_required(login_url='/logearse')
+def actualizarProducto(request):
+	if admin(request):
+		producto = Producto.objects.get(pk=request.POST['pk'])
+		producto.estado = request.POST['estado']
+		producto.save()
+		return HttpResponseRedirect('/detalleProducto/'+request.POST['pk'])
 
 
 

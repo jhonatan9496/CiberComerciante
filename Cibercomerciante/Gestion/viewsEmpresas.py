@@ -1,5 +1,6 @@
 from permisos import *
 from models import *
+from django.http import HttpResponse,HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.template import RequestContext
@@ -73,8 +74,16 @@ def actualizarEmpresa(request,id_empresa):
 
 @login_required(login_url='/logearse')
 def modificarEmpresa(request):
-		if admin(request):
-			
+	if admin(request):
+		empresa = Empresa.objects.get(pk=request.POST['pk'])
+		empresa.nombre_empresa=request.POST['nombre']
+		empresa.nit = request.POST['nit']
+		empresa.estado_empresa = request.POST['estado']
+		empresa.save()
+	return HttpResponseRedirect('/')
+
+
+
 
 
 

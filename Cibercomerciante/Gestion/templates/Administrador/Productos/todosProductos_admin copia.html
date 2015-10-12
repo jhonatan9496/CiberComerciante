@@ -23,7 +23,7 @@
 		</th>
 		<th style="width:100px;">Detalle</th>
 		<th style="width:100px;">Editar</th>
-		<th style="width:100px;">Eliminar</th>
+		<th style="width:100px;">Estado</th>
 	</tr>
 
 	{% for i in products %}
@@ -32,15 +32,15 @@
 		<td>{{i.categoria.cat_producto}}</td>
 		<td>{{i.categoria}}</td>
 		<td>
-			<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
+			<a href="/detalleProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
 
 
 		</td>
 		<td>
-			<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
+			<a href="/modificarProducto/{{i.pk}}/"><i class="icon-pencil" id="ic2"></i></a>
 		</td>
 		<td>
-			<a  data-toggle="modalC" data-target="#myModalC" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
+			{% ifequal i.estado 0   %}<a href="#"><i class="fa fa-lock rojo"></i> {% else %}<a href="#"><i class="fa fa-unlock  verde"></i> {% endifequal %}</a>
 		</td>
 		
 	</tr>

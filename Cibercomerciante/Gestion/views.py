@@ -16,6 +16,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from itertools import chain
 from viewsProducts import *
 from viewsEmpresas import * 
+from viewsUsuarios import *
+from viewsReportes import *
 
 '''
 Autor 			Jhonatan Acelas Arevalo

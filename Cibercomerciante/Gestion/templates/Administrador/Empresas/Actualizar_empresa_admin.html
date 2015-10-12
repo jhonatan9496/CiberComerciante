@@ -15,11 +15,11 @@
 
 			<form class="form-horizontal"  id="itemForm"  name="itemForm" method="POST" action="/modificarEmpresa/">	
 		{% csrf_token %}
-		<input type="text" style="display : none;" name="idUsuario" value="{{comerciante.user.pk}}" >
+		<input type="text" style="display : none;" name="pk" value="{{empresa.pk}}" >
 		<div class="control-group">
 			<label class="control-label" for="nombres">Nombre Empresa</label>
 			<div class="controls">
-				<input type="text" value="{{empresa.nombre_empresa}}" id="nombre_empresa" name="nombres" placeholder="Nombre" required>
+				<input type="text" value="{{empresa.nombre_empresa}}" id="nombre_empresa" name="nombre" placeholder="Nombre" required>
 			</div>
 		</div>
 		<div class="control-group">
@@ -37,7 +37,7 @@
 		<div class="control-group">
 			<label class="control-label" for="email">Sector</label>
 			<div class="controls">
-				<input type="email" id="email" value="{{empresa.cat_sector.sector}}" name="email" placeholder="Email" required>
+				<input type="text" id="email" value="{{empresa.cat_sector.sector}}" name="email" placeholder="Email" required>
 			</div>
 		</div>
 		<div class="control-group">
@@ -57,44 +57,7 @@
 		</div>
 
 		<div class="span6">
-			<ul class="thumbnails">
-				<a href="/productosAdmin/{{empresa.pk}}/" >
-
-					<li class="span4">
-						<div class="thumbnail">
-							<img src="/static/img/logo.png" alt="">
-							<p>Productos</p>
-						</div>
-					</li>
-				</a>
-				<a href="/pedidosAdmin/{{empresa.pk}}/"  >
-					<li class="span4">
-						<div class="thumbnail">
-							<img src="/static/img/logo.png" alt="">
-							<p>Pedidos</p>
-						</div>
-					</li>
-				</a>
-
-				<a href="/usuariosAdmin/{{empresa.pk}}/"  >
-					<li class="span4">
-						<div class="thumbnail">
-							<img src="/static/img/logo.png" alt="">
-							<p>Usuarios</p>
-						</div>
-					</li>
-				</a>
-
-				<a href="/reportesAdmin/{{empresa.pk}}/"  >
-					<li class="span4">
-						<div class="thumbnail">
-							<img src="/static/img/logo.png" alt="">
-							<p>Reportes</p>
-						</div>
-					</li>
-				</a>
-
-			</ul>
+			
 
 		</div>
 

@@ -62,6 +62,8 @@ function sameOrigin(url) {
     <script type="text/javascript" src="/static/js/funciones.js"></script>
 	</head>
 	<body>
+
+		
 		<!--Encabezado de la pagina-->
 		<!-- <header>
 			<h1>CiberComerciante</h1>
@@ -96,14 +98,14 @@ function sameOrigin(url) {
 			<li {% block listaInventarioClase %}{% endblock %}>
 				<a href="/inicioCompradorInventario/">Pedidos</a>
 			</li>
-			<li {% block listaVentasClase %}{% endblock %}>
-				<a href="/inicioCompradorVentas/">Reportes</a>
-			</li>
 			<li {% block listaReporteClase %}{% endblock %}>
+				<a href="/adminReportes/">Reportes</a>
+			</li>
+			<li {% block listaReporteCdlase %}{% endblock %}>
 				<a href="/inicioCompradorReportes/">Pagos</a>
 			</li>
 			<li  {% block listaUsuarioClase %}{% endblock %}>
-				<a href="/inicioCompradorUsuarios/">Usuarios</a>
+				<a href="/inicioUsuariosAdmin/">Usuarios</a>
 			</li>
 		</ul>
 		<!--div que contiene los divs con el contenido de los paneles izquierdos-->
@@ -118,12 +120,12 @@ function sameOrigin(url) {
 				{% block inventario %}{% endblock %}
 			</div>
 
-			<div {% block ventasClase %}{% endblock %} id="Ventas">
-				{% block ventas %}{% endblock %}
+			<div {% block reporteClase %}{% endblock %} id="Ventas">
+				{% block reporte %}{% endblock %}
 			</div>
 
-			<div {% block reporteClase %}{% endblock %}  id="Reportes">
-				{% block reporte %}{% endblock %}
+			<div {% block reportdeClase %}{% endblock %}  id="Reportes">
+				{% block repordte %}{% endblock %}
 			</div>
 			<div {% block usuarioClase %}{% endblock %} id="Usuarios">
 				{% block usuario %}{% endblock %}

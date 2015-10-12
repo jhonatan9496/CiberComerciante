@@ -1,0 +1,74 @@
+{% extends 'Administrador/BaseAdministrador.html' %}
+
+{% block listaProductosClase %} class="active" {% endblock %}
+
+{% block empresaClase %}class="tab-pane active{% endblock %}
+
+{% block empresa %}
+
+<h1>Actualizar Producto</h1>
+
+<div class="tab-pane" id="producto">
+	
+	<div class="row-fluid">
+
+		<h2>{{producto.nombre_producto}}</h2>
+		<h3>{{producto.categoria}}</h3>
+		<div class="span4 well">
+			<img src="{{producto.imagen.url}}" width=150 height=150 border=5 vspace=10>
+			
+			<p>
+				<strong>Presentacion</strong>
+				{{producto.presentacion}}
+			</p>
+			<p>
+				<strong>Precio de compra</strong>
+				{{producto.costo}}
+			</p>
+			<p >
+				<strong>Precio de venta</strong>
+				{{producto.costo_venta}}
+			</p>
+			<p>
+				<strong>IVA</strong>
+				{{producto.iva}}
+			</p>
+			<p>
+				<strong>Descuento</strong>
+				{{producto.descuento}}
+			</p>
+			<p>
+				<strong>Descripcion</strong>
+				{{producto.descripcion}}
+			</p>
+		</div>
+
+				<div class="span5 well">
+
+			<form class="form-horizontal"  id="itemForm"  name="itemForm" method="POST" action="/actualizarProducto/">	
+		{% csrf_token %}
+		<input type="text" style="display : none;" name="pk" value="{{producto.pk}}" >
+		
+		<div class="control-group">
+			<label class="control-label" for="username">Estado</label>
+			<div class="controls">
+				<input type="text" value="{{producto.estado_empresa}}" id="username" name="estado" placeholder="0 inactivo -1 activo" required>
+			</div>
+		</div>
+		
+		
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn">Modificar Producto</button>
+			</div>
+		</div>
+	</form>
+			
+		</div>
+		
+	</div>
+
+	<a href="javascript:history.back()" class="btn">Volver</a>
+</div>
+{% endblock %}
+			  

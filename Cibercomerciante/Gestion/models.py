@@ -89,6 +89,7 @@ class Producto(models.Model):
 	costo_venta = models.CharField(max_length=250)
 	presentacion = models.CharField(max_length=250)
 	unidades = models.IntegerField(default=1)
+	estado = models.IntegerField(default=1)
 	imagen = models.ImageField(upload_to='images')
 	descuento = models.CharField(max_length=15)
 	empresa = models.ForeignKey(Empresa)
