@@ -71,7 +71,7 @@ Funcion 		Gestion.4
 @login_required(login_url='/logearse')
 def preguntar(request):
 	
-	grupo = request.user.groups.all()[0].name
+	grupo = request.user.groups.all()[0].name 
 	# permisos = Permisos.objects.filter(usuario=us)
 	# if permisos[0].tipo_usuario ==TipoUsuario.objects.get(nombre_tipo_usuario='Administrador'):
 	#  	return HttpResponseRedirect('/inicioAdministrador')

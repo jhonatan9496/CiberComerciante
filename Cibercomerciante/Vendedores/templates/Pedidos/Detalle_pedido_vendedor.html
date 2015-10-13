@@ -1,0 +1,182 @@
+{% extends 'BaseCompradores.html' %}
+
+{% block listaPedidoClase %} class="active" {% endblock %}
+
+{% block pedidoClase %}class="tab-pane active{% endblock %}
+
+{% block pedido %}
+{% load humanize %}
+
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span2">
+			<a href="/inicioCompradorPedidos/" class="btn btn-info pull-left">  Volver</a>
+		</div>
+		<div class="span6 text-center">
+
+			<h2 class="text-center"> Pedido {{items.0.producto.empresa}}</h2>
+		</div>
+		<div class="span2 pull-right">
+
+			<a data-toggle="modal" data-target="#myModal" class="btn btn-danger pull-right">Eliminar pedido</a>
+		</div>
+	</div>
+
+	<table class="tablaPedido table table-striped">								
+		<tr>
+			<th>
+				<p>Producto</p>
+			</th>
+			<th>
+				<p>Descripcion</p>
+			</th>
+			<th>
+				<p>Valor unitario</p>
+			</th>
+			<!-- <th style="width:100px;">
+				<p>Unidades</p>
+			</th> -->
+			<th style="width:100px;" >
+				<p>Cantidad</p>
+			</th>
+
+			<th>
+				<p>Valor Total</p>
+			</th>
+			<th>
+			</th>
+		</tr>
+		{% for i in items %}
+		<form action="/actualizarCantidad/" method="POST" class="formularioActualizarCantidad">
+			{% csrf_token %}
+
+		<tr>
+			<td>
+				<img src="{{i.producto.imagen.url}}" style="width: 80px; height: 80px;">
+			</td>
+			<td>
+				<div>
+					<p>{{i.producto.nombre_producto}}</p>
+					<p>{{i.producto.presentacion}}</p>
+					<p>{{i.producto.descripcion}}</p>
+				</div>
+			</td>
+			<td class='valorUnitario ttexto-derecha'>
+				{{i.producto.costo_venta}} 
+			</td>
+			<!-- <td class="texto-centrado">
+				{{i.numeroProductos}} 
+			</td>  -->
+			<td >
+				{{i.cantidad}}
+				<!-- <input type="number" value="{{i.cantidad}}" class="cantidad texto-derecha modificarCantidadPedido" style="width:70px;" name="cantidad">
+				<input type="hidden" name="pk" value="{{i.pk}}"> -->
+			</td>
+			
+			<td class="texto-derecha total">
+				{{i.valorTotal|intcomma }} 
+			</td>
+			<td >
+				<a  data-toggle="modal" data-target="#myModal2" class="btn btn-danger eliminar_item" nombreItem="{{i.producto.nombre_producto}}"  pkItem="{{i.producto.pk}}" ><i class="fa fa-check"></i></a>
+			</td>	
+		</tr>
+		</form>
+		{% endfor %}
+
+		<tr>
+			<td COLSPAN=5 > <p class="pull-right"> <em>Total Pedido </em></p></td>
+			<td class="totalPedido texto-derecha "> <em>{{p.valorPedido|intcomma}} </em></td>
+		</tr>
+	</table >
+
+
+	<div class="media ">
+		<table class="table table-hover">
+				<td>	
+					<a  name="Seguir comprando" href="/inicioCompradorProductos/" value="Seguir comprando" class="btn">Pendiente</a>
+				</td>
+				<td>	
+					<!-- <input type="submit" name="Guardar" value="Guardar" class="btn"> -->
+				</td>
+				<td>
+					<form action="/pedidoTmpInventario/" method="POST">
+					{% csrf_token %}
+						<input type="hidden"  name="pedido" value="{{items.0.pedido.pk}}" ></input> 
+						<button type="submit" class="btn btn-success" ><i class="fa fa-check-circle-o"></i> Despachado</button>
+					</form>
+				</td>
+		</table >
+	</div>
+
+</div>
+
+
+<!-- Modal Elimianr PEDIDO -->
+<div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Eliminar Pedido</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" method="POST" action="/eliminarPedido/">	
+					{% csrf_token %}
+					<div class="span4 well">
+						<input type="hidden"  name="pedido" value="{{items.0.pedido.pk}}" ></input> 
+						<p>
+							Esta seguro que desea eliminar el pedido de la empresa : {{items.0.producto.empresa}}
+							
+						</p>
+					
+					</div>
+
+			</div>
+			<div class="modal-footer">
+				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+				<button type="submit" class="btn btn-danger">Eliminar Pedido</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- Modal Elimianr ITEM -->
+<div class="modal hide fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Eliminar Item</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" method="POST" action="/eliminarItemPedido/">	
+					{% csrf_token %}
+					<div class="span4 well">
+						<input type="hidden"  name="item" id="pk_eliminar" ></input>
+						<input type="hidden"  name="pedido" value="{{items.0.pedido.pk}}" ></input> 
+
+						<p>
+							Esta seguro que desea eliminar el item <strong id="nombre_eliminar"></strong> del pedido a <strong > {{items.0.producto.empresa}} </strong> 
+							
+						</p>
+					
+					</div>
+
+			</div>
+			<div class="modal-footer">
+				<a  class="btn btn-default" data-dismiss="modal">Cancelar</a>
+				<button type="submit" class="btn btn-danger">Eliminar Item</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

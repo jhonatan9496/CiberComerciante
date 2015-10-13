@@ -11,8 +11,12 @@ urlpatterns = patterns('',
     url(r'^filtroVendedorCatalogo/','Vendedores.views.filtroVendedorCatalogo',name='filtroVendedorCatalogo'),
 
 
-
+# Pedidos
     url(r'^inicioVendedorPedidos/','Vendedores.views.inicioVendedorPedidos',name='inicioVendedorPedidos'),
+    url(r'^detallePedidoVendedor/(?P<idPedido>\d+)/','Vendedores.views.detallePedidoVendedor',name='detallePedidoVendedor'),
+    
+
+
     url(r'^inicioVendedorReportes/','Vendedores.views.inicioVendedorReportes',name='inicioVendedorReportes'),
     url(r'^inicioVendedorUsuarios/','Vendedores.views.inicioVendedorUsuarios',name='inicioVendedorUsuarios'),
         #Usuarios

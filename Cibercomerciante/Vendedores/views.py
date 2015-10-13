@@ -19,6 +19,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from .forms import UploadProducto
+from pedidos import *
+from permisosVendedor import *
 
  
 '''
@@ -54,11 +56,7 @@ def inicioVendedorCatalogo(request):
 		return render_to_response('Perfil_vendedores_catalogo.html',locals(), context_instance=RequestContext(request))
 	return HttpResponseRedirect('/')
 
-@login_required(login_url='/logearse')
-def inicioVendedorPedidos(request):
-	if pedidosVendedor(request):
-		return render_to_response('Perfil_vendedores_pedidos.html',locals(), context_instance=RequestContext(request))
-	return HttpResponseRedirect('/')
+
 
 @login_required(login_url='/logearse')
 def inicioVendedorReportes(request):
@@ -408,26 +406,3 @@ def visualizarUsuarioV(request,idUsuario):
 		return render_to_response('Detalle_usuariosV.html',locals(), context_instance=RequestContext(request))	
 	return HttpResponseRedirect('/')	
 
-
-'''
-Autor 			Jhonatan Acelas Arevalo
-Fecha 	 		11 Julio 2015
-Descripcion  	retorna falso o verdadero si el usuario contiene los permisos sobre los rol de usuarios
-Funcion 		Vendedores.1
-Modifico
-'''
-@login_required(login_url='/logearse')
-def pedidosVendedor(request):
-	return request.user.groups.filter(name__in=['PV', 'AV']).exists()
-
-@login_required(login_url='/logearse')
-def catalogoVendedor(request):
-	return request.user.groups.filter(name__in=['CV', 'AV']).exists()
-
-@login_required(login_url='/logearse')
-def reportesVendedor(request):
-	return request.user.groups.filter(name__in=['RV', 'AV']).exists()
-
-@login_required(login_url='/logearse')
-def usuariosVendedor(request):
-	return request.user.groups.filter(name__in=['UV', 'AV']).exists()
