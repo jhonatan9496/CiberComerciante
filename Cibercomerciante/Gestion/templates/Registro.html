@@ -67,23 +67,69 @@ function sameOrigin(url) {
 
 </head>
 <body>
+	<!--Encabezado de la pagina-->
+		<header>
+			
+		</header>
+		<!--Cuerpo de la pagina-->
+		<section>
+		<!--Barra de Menu-->
+			<div class="navbar">
+			  <div class="navbar-inner container">
+			    <a class="brand" href="#">
+			    	<img src="/static/img/titulo.png" alt="">
+			    </a>
+		
 
-	<div id="topLogo" align="center">
-		<h1>Logo cibercomerciante</h1>
-	</div>
-	{{ mensaje }}
-	<form class="form-horizontal" method="POST" action="/guardarUsuario/">
-		{%  csrf_token %}
-		<!-- Inicio tipo usuario-->
+  				<form  style="margin-top:20px;" class="form-horizontal pull-right navbar-form" method="POST" action="/logearse/">
+  					{% csrf_token %}
+
+             		<div class="input-group input-group-lg pull-right login2">
+             			<input  class="span2" type="text" placeholder="Usuario" name="username">
+              			<input  class="span2" type="password" placeholder="Contraseña" name="password">
+              			<button class="btn">Ingresar</button>
+		<a class="btn btn-info" href="/registrar">registro</a>
+
+					</div>
+					<div class="login">
+  						<a href=""><i class="fa fa-unlock "></i> Recuperar contraseña</a>
+  					</div>
+            	</form>
+
+			  </div>
+
+			</div>
+		
+
+		</section>
+
+<h2 class="texto-centrado">Registar Usuario</h2>
+<hr>
+
 	
 
+{{mensaje}}
+
+
+	<form class="form-horizontal" method="POST" action="/guardarUsuario/" >
+		{%  csrf_token %}
+		<!-- Inicio tipo usuario-->
+
+	<!-- inicio fluid -->
+<div class="row">
+  <div class="span6 padding-10">
+
+  	<h4 class="texto-centrado">Informacion Empresa</h4>
+  			<hr>
+
+
 		<div class="control-group">
-			<label class="control-label" for="nombres-input">Tipo Empresa</label>
+			<label class="control-label " for="nombres-input">Tipo Empresa</label>
 			<div class="controls">
 				<select name="tipo" id='tipo'>
 					<option value="Vendedor">Vendedor</option>
 					<option value="Comprador">Comprador</option>
-					<option value="Ambos">Administrador</option>
+					<option value="Ambos">Vendedor y Comprador</option>
 				</select>
 			</div>
 		</div>
@@ -95,7 +141,7 @@ function sameOrigin(url) {
 		<div class="control-group">
 			<label class="control-label" for="nombres-input">Nombre Empresa o Comerciante</label>
 			<div class="controls">
-				<input type="text" id="nombres-input" name ="username" required>
+				<input type="text" id="nombres-input" name ="nombre_empresa" required>
 			</div>
 		</div>
 
@@ -132,12 +178,18 @@ function sameOrigin(url) {
 
 
 
+
+
 		<div class="control-group">
 			<label class="control-label" for="nombres-input">Direccion</label>
 			<div class="controls">
 				<input type="text" id="direccion-input" name ="direccion" required>
 			</div>
 		</div>
+
+
+
+
 		<div class="control-group">
 			<label class="control-label" for="telefono-input">Telefono</label>
 			<div class="controls">
@@ -145,13 +197,26 @@ function sameOrigin(url) {
 			</div>
 		</div>
 
+
+
+<!-- partir pantallas -->
+		</div>
+  		<div class="span6">
+
+  			<h4 class="texto-centrado">Informacion Usuario</h4>
+  			<hr>
+
 		<div class="control-group">
 			<label class="control-label" for="Representante-input">Representante</label>
 			<div class="controls">
 				<input type="text" id="Representante-input" name="representante" required>
 			</div>
 		</div>
+
+
+
 		
+
 
 		<div class="control-group" id="ciuadades-form">
 			<label class="control-label" for="contraseña-input">Sector</label>
@@ -165,6 +230,14 @@ function sameOrigin(url) {
 			</div>
 		</div>
 
+		<div class="control-group">
+			<label class="control-label" for="nombres-input">Nombre Usuario Administrador</label>
+			<div class="controls">
+				<input type="text" id="nombres-input" name ="username" required>
+			</div>
+		</div>
+
+
 		
 		<div class="control-group">		
 			<label class="control-label" for="email-input">Correo Electrónico</label>
@@ -172,6 +245,10 @@ function sameOrigin(url) {
 				<input type="email" id="email-input" name="email" required>
 			</div>
 		</div>
+
+
+
+
 
 		<div class="control-group">
 			<label class="control-label" for="contraseña-input">Contraseña</label>
@@ -192,11 +269,19 @@ function sameOrigin(url) {
 
 		<div class="control-group">
 			<div class="controls">
-				<button type="submit" class="btn">Crear Cuenta</button>
+				<button type="submit" class="btn btn-info">Crear Cuenta</button>
 			</div>
 		</div>
 
+
+<!-- fin fuid -->
+		</div>
+		</div>
+
 	</form>
+
+		
+
 
 </body>
 </html>

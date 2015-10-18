@@ -20,7 +20,7 @@
 	{% for i in ped %}
 	<tr>
 		<td> {{i.vendedor.nombre_empresa}} </td>
-		<td> {{ i.estado_pedido}}</td>
+		<td> {% if  i.estado_pedido = 'Pago'%} Despachado {% else %}  {{i.estado_pedido}}{% endif%}</td>
 		<td> <a href="{% if i.estado_pedido = 'No Pago' %}  /detallePedido/{{i.pk}}/ {% endif %}"><i class="fa fa-clipboard fa-lg"></i></a> </td>
 	</tr>
 	{% endfor %}

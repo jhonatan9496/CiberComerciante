@@ -623,22 +623,26 @@ Modificado
 def pedidoTmpInventario(request):
 	usuario =  Usuario.objects.get(user=request.user)
 	pedidoTmp = PedidoTmp.objects.get(pk=request.POST['pedido'])
-	pedido = Pedido(numero_factura=pedidoTmp.numero_factura,estado_pedido='Pago',fecha_pedido=pedidoTmp.fecha_pedido,descuento=pedidoTmp.descuento,tipo_pago=pedidoTmp.tipo_pago,comprador=pedidoTmp.comprador,vendedor=pedidoTmp.vendedor)
-	pedido.save()
-	for x in ItemTmp.objects.filter(pedido__pk=request.POST['pedido']):
-		try : 
-			item= Inventario.objects.get(producto=x.producto,sucursal=usuario.empresa)
-			item.cantidad=item.cantidad+x.cantidad*x.producto.unidades
-			item.save()
-		except Inventario.DoesNotExist:
-			item = Inventario(producto=x.producto,cantidad=x.cantidad*x.producto.unidades,sucursal=x.pedido.comprador)
-			item.save()
-		#guardar de pedidos tmp a pedidos
-		itemPedido = Item(cantidad=x.cantidad,producto=x.producto,pedido=pedido)
-		itemPedido.save()
+	pedidoTmp.estado_pedido = 'Pendiente Despacho'
+	pedidoTmp.save()
 
-	# llamar eliminar 
-	p=PedidoTmp.objects.get(pk=request.POST['pedido']).delete()
+
+	# pedido = Pedido(numero_factura=pedidoTmp.numero_factura,estado_pedido='Pago',fecha_pedido=pedidoTmp.fecha_pedido,descuento=pedidoTmp.descuento,tipo_pago=pedidoTmp.tipo_pago,comprador=pedidoTmp.comprador,vendedor=pedidoTmp.vendedor)
+	# pedido.save()
+	# for x in ItemTmp.objects.filter(pedido__pk=request.POST['pedido']):
+	# 	try : 
+	# 		item= Inventario.objects.get(producto=x.producto,sucursal=usuario.empresa)
+	# 		item.cantidad=item.cantidad+x.cantidad*x.producto.unidades
+	# 		item.save()
+	# 	except Inventario.DoesNotExist:
+	# 		item = Inventario(producto=x.producto,cantidad=x.cantidad*x.producto.unidades,sucursal=x.pedido.comprador)
+	# 		item.save()
+	# 	#guardar de pedidos tmp a pedidos
+	# 	itemPedido = Item(cantidad=x.cantidad,producto=x.producto,pedido=pedido)
+	# 	itemPedido.save()
+
+	# # llamar eliminar 
+	# p=PedidoTmp.objects.get(pk=request.POST['pedido']).delete()
 
 	return HttpResponseRedirect('/inicioCompradorPedidos/')
 

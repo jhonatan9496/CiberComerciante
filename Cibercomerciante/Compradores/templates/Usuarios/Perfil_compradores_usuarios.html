@@ -55,14 +55,14 @@
 					{{i}},
 				{%  endfor %}
 			</td>
-			<td>
-				<a href="/visualizarUsuario/{{i.pk}}/"><i class="icon-user" id="ic"></i></a>
+			<td class="texto-centrado">
+				<a href="/visualizarUsuario/{{i.pk}}/"><i class="fa fa-user fa-lg"></i></a>
 			</td>
-			<td>
-				<a href="/modificarUsuarioCformulario/{{i.pk}}/"><i class="fa fa-pencil-square-o fa-lg" id="ic"></i></a>
+			<td class="texto-centrado">
+				<a href="/modificarUsuarioCformulario/{{i.pk}}/"><i class="fa fa-pencil-square-o fa-lg"></i></a>
 			</td>
-			<td>
-				<a  data-toggle="modal" data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="fa fa-trash-o fa-lg"></i></a>
+			<td class="texto-centrado">
+				<a  data-toggle="modal" data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="fa fa-trash-o fa-lg rojo" ></i></a>
 			</td>
 
 		</tr>

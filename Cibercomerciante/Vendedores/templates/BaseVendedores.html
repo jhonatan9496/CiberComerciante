@@ -78,36 +78,50 @@ function sameOrigin(url) {
 
 				<ul class="nav pull-right">
 
-				<a class=" pull-right brand" href="#">
-					<i class="fa fa-user fa-lg"></i> Usuario: {{user.username}}
-				</a>
-
-				<a href="#" class='pull-right brand'>
-					<i class="fa fa-cog fa-lg pull-right"></i>Settings
-				</a>
-				<a href="/salir" class='pull-right brand'>
-					<i class="fa fa-sign-out fa-lg pull-right"></i>Logout
-				</a>
-
-				<ul class="nav nav-tabs pull-right">
-					<li class="dropdown">
-						<a class="dropdown-toggle"
-						data-toggle="dropdown"
-						href="#">
-						<span class="badge"> {{ pedidos.count }} </span> Mis Pedidos 
-						<b class="caret"></b>
+					<a class=" pull-right brand" href="#">
+						<i class="fa fa-user fa-lg"></i> Vendedor: {{user.username}}
 					</a>
-					<ul class="dropdown-menu">
-						{% for i in pedidos %}
-						<li><a href="/detallePedido/{{i.pk}}/">{{ i.vendedor.nombre_empresa }} j</a></li>
-						{% endfor %}
 
+					
+					<!-- cambiar rol -->
+					<ul class="nav nav-tabs ">
+						<li class="dropdown">
+							<a class="dropdown-toggle"
+							data-toggle="dropdown"
+							href="#">
+									<i class="fa fa-cog fa-lg "></i> Cambiar Rol <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="/inicioCompradorProductos/">Comprador</a></li>
+								<li><a href="/inicioVendedorCatalogo/">Vendedor</a></li>
+
+							</ul>
+						</li>
 					</ul>
-				</li>
+					<!-- fin cambia rol -->
+					
+
+					<ul class="nav nav-tabs ">
+						<li class="dropdown">
+							<a class="dropdown-toggle"
+							data-toggle="dropdown"
+							href="#">
+								<span class="badge"> {{ pedidos.count }} </span> Mis Pedidos <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								{% for i in pedidos %}
+								<li><a href="/detallePedido/{{i.pk}}/">{{ i.vendedor.nombre_empresa }} j</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+					</ul>
+
+					<a href="/salir" class='pull-right brand'>
+						<i class="fa fa-sign-out fa-lg "></i> Salir
+					</a>
 				</ul>
-				</ul>
+			</div>
 		</div>
-	</div>
 		<!--Panel de secciones con menu izquierdo-->
 			<div class="tabbable tabs-left">
 		<!--lista izquierda de menu de opciones-->

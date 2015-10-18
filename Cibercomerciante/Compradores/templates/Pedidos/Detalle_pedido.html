@@ -102,7 +102,7 @@
 					<form action="/pedidoTmpInventario/" method="POST">
 					{% csrf_token %}
 						<input type="hidden"  name="pedido" value="{{items.0.pedido.pk}}" ></input> 
-						<button type="submit" class="btn btn-success" >Comprar</button>
+						<button type="submit" class="btn btn-info" >Realizar Pedido</button>
 					</form>
 				</td>
 		</table >

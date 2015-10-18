@@ -4,6 +4,8 @@
 
 {% block catalogoClase %}class="tab-pane active{% endblock %}
 {% block catalogo %}
+
+<h1>Catalogo de Productos</h1>
 <table class="table table-hover">
 	<form action="/filtroVendedorCatalogo/" id="filtro" class="formularioTablasAjax" method = "POST" >
 		{% csrf_token %}									
@@ -11,7 +13,7 @@
 		<th>
 			<div class="control-group">
 				<div class="controls">
-					<input type="text" name="nombreProducto"  placeholder="Producto" class="buscarInputTablas" style="height:30px">
+					<input type="text" name="nombreProducto"  placeholder="Buscar Producto" class="buscarInputTablas" style="height:30px">
 				</div>
 			</div>
 		</th>
@@ -62,16 +64,16 @@
 		<td>{{i.nombre_producto}}</td>
 		<td>{{i.categoria.cat_producto}}</td>
 		<td>{{i.categoria}}</td>
-		<td>
-			<a href="/visualizarProducto/{{i.pk}}"><i class="icon-user" id="ic2"></i></a>
+		<td class="texto-centrado" > 
+			<a href="/visualizarProducto/{{i.pk}}"><i class="fa fa-search fa-lg"></i></i></a>
 
 
 		</td>
-		<td>
-			<a href="/modificarProductoformulario/{{i.pk}}"><i class="icon-pencil" id="ic2"></i></a>
+		<td class="texto-centrado" >
+			<a href="/modificarProductoformulario/{{i.pk}}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
 		</td>
-		<td>
-			<a  data-toggle="modalC" data-target="#myModalC" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="icon-cancel-circled" ></i></a>
+		<td class="texto-centrado" >
+			<a  data-toggle="modalC" data-target="#myModalC" nombre="{{i.nombre_producto}}" subcategoria="{{i.categoria}}" precioCompra="{{i.costo}}" PrecioVenta="{{i.costo_venta}}" descuento="{{i.descuento}}" iva="{{i.iva.porcentaje}}" descripcion="{{i.descripcion}}" imagen="{{i.imagen.url}}" presentacion="{{i.presentacion}}" empresa="{{i.empresa}}" producto="{{i.pk}}" class="eliminar_productos" ><i class="fa fa-trash-o rojo fa-lg" ></i></a>
 		</td>
 		
 	</tr>

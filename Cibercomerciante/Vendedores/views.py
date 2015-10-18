@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from .forms import UploadProducto
 from pedidos import *
+from viewsReportes import *
 from permisosVendedor import *
 
  
@@ -57,12 +58,6 @@ def inicioVendedorCatalogo(request):
 	return HttpResponseRedirect('/')
 
 
-
-@login_required(login_url='/logearse')
-def inicioVendedorReportes(request):
-	if reportesVendedor(request):
-		return render_to_response('Perfil_vendedores_reportes.html',locals(), context_instance=RequestContext(request))
-	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
 def inicioVendedorUsuarios(request):

@@ -5,7 +5,7 @@
 
 {% block usuarioClase %}class="tab-pane active{% endblock %}
 {% block usuario %}
-<h1>Usuarios</h1>
+<h1>Administracion de Usuarios</h1>
 <br>
 
 <table class="table table-hover">
@@ -13,7 +13,7 @@
 		{% csrf_token %}									
 		<tr>
 			<th>
-				<input  type="text" autocomplete="off" name='filtroNombre' class="buscarInputTablas" placeholder="buscar"></inpu
+				<input  type="text" autocomplete="off" name='filtroNombre' class="buscarInputTablas" placeholder="Busacr Usuarios"></inpu
 				<i class="icon-search"></i>
 
 			</th>
@@ -28,7 +28,7 @@
 			</th>
 			<th>
 				<div class="adduser">
-					<a href="/agregar_usuariov/" ><i class="fa fa-user-plus fa-3x" id="ic"></i></a>
+					<a href="/agregar_usuariov/"  > <i class="fa fa-user-plus fa-2x"></i> Agregar Usuario</a>
 				</div>
 			</th>
 		</tr>
@@ -55,14 +55,14 @@
 					{{i}},
 				{%  endfor %}
 			</td>
-			<td>
-				<a href="/visualizarUsuarioV/{{i.pk}}/"><i class="icon-user" id="ic"></i></a>
+			<td class="texto-centrado" >
+				<a href="/visualizarUsuarioV/{{i.pk}}/"><i class="fa fa-user fa-lg"></i></a>
 			</td>
-			<td>
-				<a href="/modificarUsuarioVformulario/{{i.pk}}/"><i class="icon-pencil" id="ic"></i></a>
+			<td class="texto-centrado" >
+				<a href="/modificarUsuarioVformulario/{{i.pk}}/"><i class="fa fa-pencil-square-o fa-lg"></i></a>
 			</td>
-			<td>
-				<a  data-toggle="modal"  data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="icon-cancel-circled" ></i></a>
+			<td class="texto-centrado" >
+				<a  data-toggle="modal"  data-target="#myModal" pk="{{i.pk}}"                   nombre="{{i.user.first_name}}" apellido="{{i.user.last_name}}" email="{{i.user.email}}" usuario="{{ i.user.username }}" permisos=" " class="eliminar_usuarios" ><i class="fa fa-trash-o fa-lg rojo" ></i></a>
 			</td>
 
 		</tr>

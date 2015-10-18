@@ -1,0 +1,39 @@
+{% extends 'BaseVendedores.html' %}
+
+
+{% block listaReporteClase %} class="active" {% endblock %}
+
+{% block reporteClase %}class="tab-pane active{% endblock %}
+{% block reporte %}
+
+
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <a href="/inicioVendedorReportes/" class="btn btn-info pull-left">  Volver</a>
+    </div>
+    <div class="span6 text-center">
+
+      <h2 class="text-center"> Reportes</h2>
+    </div>
+    <div class="span2 pull-right">
+
+    </div>
+  </div>
+
+
+<div id="reporte_Frame" class="texto-centrado">
+  <iframe width="80%" height="75%" src="http://localhost:14342/ReportesCibercomerciante/reporte?reporte={{nombreReporte}}&PR_NOMBREEMPRESA={{nombre_empresa}}&ID_VENDEDOR={{id_empresa}}" frameborder="1"></iframe>
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock  %}

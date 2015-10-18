@@ -135,13 +135,14 @@ def guardarUsuario(request):
 	if request.method == 'POST':
 		try:
 			existe = User.objects.get(username=request.POST['username'])
-			mensaje= "el usuario ya existe"
+			mensaje= 'El Usuario ya existe'
 			return render_to_response('Registro.html',locals(), context_instance=RequestContext(request))
 		except Exception, e:
 			user = User.objects.create_user(request.POST['username'],None,request.POST['password'])
 			# user.first_name=request.POST['first_name']
 			# user.last_name=request.POST['last_name']
 			user.email=request.POST['email']
+			user.first_name= request.POST['representante']
 			user.is_active = True
 			user.save()
 			empresa = Empresa()
@@ -152,6 +153,7 @@ def guardarUsuario(request):
 				g.user_set.add(user)
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.nombre_empresa = request.POST['nombre_empresa']
 				empresa.save()
 				# guardamos cybercomerciante
 				cybercomerciante = Usuario(user=user,empresa=empresa)
@@ -176,6 +178,7 @@ def guardarUsuario(request):
 				g.user_set.add(user)
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.nombre_empresa = request.POST['nombre_empresa']
 				empresa.save()
 				cybercomerciante = Usuario(user=user,empresa=empresa)
 				cybercomerciante.save()
@@ -202,6 +205,8 @@ def guardarUsuario(request):
 				#  compra
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.nombre_empresa = request.POST['nombre_empresa']
+
 				empresa.save()
 				#usuario
 				cybercomerciante = Usuario(user=user,empresa=empresa)
@@ -226,6 +231,8 @@ def guardarUsuario(request):
 				# Venta
 				empresa.estado_empresa='active'
 				empresa.cat_sector= CategoriaSector.objects.get(pk=request.POST['sectores'])
+				empresa.nombre_empresa = request.POST['nombre_empresa']
+
 				empresa.save()
 				cybercomerciante = Usuario(user=user,empresa=empresa)
 				# Crear la sucursal

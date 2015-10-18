@@ -20,7 +20,7 @@ $('.addProducto').click(function(){
         }
     });
     if (contador==0) {
-        $('#tablaFactura').append('<tr><td class="nombre">'+$(this).attr('nombre')+'</td><td><input name= "producto'+contadorFactura+'" value="' +$(this).attr('pk')+ '" /><input class="cantidad" name="cantidad'+contadorFactura+'" type="number" value="1" style="width:80px"/></td><td class="precio">'+$(this).attr('precio')+'</td><td class="total" >'+$(this).attr('precio')+'</td><td class="texto-centrado"><button class="eliminarProductoFactura btn btn-danger"><i class="fa fa-trash-o"></i></button></td></tr>');
+        $('#tablaFactura').append('<tr><td class="nombre">'+$(this).attr('nombre')+'</td><td><input style="display:none;" name= "producto'+contadorFactura+'" value="' +$(this).attr('pk')+ '" /><input class="cantidad" name="cantidad'+contadorFactura+'" type="number" value="1" style="width:80px"/></td><td class="precio">'+$(this).attr('precio')+'</td><td class="total" >'+$(this).attr('precio')+'</td><td class="texto-centrado"><a class="eliminarProductoFactura "><i class="fa fa-trash-o fa-lg rojo" ></i></a></td></tr>');
         sumarTotal();
         contadorFactura++;
     }else {
@@ -167,7 +167,7 @@ $('#generarFactura').click(function(){
                 success: function (data) {
                     $('#factura').remove();
                     // alert('Se creo la factura' + data);
-                    $('.span8').append('<a  href="/inicioCompradorVentas" class="btn ">Facturar + </a>  <iframe width=100% height=75%  src="http://localhost:14342/ReportesCibercomerciante/reporte?reporte=factura&factura='+data+'&TELEFONO_CLIENTE=342342&NIT_CLIENTE=345345&DIRECCION_CLIENTE=3232&NOMBRE_CLIENTE=323" frameborder="0"></iframe>')
+                    $('.span8').append('<a  href="/inicioCompradorVentas" class="btn btn-info "> <i class="fa fa-arrow-left"></i> Facturar  </a> <hr> <iframe width=100% height=75%  src="http://localhost:14342/ReportesCibercomerciante/reporte?reporte=factura&factura='+data+'&TELEFONO_CLIENTE=342342&NIT_CLIENTE=345345&DIRECCION_CLIENTE=3232&NOMBRE_CLIENTE=323" frameborder="0"></iframe>')
   
                 },
                 error: function(errors){

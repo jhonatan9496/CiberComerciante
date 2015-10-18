@@ -84,7 +84,7 @@ class CategoriaInterna(models.Model):
 
 class Producto(models.Model):
 	nombre_producto = models.CharField(max_length=250)
-	descripcion = models.CharField(max_length=15)
+	descripcion = models.CharField(max_length=300)
 	costo = models.CharField(max_length=15)
 	costo_venta = models.CharField(max_length=250)
 	presentacion = models.CharField(max_length=250)

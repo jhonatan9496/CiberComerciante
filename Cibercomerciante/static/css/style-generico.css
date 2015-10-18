@@ -16,6 +16,10 @@
 	text-align:  left !important;
 }
 
+.letra-mediana{
+	font-size: 30px;
+}
+
 .margen-ancho { 
 
 margin: 0 100px;
@@ -33,4 +37,21 @@ margin-right: 50px ;
 }
 .rojo {
 	color: red;
+}
+
+.ancho-mitad{
+	width: 50%;
+}
+
+
+
+
+#header-registro{
+	height: 100px;
+	text-align: center;
+}
+
+
+.padding-10{
+	padding-left: 10%;
 }

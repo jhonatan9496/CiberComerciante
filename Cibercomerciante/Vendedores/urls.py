@@ -14,10 +14,18 @@ urlpatterns = patterns('',
 # Pedidos
     url(r'^inicioVendedorPedidos/','Vendedores.views.inicioVendedorPedidos',name='inicioVendedorPedidos'),
     url(r'^detallePedidoVendedor/(?P<idPedido>\d+)/','Vendedores.views.detallePedidoVendedor',name='detallePedidoVendedor'),
+    url(r'^pedidoTmpInventarioDescargar/','Vendedores.views.pedidoTmpInventarioDescargar',name='pedidoTmpInventarioDescargar'),
     
 
 
+# Reportes
+
     url(r'^inicioVendedorReportes/','Vendedores.views.inicioVendedorReportes',name='inicioVendedorReportes'),
+    url(r'^detalleReporteVendedor/(?P<nombreReporte>.+)/','Vendedores.views.detalleReporteVendedor',name='detalleReporteVendedor'),
+  
+
+
+
     url(r'^inicioVendedorUsuarios/','Vendedores.views.inicioVendedorUsuarios',name='inicioVendedorUsuarios'),
         #Usuarios
         url(r'^agregar_usuariov/','Vendedores.views.agregar_usuariov',name='agregar_usuariov'),
