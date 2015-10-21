@@ -40,6 +40,11 @@ def inicioCompradorReportes(request):
 	return HttpResponseRedirect('/')
 
 @login_required(login_url='/logearse')
+def detalleReporteComprador(request,nombreReporte):
+	return render_to_response('Reportes/Perfil_compradores_detalleReporte.html',locals(), context_instance=RequestContext(request))
+
+
+@login_required(login_url='/logearse')
 def inicioCompradorUsuarios(request):
 	if usuariosComprador(request):
 		admin =  Usuario.objects.get(user=request.user)

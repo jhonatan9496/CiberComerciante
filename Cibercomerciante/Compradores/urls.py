@@ -9,7 +9,12 @@ urlpatterns = patterns('',
 
     url(r'^inicioCompradorPedidos/','Compradores.views.inicioCompradorPedidos',name='inicioCompradorPedidos'),
     url(r'^inicioCompradorInventario/','Compradores.views.inicioCompradorInventario',name='inicioCompradorInventario'),
+    # reportes
     url(r'^inicioCompradorReportes/','Compradores.views.inicioCompradorReportes',name='inicioCompradorReportes'),
+    url(r'^detalleReporteComprador/(?P<nombreReporte>.+)/','Compradores.views.detalleReporteComprador',name='detalleReporteComprador'),
+    
+
+
     url(r'^inicioCompradorUsuarios/','Compradores.views.inicioCompradorUsuarios',name='inicioCompradorUsuarios'),
     url(r'^inicioCompradorProductos/','Compradores.views.inicioCompradorProductos',name='inicioCompradorProductos'),
     url(r'^inicioCompradorVentas/','Compradores.views.inicioCompradorVentas',name='inicioCompradorVentas'),
